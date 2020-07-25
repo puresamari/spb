@@ -24,9 +24,9 @@
   ],
   "author": "Simon Rothert <puresamari@gmail.com>",
   "bugs": {
-    "url": "https://github.com/puresamari/simon/issues"
+    "url": "https://github.com/puresamari/spb/issues"
   },
-  "homepage": "https://github.com/puresamari/simon#readme",
+  "homepage": "https://github.com/puresamari/spb#readme",
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/node": "^14.0.20",

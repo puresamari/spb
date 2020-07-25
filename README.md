@@ -1,5 +1,7 @@
 # Simple Page Builder
 
+[![npm version](https://badge.fury.io/js/%40puresamari%2Fspb.svg)](https://badge.fury.io/js/%40puresamari%2Fspb)
+
 Hi my name is `SIMON` and this is a Simple build tool for REALLY simple pages.
 
 # Installation

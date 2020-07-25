@@ -1,8 +1,9 @@
 import { buildFile } from './builders';
 import { getExportFileName } from './builders/utils';
 import { IBuilderContext, IBuilderOptions } from './utils';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
 
-const fs = require('fs');
 const path = require('path');
 
 export class Builder {
@@ -18,6 +19,7 @@ export class Builder {
   public readonly builderContext: IBuilderContext;
 
   public async build() {
+    await mkdirp(this.options.output);
     await this.options.files.forEach(async file => await buildFile(file, this.options.output, this.builderContext));
   }
 }

@@ -12,7 +12,7 @@
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && npm run build:schema",
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.json",
-    "test": "npm i -g && spb dist examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts && spb dist -c examples/hello-world/config.spb.json",
+    "test": "npm i -g && spb -o dist --files examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts && spb -o dist -c examples/hello-world/config.spb.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test"
   },
@@ -31,13 +31,14 @@
   "homepage": "https://github.com/puresamari/spb#readme",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/mkdirp": "^1.0.1",
     "@types/node": "^14.0.20",
     "@types/nodemon": "^1.19.0",
     "@types/twig": "^1.12.3",
     "@types/webpack": "^4.41.21",
+    "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",
-    "nodemon": "^2.0.4",
     "typescript-json-schema": "^0.42.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
@@ -51,6 +52,7 @@
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "figlet": "^1.4.0",
+    "mkdirp": "^1.0.4",
     "postcss": "^7.0.32",
     "precss": "^4.0.0",
     "ts-loader": "^8.0.1",

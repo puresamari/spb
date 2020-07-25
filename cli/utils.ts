@@ -20,11 +20,18 @@ export function resolveFilePath(file: string) {
 
 function getConfig(configPath: string): IBuilderOptions {
   const dir = path.dirname(configPath);
-  const configs = require(resolveFilePath(configPath)) as IBuilderOptions;
-  return {
-    ...configs,
-    output: path.resolve(dir, configs.output),
-    files: configs.files.map(v => path.resolve(dir, v))
+  try {
+    const configs = require(resolveFilePath(configPath)) as IBuilderOptions;
+    return {
+      ...configs,
+      output: path.resolve(dir, configs.output),
+      files: configs.files.map(v => path.resolve(dir, v))
+    };
+  } catch {
+    return {
+      output: path.resolve(dir, 'dist'),
+      files: []
+    };
   }
 }
 

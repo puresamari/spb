@@ -1,7 +1,7 @@
 export type ExportType = 'js' | 'css' | 'html';
 
-export function getFileType(file: string): 'ts' | 'css' | 'twig' {
-  return file.split('.')[file.split('.').length - 1] as any;
+export function getFileType(file: string) {
+  return file.split('.')[file.split('.').length - 1] as string;
 }
 
 export function getExportType(file: string): ExportType {

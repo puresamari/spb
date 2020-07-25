@@ -1,16 +1,7 @@
-import { CompileCSS } from './compile-css';
-import { CompileTS } from './compile-ts';
-import { CompileTWIG } from './compile-twig';
+import { Compile } from './compilers/index';
+
 import { getFileType } from './utils';
 
-
 export async function buildFile(file: string, output: string) {
-  switch (getFileType(file)) {
-    case 'ts':
-      return await CompileTS(file, output);
-    case 'css':
-      return await CompileCSS(file, output);
-    case 'twig':
-      return await CompileTWIG(file, output);
-  }
+  return await Compile(getFileType(file) as any, file, output);
 }

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import Twig from 'twig';
 
-import { ExportType } from './utils';
+import { ExportType } from '../utils';
 
 const path = require('path');
 

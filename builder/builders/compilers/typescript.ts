@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import webpack from 'webpack';
 
-import { ExportType } from './utils';
+import { ExportType } from '../utils';
 
 const path = require('path');
 

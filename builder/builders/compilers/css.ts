@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import postcss from 'postcss';
 
-import { ExportType } from './utils';
+import { ExportType } from '../utils';
 
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');

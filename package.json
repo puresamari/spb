@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "nodemon",
+    "start:watch": "nodemon --config nodemon.watch.json",
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && npm run build:schema",
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.json",
@@ -31,11 +32,12 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/node": "^14.0.20",
+    "@types/nodemon": "^1.19.0",
     "@types/twig": "^1.12.3",
     "@types/webpack": "^4.41.21",
-    "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",
+    "nodemon": "^2.0.4",
     "typescript-json-schema": "^0.42.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
@@ -45,13 +47,13 @@
     "lib": "lib"
   },
   "dependencies": {
-    "ts-loader": "^8.0.1",
     "autoprefixer": "^9.8.5",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "figlet": "^1.4.0",
     "postcss": "^7.0.32",
     "precss": "^4.0.0",
+    "ts-loader": "^8.0.1",
     "tslib": "1.13.0",
     "twig": "^1.15.1"
   }

@@ -28,7 +28,7 @@ export async function CompileTS(file: string, exportPath: string, context: IBuil
       } else if (stats.hasErrors()) {
         console.log(chalk.bold.red('Error occured while compilling'));
         stats.compilation.errors.forEach(err => {
-          console.log(chalk.red(' ', err));
+          console.log(err);
         })
       } else {
         resolve({ path: exportPath, type: 'js' });

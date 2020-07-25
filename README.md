@@ -11,15 +11,25 @@ Hi my name is `SIMON` and this is a Simple build tool for REALLY simple pages.
 
 Once the `spb` cli is installed you can use the cli.
 
+## Usage:
+
+    spb [options] [command]
+
+Options:
+- `-V, --version       ` output the version number
+- `-c, --config <path> ` path to config json file (default: "config.spb.json")
+- `-o, --out <path>    ` where the compiles files should be compiled to (overwrites configurations from the config file)
+- `--files <files...>  ` files that should be compiled (overwrites configurations from the config file)
+- `--verbose           ` enable verbose logging
+- `-h, --help          ` display help for command
+
+Commands:
+  - `build` build once (is default)
+    - `$ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...`
+  - `watch` watch and automatically build when input files change
+    - `$ spb watch --config examples/hello-world/config.spb.json`
+
 ## Building
-
-    spb [build] [out] [files...] [-c, --config <file>]
-
-### Options
-- `build` is not necessary at the moment since it is only possible to build at the moment.
-- `out` is the directory where the files should be compiled to.
-- `files` are all the files to be compiled.
-- `-c, --config` is a configuration file.
 
 ## Config file
 

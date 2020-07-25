@@ -9,3 +9,7 @@ webpack.config.js
 .gitattributes
 .github/
 .gitmodules
+public/
+dist/
+.editorconfig
+.gitignore

@@ -1,3 +1,4 @@
+import { IBuilderContext } from './../../utils';
 import * as fs from 'fs';
 import postcss from 'postcss';
 
@@ -8,9 +9,8 @@ const precss = require('precss');
 
 const path = require('path');
 
-export async function CompileCSS(file: string, output: string) {
-  const exportedFile = file.split('/')[file.split('/').length - 1].split('.')[0] + '.css';
-  const exportedPath = path.join(output, exportedFile);
+export async function CompileCSS(file: string, exportPath: string, context: IBuilderContext) {
+  const exportedPath = exportPath;
   return new Promise<{ path: string, type: ExportType }>(resolve => {
     fs.readFile(file, (err, css) => {
       postcss([precss, autoprefixer])
@@ -20,7 +20,7 @@ export async function CompileCSS(file: string, output: string) {
           if ( result.map ) {
             fs.writeFileSync(exportedPath + '.map', result.map as any)
           }
-          resolve({ path: path.join(output, exportedFile), type: 'css' });
+          resolve({ path: exportPath, type: 'css' });
         })
     })
 

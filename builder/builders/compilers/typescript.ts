@@ -1,19 +1,20 @@
+import { IBuilderContext } from './../../utils';
 import chalk from 'chalk';
 import webpack from 'webpack';
 
-import { ExportType } from '../utils';
+import { ExportType, getExportFileName } from '../utils';
 
 const path = require('path');
 
-export async function CompileTS(file: string, output: string) {
-  const exportedFile = file.split('/')[file.split('/').length - 1].split('.')[0] + '.js';
+export async function CompileTS(file: string, exportPath: string, context: IBuilderContext) {
+  const exportedFile = getExportFileName(file);
   return new Promise<{ path: string, type: ExportType }>(resolve => {
     const wpBuilder = webpack({
       entry: {
         main: file
       },
       output: {
-        path: output,
+        path: exportPath.split(exportedFile)[0],
         filename: exportedFile
       },
       module: {
@@ -30,7 +31,7 @@ export async function CompileTS(file: string, output: string) {
           console.log(chalk.red(' ', err));
         })
       } else {
-        resolve({ path: path.join(output, exportedFile), type: 'js' });
+        resolve({ path: exportPath, type: 'js' });
       }
     });
   })

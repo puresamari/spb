@@ -32,7 +32,14 @@ export function make() {
       });
 
       log(chalk`
-OUTPUT: ${chalk.blue.underline(builder.options.output)}
+OUTPUT:
+  STYLESHEETS:
+    ${chalk.blue.underline(builder.builderContext.stylesheets.join('\n    '))}
+  SCRIPTS:
+    ${chalk.blue.underline(builder.builderContext.scripts.join('\n    '))}
+  HTML:
+    ${chalk.blue.underline(builder.builderContext.html.join('\n    '))}
+
 FILES
   ${builder.options.files.map(chalkFile).join('\n  ')}
       `);

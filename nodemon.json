@@ -1,10 +1,12 @@
 {
     "watch": [
         "cli",
-        "examples/spb-page",
-        "compiler"
+        "examples/spb-page/index.twig",
+        "examples/spb-page/main.ts",
+        "examples/spb-page/styles.css",
+        "builder"
     ],
     "ext": "ts",
     "ignore": ["*.spec.ts"],
-    "exec": "npx node -r ts-node/register cli/index.ts --verbose public examples/spb-page/main.ts"
+    "exec": "npx node -r ts-node/register cli/index.ts --verbose public examples/spb-page/main.ts examples/spb-page/index.twig examples/spb-page/styles.css"
   }

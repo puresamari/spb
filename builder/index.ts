@@ -1,29 +1,23 @@
-import chalk from 'chalk';
-import webpack from 'webpack';
-import Twig from 'twig';
 import { buildFile } from './builders';
+import { getExportFileName } from './builders/utils';
+import { IBuilderContext, IBuilderOptions } from './utils';
 
 const fs = require('fs');
 const path = require('path');
 
-export interface IBuilderOptions {
-  output: string,
-  files: string[];
-}
-
-interface IBuilderContext {
-  files: Map<string, 'js' | 'css'>;
-}
-
 export class Builder {
   constructor(public readonly options: IBuilderOptions) {
+    const exportedFiles = options.files.map(v => getExportFileName(v));
+    this.builderContext = {
+      stylesheets: exportedFiles.filter(v => v.endsWith('css')),
+      scripts: exportedFiles.filter(v => v.endsWith('js')),
+      html: exportedFiles.filter(v => v.endsWith('html'))
+    };
   }
 
-  private context: IBuilderContext = { files: new Map<string, 'js' | 'css'>()  }
-
-  public get Context(): IBuilderContext { return this.context; }
+  public readonly builderContext: IBuilderContext;
 
   public async build() {
-    await this.options.files.forEach(async file => await buildFile(file, this.options.output));
+    await this.options.files.forEach(async file => await buildFile(file, this.options.output, this.builderContext));
   }
 }

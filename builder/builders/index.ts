@@ -1,7 +1,7 @@
-import { Compile } from './compilers/index';
+import { IBuilderContext } from './../utils';
+import { Compile } from './compilers';
+import { getExportPath, getFileType } from './utils';
 
-import { getFileType } from './utils';
-
-export async function buildFile(file: string, output: string) {
-  return await Compile(getFileType(file) as any, file, output);
+export async function buildFile(file: string, outDir: string, context: IBuilderContext) {
+  return await Compile(getFileType(file) as any, file, getExportPath(file, outDir), context);
 }

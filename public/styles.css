@@ -1,0 +1,7 @@
+body {
+  display: flex
+}
+body::after {
+    content: 'Hello world from css';
+    display: block;
+  }

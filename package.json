@@ -1,0 +1,56 @@
+{
+  "name": "@puresamari/spb",
+  "version": "0.0.1",
+  "description": "A simple page build system for a typescript - twig - postCSS webpage",
+  "main": "./lib/cli/index.js",
+  "bin": {
+    "spb": "lib/cli/index.js"
+  },
+  "scripts": {
+    "start": "nodemon",
+    "create": "npm run build && npm run test",
+    "build": "rm -rf lib && tsc -p .",
+    "test": "npm i -g && spb dist examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "prepublish": "npm run build && npm run test"
+  },
+  "keywords": [
+    "buildsystem",
+    "typescript",
+    "twig",
+    "postcss",
+    "website",
+    "webpage"
+  ],
+  "author": "Simon Rothert <puresamari@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/puresamari/simon/issues"
+  },
+  "homepage": "https://github.com/puresamari/simon#readme",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^14.0.20",
+    "@types/twig": "^1.12.3",
+    "@types/webpack": "^4.41.21",
+    "nodemon": "^2.0.4",
+    "ts-loader": "^8.0.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.8.5",
+    "chalk": "^4.1.0",
+    "commander": "^5.1.0",
+    "figlet": "^1.4.0",
+    "postcss": "^7.0.32",
+    "precss": "^4.0.0",
+    "tslib": "1.13.0",
+    "twig": "^1.15.1"
+  }
+}

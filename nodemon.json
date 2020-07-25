@@ -1,0 +1,10 @@
+{
+    "watch": [
+        "cli",
+        "examples/test.simon",
+        "compiler"
+    ],
+    "ext": "ts",
+    "ignore": ["*.spec.ts"],
+    "exec": "npx node -r ts-node/register cli/index.ts --verbose examples/test.simon -p"
+  }

@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import * as path from 'path';
 
 import { IBuilderOptions } from './../builder/definitions/builder-options';
+import { option } from 'commander';
 
 export const version = '0.0.1';
 
@@ -10,7 +11,7 @@ export const basePath = process.cwd();
 
 export interface IMainCommanderOptions {
   out?: string,
-  files?: string[],
+  files?: string | string[],
   config: string
 };
 
@@ -38,7 +39,13 @@ function getConfig(configPath: string): IBuilderOptions {
 export function generateConfig(options: IMainCommanderOptions): IBuilderOptions {
   const config: IBuilderOptions = options.config ? getConfig(options.config) || { output: '', files: [] } : { output: '', files: [] };
   if (options.out) { config.output = resolveFilePath(options.out); }
-  if (options.files && options.files.length > 0) { config.files = options.files.map(resolveFilePath); }
+  if (options.files) {
+    if (typeof options.files === 'string') {
+      config.files = [resolveFilePath(options.files)];
+    } else if (options.files.length > 0) {
+      config.files = options.files.map(resolveFilePath);
+    }
+  }
   return config;
 }
 

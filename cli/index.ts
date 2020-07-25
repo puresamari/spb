@@ -31,9 +31,9 @@ program
   .version(version)
   .option('-c, --config <path>', 'path to config json file', 'config.spb.json')
   .option('-o, --out <path>', 'director to compile to')
-  .option('--files <files...>', 'Files to compile')
-  .option('--verbose', 'log verbose');
-
+  .option('--verbose', 'log verbose')
+  .option('--files <path...>', 'Files to compile', [] as any);
+  
 program.addCommand(makeBuild(program as any), { isDefault: true });
 program.addCommand(makeWatch(program as any));
 

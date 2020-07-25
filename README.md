@@ -13,14 +13,37 @@ Once the `spb` cli is installed you can use the cli.
 
 ## Building
 
-    spb [build] <out> <files...>
-The `out` dir will contain all files and the `files` are the compiled files
+    spb [build] [out] [files...] [-c, --config <file>]
 
-For example:
-- `$ spb dist hello-world.ts index.twig styles.css` Which will generate:
-  - `dist/hello-world.js`
-  - `dist/index.html`
-  - `dist/styles.css`
+### Options
+- `build` is not necessary at the moment since it is only possible to build at the moment.
+- `out` is the directory where the files should be compiled to.
+- `files` are all the files to be compiled.
+- `-c, --config` is a configuration file.
+
+## Config file
+
+You can use a configuration file with the flag `-c` or `--config`.
+All options declared in the config file will be overwritten by options from the cli:
+- `spb public -c config.spb.json` if the config file has a declaration for output it will be overwritten with `public` in this case.
+- `spb public ./src/styles.css -c config.spb.json` if the config file has a declaration for files it will be overwritten with `./src/styles.css` in this case.
+
+You can also use this projects JSON schema to ensure integrity but it is not necessary.
+
+For example when the configuration file (for example named `config.spb.json`) is in the root directory and `spb` is installed locally:
+```
+{
+    "$schema": "node_modules/@puresamari/spb/lib/config.json",
+    "files": [
+      "./src/index.twig",
+      "./src/main.ts",
+      "./src/styles.css"
+    ],
+    "output": "dist/"
+}
+```
+
+Using this config file you can then build your project like this: `$ spb -c config.spb.json`
 
 # Compilers
 

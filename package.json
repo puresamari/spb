@@ -1,6 +1,6 @@
 {
   "name": "@puresamari/spb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple page build system for a typescript - twig - postCSS webpage",
   "main": "./lib/cli/index.js",
   "bin": {
@@ -9,8 +9,9 @@
   "scripts": {
     "start": "nodemon",
     "create": "npm run build && npm run test",
-    "build": "rm -rf lib && tsc -p .",
-    "test": "npm i -g && spb dist examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts",
+    "build": "rm -rf lib && tsc -p . && npm run build:schema",
+    "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.json",
+    "test": "npm i -g && spb dist examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts && spb dist -c examples/hello-world/config.spb.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test"
   },
@@ -35,6 +36,7 @@
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",
+    "typescript-json-schema": "^0.42.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
   },

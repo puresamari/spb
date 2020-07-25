@@ -1,0 +1,9 @@
+{
+  "$schema": "../../lib/config.json",
+  "files": [
+    "./index.twig",
+    "./main.ts",
+    "./styles.css"
+  ],
+  "output": "../../public"
+}

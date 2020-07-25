@@ -1,5 +1,6 @@
+import { IBuilderOptions } from './../builder/definitions/builder-options';
 import { Command } from 'commander';
-import path from 'path';
+import * as pathT from 'path';
 
 import { Builder } from './../builder';
 import { resolveFilePath } from './utils';
@@ -21,17 +22,10 @@ function chalkFile(file: string) {
   return `${ chalkFileType(ending)}: ${chalk.blue.underline(file)}`
 }
 
-export function make() {
-  const heat = new Command('compile');
+async function run(options: IBuilderOptions) {
+  const builder = new Builder(options);
 
-  heat.command('build <out> <files...>', { isDefault: true })
-    .action(async (path, files) => {
-      const builder = new Builder({
-        output: resolveFilePath(path),
-        files: files.map(resolveFilePath)
-      });
-
-      log(chalk`
+  log(chalk`
 OUTPUT:
   STYLESHEETS:
     ${chalk.blue.underline(builder.builderContext.stylesheets.join('\n    '))}
@@ -42,9 +36,31 @@ OUTPUT:
 
 FILES
   ${builder.options.files.map(chalkFile).join('\n  ')}
-      `);
+  `);
 
-      await builder.build();
+  await builder.build();
+}
+
+function getConfig(path: string): IBuilderOptions {
+  const dir = pathT.dirname(path);
+  const configs = require(resolveFilePath(path)) as IBuilderOptions;
+  return {
+    ...configs,
+    output: pathT.resolve(dir, configs.output),
+    files: configs.files.map(v => pathT.resolve(dir, v))
+  }
+}
+
+export function make() {
+  const heat = new Command('build');
+
+  heat.command('manual [out] [files...]', { isDefault: true })
+    .option('-c, --config <path>', 'path to config json file')
+    .action(async (path: string | null, files: string[] | null, options: { config?: string }) => {
+      const config: IBuilderOptions = options.config ? getConfig(options.config) : { output: '', files: [] };
+      if (path) { config.output = resolveFilePath(path); }
+      if (files && files.length > 0) { config.files = files.map(resolveFilePath); }
+      run(config);
     });
   return heat;
 }

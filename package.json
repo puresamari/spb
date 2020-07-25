@@ -1,6 +1,6 @@
 {
   "name": "@puresamari/spb",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A simple page build system for a typescript - twig - postCSS webpage",
   "main": "./lib/cli/index.js",
   "bin": {

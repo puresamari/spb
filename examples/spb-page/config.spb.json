@@ -1,9 +1,14 @@
 {
-  "$schema": "../../lib/config.json",
+  "$schema": "../../lib/config.schema.json",
   "files": [
     "./index.twig",
     "./main.ts",
     "./styles.css"
   ],
-  "output": "../../public"
+  "output": "../../public",
+  "compilers": {
+    "postcss": {
+      "plugins": []
+    }
+  }
 }

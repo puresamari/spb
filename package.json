@@ -11,7 +11,7 @@
     "start:watch": "nodemon --config nodemon.watch.json",
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && npm run build:schema",
-    "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.json",
+    "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
     "test": "npm i -g && spb -o dist --files examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts && spb -o dist -c examples/hello-world/config.spb.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test"
@@ -48,13 +48,11 @@
     "lib": "lib"
   },
   "dependencies": {
-    "autoprefixer": "^9.8.5",
     "chalk": "^4.1.0",
     "commander": "^6.0.0",
     "figlet": "^1.4.0",
     "mkdirp": "^1.0.4",
     "postcss": "^7.0.32",
-    "precss": "^4.0.0",
     "pretty": "^2.0.0",
     "ts-loader": "^8.0.1",
     "tslib": "1.13.0",

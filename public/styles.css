@@ -1,7 +1,7 @@
 body {
-  display: flex
-}
-body::after {
+  display: flex;
+  &::after {
     content: 'Hello world from css';
     display: block;
   }
+}

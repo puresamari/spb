@@ -12,7 +12,8 @@ export class Builder {
     this.builderContext = {
       stylesheets: exportedFiles.filter(v => v.endsWith('css')),
       scripts: exportedFiles.filter(v => v.endsWith('js')),
-      html: exportedFiles.filter(v => v.endsWith('html'))
+      html: exportedFiles.filter(v => v.endsWith('html')),
+      options
     };
   }
 

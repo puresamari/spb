@@ -1,4 +1,9 @@
 export interface IBuilderOptions {
-  output: string,
+  output: string;
   files: string[];
+  compilers?: {
+    postcss?: {
+      plugins?: string[]
+    }
+  }
 }

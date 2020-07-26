@@ -1,2 +1,6 @@
 {% extends "./base.twig" %}
-{% block content %}CONTENT{% endblock %}
+
+{% include "test/test.html" %}
+{% block content %}
+  {% include "test/test.html" %}
+{% endblock %}

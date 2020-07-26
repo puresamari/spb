@@ -7,3 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## IN PROGRESS
 ### Added
 - `.js` and `.ts` extensions are now automatically resolved in `typescript` and `javascript` files
+- Postcss plugins can be customized with the config files `compilers.postcss.plugins`
+```
+"compilers": {
+  "postcss": {
+    "plugins": [
+      ...
+      "precss", // or other
+      ...
+    ]
+  }
+}
+```

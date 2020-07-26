@@ -43,13 +43,22 @@ You can also use this projects JSON schema to ensure integrity but it is not nec
 For example when the configuration file (for example named `config.spb.json`) is in the root directory and `spb` is installed locally:
 ```
 {
-    "$schema": "node_modules/@puresamari/spb/lib/config.json",
-    "files": [
-      "./src/index.twig",
-      "./src/main.ts",
-      "./src/styles.css"
-    ],
-    "output": "dist/"
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "files": [
+    "./src/index.twig",
+    "./src/main.ts",
+    "./src/styles.css"
+  ],
+  "output": "dist/",
+  "compilers": {
+    "postcss": {
+      "plugins": [
+        ...
+        "precss", // or other
+        ...
+      ]
+    }
+  }
 }
 ```
 

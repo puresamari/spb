@@ -21,6 +21,9 @@ export async function CompileTS(file: string, exportPath: string, context: IBuil
         rules: [
           { test: /\.ts$/, loader: 'ts-loader', exclude: /node_modules/ },
         ]
+      },
+      resolve: {
+        extensions: ['.ts', '.js']
       }
     }, (error, stats) => {
       if (error) {

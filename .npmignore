@@ -3,7 +3,8 @@ cli/
 node_modules/
 index.html
 nodemon.json
-webpack.config.js
+nodemon.watch.json
+builder/
 .git
 .git/
 .gitattributes
@@ -13,3 +14,4 @@ public/
 dist/
 .editorconfig
 .gitignore
+examples/

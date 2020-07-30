@@ -5,7 +5,7 @@ import * as path from 'path';
 import { IBuilderOptions } from './../builder/definitions/builder-options';
 import { option } from 'commander';
 
-export const version = '0.0.1';
+export const version = '0.0.9';
 
 export const basePath = process.cwd();
 import { Bar, Presets } from 'cli-progress';

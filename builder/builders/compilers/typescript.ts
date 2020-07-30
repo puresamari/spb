@@ -1,57 +1,39 @@
-import { IBuilderContext } from "./../../utils";
-import chalk from "chalk";
-import webpack from "webpack";
+import { TypescriptBundler } from '@puresamari/ts-bundler';
+import * as fs from 'fs';
 
-import { ExportType, getExportFileName } from "../utils";
-import { Compiler } from "./compiler";
+import { IBuilderContext } from '../../utils';
+import { ExportType } from '../utils';
+import { Compiler } from './compiler';
 
-const path = require("path");
+export default class TypescriptCompiler extends Compiler {
 
-export class TSCompiler extends Compiler {
   public async compile(
     file: string,
     exportPath: string,
     context: IBuilderContext
   ): Promise<{ path: string; type: ExportType; affectedFiles: string[] }> {
-    const exportedFile = getExportFileName(file);
-    return new Promise((resolve) => {
-      const wpBuilder = webpack(
-        {
-          entry: {
-            main: file,
-          },
-          output: {
-            path: exportPath.split(exportedFile)[0],
-            filename: exportedFile,
-          },
-          module: {
-            rules: [
-              { test: /\.ts$/, loader: "ts-loader", exclude: /node_modules/ },
-            ],
-          },
-          resolve: {
-            extensions: [".ts", ".js"],
-          },
-        },
-        (error, stats) => {
-          if (error) {
-            console.log("ERROR", error);
-          } else if (stats.hasErrors()) {
-            console.log(chalk.bold.red("Error occured while compilling"));
-            stats.compilation.errors.forEach((err) => {
-              console.log(err);
-            });
-          } else {
-            resolve({ path: exportPath, type: "js", affectedFiles: [] });
-          }
-        }
-      );
-    });
+    const exportedPath = exportPath;
+
+
+    const bundler = new TypescriptBundler(file);
+    const result = await bundler.bundle();
+
+    fs.writeFileSync(exportedPath, result.output);
+
+    return {
+      path: exportedPath,
+      type: 'js',
+      affectedFiles: result.modules
+    };
   }
 
-  public getContextFiles(
+  public async getContextFiles(
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): string[] { return [file]; }
+  ): Promise<string[]> {
+    const bundler = new TypescriptBundler(file);
+    const result = await bundler.bundle();
+    return result.modules;
+  }
 }

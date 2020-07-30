@@ -40,9 +40,9 @@ export class CSSCompiler extends Compiler {
     });
   }
 
-  public getContextFiles(
+  public async getContextFiles(
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): string[] { return [file]; }
+  ): Promise<string[]> { return [file]; }
 }

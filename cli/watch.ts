@@ -17,12 +17,13 @@ export function make(program: Command) {
       const config = generateConfig(program.opts() as IMainCommanderOptions);
       const builder = new Builder(config);
 
-      log('Watching files');
-      builder.contextFiles.forEach(v => log('  ' + chalk.underline.blue(v)))
+      const contextFiles = await builder.getContextFiles();
 
-      builder.contextFiles.forEach(file => {
-        fs.watchFile(file, () => build(builder));
-      });
+      log('Watching files');
+      contextFiles.forEach(v => log('  ' + chalk.underline.blue(v)))
+
+      contextFiles.forEach(file => fs.watchFile(file, () => build(builder)));
+      
       build(builder);
     });
   return heat;

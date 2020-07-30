@@ -1,1 +1,2 @@
-alert('Hello from javascript');
+import { Alerter } from './testExternal';
+new Alerter();

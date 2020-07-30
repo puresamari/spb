@@ -16,27 +16,25 @@ export class Builder {
       html: exportedFiles.filter(v => v.endsWith('html')),
       options
     };
-    this.contextFiles = this.getContextFiles();
   }
 
-  private getContextFiles() {
+  public async getContextFiles() {
     let contextFiles: string[] = [];
-    // this.contextFiles = [];
-    this.options.files.forEach(v => {
-      const files = (getContextFiles(v, this.options.output, this.builderContext));
+    for (let i = 0; i < this.options.files.length; i++) {
       contextFiles = [
         ...contextFiles,
-        ...files
+        ...(await getContextFiles(this.options.files[i], this.options.output, this.builderContext))
       ]
-    });
+    }
     return contextFiles;
   }
 
-  public contextFiles: string[] = [];
+  private contextFiles: string[] = [];
 
   public readonly builderContext: IBuilderContext;
 
   public async build() {
+    this.contextFiles = await this.getContextFiles();
     await mkdirp(this.options.output);
     await this.options.files.forEach(async file => await buildFile(file, this.options.output, this.builderContext));
   }

@@ -7,6 +7,6 @@ export abstract class Compiler {
   public abstract async compile(file: string, exportPath: string, context: IBuilderContext):
     Promise<{ path: string, type: ExportType, affectedFiles: string[] }>;
 
-  public abstract getContextFiles(file: string, exportPath: string, context: IBuilderContext): string[];
+  public abstract async getContextFiles(file: string, exportPath: string, context: IBuilderContext): Promise<string[]>;
 
 }

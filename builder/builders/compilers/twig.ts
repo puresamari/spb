@@ -52,11 +52,11 @@ export class TWIGCompiler extends Compiler {
     });
   }
 
-  public getContextFiles(
+  public async getContextFiles(
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): string[] {
+  ): Promise<string[]> {
     return [
       file,
       ...traverseDir(path.dirname(file), file => ['html', 'twig'].includes(file.split('.')[file.split('.').length - 1]))

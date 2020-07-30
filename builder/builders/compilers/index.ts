@@ -2,7 +2,7 @@ import { IBuilderContext } from './../../utils';
 import { Compiler } from './compiler';
 import { CSSCompiler } from './css';
 import { TWIGCompiler } from './twig';
-import { TSCompiler } from './typescript';
+import TSCompiler from './typescript';
 
 const CompilerMapping : {
   [key: string]: Compiler
@@ -19,6 +19,6 @@ export async function Compile(type: CompielableType, file: string, exportPath: s
   return CompilerMapping[type].compile(file, exportPath, context);
 }
 
-export function getContextFiles(type: CompielableType, file: string, exportPath: string, context: IBuilderContext) {
-  return CompilerMapping[type].getContextFiles(file, exportPath, context);
+export async function getContextFiles(type: CompielableType, file: string, exportPath: string, context: IBuilderContext) {
+  return await CompilerMapping[type].getContextFiles(file, exportPath, context);
 }

@@ -1,1 +1,43 @@
-!function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=0)}([function(e,t,r){"use strict";alert("Hello from javascript")}]);
+"use strict";
+// common code for implementing require()/exports
+var dependencies = {} // loaded modules
+var modules = {} // code of your dependencies
+// require function
+var require = function(module) {
+  console.log('require', module)
+  if (!dependencies[module]) {
+    // module not loaded, let's load it
+    var exports = {}
+    modules[module](exports)
+    // now in exports we have the things made "public"
+    dependencies[module] = exports
+  }
+  return dependencies[module]
+}
+
+modules['main.ts'] = function(exports) {
+  "use strict";
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var testExternal_1 = require("./testExternal");
+  new testExternal_1.Alerter();
+}
+
+
+modules['./testExternal'] = function(exports) {
+  "use strict";
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Alerter = void 0;
+  var Alerter = /** @class */ (function() {
+    function Alerter() {
+      alert('Hello from javascript');
+    }
+    return Alerter;
+  }());
+  exports.Alerter = Alerter;
+}
+
+require('main.ts')

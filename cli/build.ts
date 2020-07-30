@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 
 import { Builder } from './../builder';
-import { build, generateConfig, IMainCommanderOptions } from './utils';
+import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder } from './utils';
 
 const log = console.log;
 
@@ -10,12 +10,12 @@ export function make(program: Command) {
 
   heat
     .action(async () => {
-      log('Building...');
 
       const config = generateConfig(program.opts() as IMainCommanderOptions);
       const builder = new Builder(config);
+      printBuilder(builder);
 
-      build(builder);
+      build(builder, getProgressBar(builder));
     });
   return heat;
 }

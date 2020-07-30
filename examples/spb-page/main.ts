@@ -1,2 +1,1 @@
-import { Alerter } from './testExternal';
-new Alerter();
+import 'alpinejs';

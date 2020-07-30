@@ -8,6 +8,7 @@ import { option } from 'commander';
 export const version = '0.0.1';
 
 export const basePath = process.cwd();
+import { Bar, Presets } from 'cli-progress';
 
 export interface IMainCommanderOptions {
   out?: string,
@@ -65,18 +66,33 @@ export function chalkFile(file: string) {
   return `${ chalkFileType(ending)}: ${chalk.blue.underline(file)}`
 }
 
-export async function build(builder: Builder) {
-  const outputs = ([...builder.builderContext.stylesheets, ...builder.builderContext.scripts, ...builder.builderContext.html]).map(v => `${builder.options.output}/${v}`);
+export async function printBuilder(builder: Builder) {
   console.log(chalk`
-{yellow Building...}
-
-INPUT
+Input:
   ${builder.options.files.map(chalkFile).join('\n  ')}
-
-OUTPUT:
-  ${outputs.map(chalkFile).join('\n  ')}
-
 `);
 
   await builder.build();
+}
+
+export function getProgressBar(builder: Builder) {
+  const bar = new Bar({}, Presets.shades_classic);
+  return bar;
+}
+
+export async function build(builder: Builder, progressBar: Bar) {
+  console.log();
+  
+  progressBar.start(builder.options.files.length, 0);
+
+  await builder.build(async v => await progressBar.increment(1));
+  
+  progressBar.stop();
+
+  const outputs = ([...builder.builderContext.stylesheets, ...builder.builderContext.scripts, ...builder.builderContext.html]).map(v => `${builder.options.output}/${v}`);
+  console.log(chalk`
+OUTPUT:
+  ${outputs.map(chalkFile).join('\n  ')}
+`);
+
 }

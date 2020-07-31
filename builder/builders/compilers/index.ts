@@ -21,6 +21,10 @@ export async function Compile(type: CompielableType, file: string, exportPath: s
   return CompilerMapping[type].compile(file, exportPath, context);
 }
 
+export async function Build(type: CompielableType, file: string, exportPath: string, context: IBuilderContext) {
+  return CompilerMapping[type].build(file, exportPath, context);
+}
+
 export async function getContextFiles(type: CompielableType, file: string, exportPath: string, context: IBuilderContext) {
   return await CompilerMapping[type].getContextFiles(file, exportPath, context);
 }

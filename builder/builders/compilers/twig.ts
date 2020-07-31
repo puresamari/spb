@@ -26,30 +26,20 @@ export class TWIGCompiler extends Compiler {
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): Promise<{ path: string; type: ExportType; affectedFiles: string[] }> {
-    return new Promise<{
-      path: string;
-      type: ExportType;
-      affectedFiles: string[];
-    }>((resolve) => {
-      const data = fs.readFileSync(file, "utf8");
-      try {
-        const template = twig({
-          data,
-          async: false,
-          path: path.dirname(file) + "/",
-        } as any);
-        fs.writeFileSync(
-          exportPath,
-          pretty(template.render({ spb: context })),
-          {}
-        );
-        resolve({ path: exportPath, type: "html", affectedFiles: [] });
-      } catch (e) {
-        console.log("Error while compiling twig", e);
-        resolve();
-      }
-    });
+  ) {
+    const data = fs.readFileSync(file, "utf8");
+    const template = twig({
+      data,
+      async: false,
+      path: path.dirname(file) + "/",
+    } as any);
+    return {
+      output: pretty(template.render({ spb: context })),
+      file,
+      path: exportPath,
+      type: 'html' as ExportType,
+      affectedFiles: []
+    };
   }
 
   public async getContextFiles(

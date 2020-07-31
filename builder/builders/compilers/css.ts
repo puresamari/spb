@@ -11,33 +11,27 @@ export class CSSCompiler extends Compiler {
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): Promise<{ path: string; type: ExportType; affectedFiles: string[] }> {
-    const exportedPath = exportPath;
-
-    return new Promise((resolve) => {
-      const plugins = (context.options.compilers?.postcss?.plugins || []).map(
-        require
-      );
-
-      // If no plugins are available copy the css file to the new directory
-      if (plugins.length === 0) {
-        fs.copyFile(file, exportPath, (err) => {
-          resolve({ path: exportPath, type: "css", affectedFiles: [] });
+  ) {
+    const plugins = (context.options.compilers?.postcss?.plugins || []).map(
+      require
+    );
+    let output = fs.readFileSync(file, "utf8");
+    if (plugins.length === 0) {
+    } else {
+      postcss(plugins)
+        .process(output, { from: file, to: exportPath })
+        .then((result) => {
+          output = result.css;
         });
-      } else {
-        fs.readFile(file, (err, css) => {
-          postcss(plugins)
-            .process(css, { from: file, to: exportedPath })
-            .then((result) => {
-              fs.writeFileSync(exportedPath, result.css);
-              if (result.map) {
-                fs.writeFileSync(exportedPath + ".map", result.map as any);
-              }
-              resolve({ path: exportPath, type: "css", affectedFiles: [] });
-            });
-        });
-      }
-    });
+    }
+    
+    return {
+      output: output,
+      file,
+      path: exportPath,
+      type: 'css' as ExportType,
+      affectedFiles: []
+    };
   }
 
   public async getContextFiles(

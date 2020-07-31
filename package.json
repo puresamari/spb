@@ -9,6 +9,7 @@
   "scripts": {
     "start": "nodemon",
     "start:watch": "nodemon --config nodemon.watch.json",
+    "start:dev-server": "nodemon --config nodemon.dev-server.json",
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && npm run build:schema",
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",

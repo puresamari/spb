@@ -1,4 +1,4 @@
-import { buildFile, getContextFiles } from "./builders";
+import { buildFile, compileFile, getContextFiles } from "./builders";
 import { getExportFileName, ExportType } from "./builders/utils";
 import { IBuilderContext, IBuilderOptions } from "./utils";
 import fs from "fs";
@@ -37,6 +37,27 @@ export class Builder {
 
   public readonly builderContext: IBuilderContext;
 
+  public async compile(
+    onFileBuildFinished?: (file: {
+      path: string;
+      type: ExportType;
+      affectedFiles: string[];
+    }) => Promise<void>,
+    files: string[] = this.options.files
+  ) {
+    const compiledFiles: { output: string; file: string, path: string, type: ExportType, affectedFiles: string[] }[] = [];
+    await mkdirp(this.options.output);
+    for (let i = 0; i < files.length; i++) {
+      compiledFiles.push(await compileFile(
+        files[i],
+        this.options.output,
+        this.builderContext
+      ));
+      if (onFileBuildFinished) { await onFileBuildFinished(compiledFiles[i]); }
+    }
+    return compiledFiles;
+  }
+
   public async build(
     onFileBuildFinished?: (file: {
       path: string;
@@ -53,7 +74,6 @@ export class Builder {
         this.builderContext
       );
       if (onFileBuildFinished) { await onFileBuildFinished(built); }
-
     }
   }
 }

@@ -1,5 +1,6 @@
 import { TypescriptBundler } from '@puresamari/ts-bundler';
 import * as fs from 'fs';
+import { stringify } from 'querystring';
 
 import { IBuilderContext } from '../../utils';
 import { ExportType } from '../utils';
@@ -11,18 +12,17 @@ export default class TypescriptCompiler extends Compiler {
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): Promise<{ path: string; type: ExportType; affectedFiles: string[] }> {
+  ) {
     const exportedPath = exportPath;
-
 
     const bundler = new TypescriptBundler(file);
     const result = await bundler.bundle();
 
-    fs.writeFileSync(exportedPath, result.output);
-
     return {
+      output: result.output,
+      file,
       path: exportedPath,
-      type: 'js',
+      type: 'js' as ExportType,
       affectedFiles: result.modules
     };
   }

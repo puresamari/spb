@@ -14,20 +14,16 @@ export default class PUGCompiler extends Compiler {
     file: string,
     exportPath: string,
     context: IBuilderContext
-  ): Promise<{ path: string; type: ExportType; affectedFiles: string[] }> {
-    return new Promise<{
-      path: string;
-      type: ExportType;
-      affectedFiles: string[];
-    }>((resolve) => {
-      const data = fs.readFileSync(file, "utf8");
+  ) {
+    const output = pug.compileFile(file)({ spb: context });
 
-      const output = pug.compileFile(file)({ spb: context });
-
-      fs.writeFileSync(exportPath, pretty(output));
-
-      resolve({ path: exportPath, type: "html", affectedFiles: [] });
-    });
+    return {
+      output: pretty(output),
+      file,
+      path: exportPath,
+      type: 'html' as ExportType,
+      affectedFiles: []
+    };
   }
 
   public async getContextFiles(

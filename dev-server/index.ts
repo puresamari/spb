@@ -1,7 +1,9 @@
 import path from 'path';
+import net from 'net';
 import http from 'http';
 import fs from 'fs';
 import chalk from 'chalk';
+import WebSocket from 'ws';
 
 import { Builder } from '../builder';
 import { CompilerResult } from './../builder/builders/compilers/definitions';
@@ -28,6 +30,12 @@ export class DevServer {
 
   private files = new Map<string, CompilerResult>();
 
+  private sockets = new Map<string, WebSocket>();
+
+  private async reload() {
+    [ ...this.sockets.values() ].forEach(socket => socket.send('reload'));
+  }
+
   private async compileFile(file: string) {
     const results = await this.builder.compile(
       async (file: { path: string; type: ExportType; affectedFiles: string[]; }) =>
@@ -35,9 +43,35 @@ export class DevServer {
       [file]
     );
 
-    results.forEach(v => {
-      this.files.set(path.relative(this.builder.options.output, v.path), v);
+    results.forEach(({ output, ...v }) => {
+      if (v.type === 'html') {
+        output += `
+<script type="text/javascript">
+  var connection = new WebSocket('ws://localhost:${this.devServerOptions.socketPort}');
+
+  /* connection.addEventListener('reload', function incoming(message) {
+    alert('please reload');
+  }); */
+
+  connection.addEventListener('message', function (event) {
+    switch (event.data) {
+      case 'reload':
+        window.location.href = window.location.href;
+        return;
+      default:
+        console.log('unknown event', event);
+    }
+  });
+</script>
+`;
+      }
+      this.files.set(path.relative(this.builder.options.output, v.path), {
+        ...v,
+        output
+      });
     });
+
+    this.reload();
   }
 
   private async start() {
@@ -78,8 +112,40 @@ export class DevServer {
     });
 
     server.listen(this.devServerOptions.port);
+    // var net = require("net");
 
-    log(`\nStarded development server on ${chalk.blue(`http://localhost:${this.devServerOptions.port}/`)}\n`)
+    // function createSocket(socket = new net.Socket(options)){
+    // }
+    // var s = new net.Socket({ });
+    // s.write("hello!");
+
+    // exports.createSocket = createSocket;
+ 
+    const wss = new WebSocket.Server({ port: this.devServerOptions.socketPort });
+    
+    let index = 0;
+    wss.on('connection', (ws) => {
+      index += 1;
+      this.sockets.set('' + index, ws);
+      ws.on('close', () => {
+        this.sockets.delete('' + index);
+      });
+    });
+
+    // var s = new net.Socket();
+
+    // s.on("data", function(data) {
+    //   console.log("data received:", data);
+    // });
+    // s.connect(this.devServerOptions.socketPort, function(){
+    //   s.write("hello!");
+    // });
+
+    log(`
+Starded development servers 
+  http: ${chalk.blue(`http://localhost:${this.devServerOptions.port}/`)}
+  ws:   ${chalk.blue(`ws://localhost:${this.devServerOptions.socketPort}/`)}
+`);
 
   }
 

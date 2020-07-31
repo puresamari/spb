@@ -16,22 +16,31 @@ export class CSSCompiler extends Compiler {
       require
     );
     let output = fs.readFileSync(file, "utf8");
-    if (plugins.length === 0) {
-    } else {
-      postcss(plugins)
-        .process(output, { from: file, to: exportPath })
-        .then((result) => {
-          output = result.css;
-        });
-    }
+    return new Promise<any>(resolve => {
     
-    return {
-      output: output,
-      file,
-      path: exportPath,
-      type: 'css' as ExportType,
-      affectedFiles: []
-    };
+      if (plugins.length > 0) {
+        // output = await postcss(plugins).process(output, { from: file, to: exportPath }).css
+        postcss(plugins).process(output, { from: file, to: exportPath })
+          .then((result) => {
+            resolve({
+              output: result.css,
+              file,
+              path: exportPath,
+              type: 'css' as ExportType,
+              affectedFiles: []
+            });
+          });
+      } else {
+        resolve({
+          output: output,
+          file,
+          path: exportPath,
+          type: 'css' as ExportType,
+          affectedFiles: []
+        });
+      }
+      
+    })
   }
 
   public async getContextFiles(

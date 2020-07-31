@@ -8,7 +8,7 @@ import { IBuilderOptions } from './../builder/definitions/builder-options';
 import { option } from 'commander';
 
 // TODO: Dynamically detect version from package.json
-export const version = '0.2.0';
+export const version = '0.2.1';
 
 export const basePath = process.cwd();
 import { Bar, Presets } from 'cli-progress';

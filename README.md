@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40puresamari%2Fspb.svg)](https://badge.fury.io/js/%40puresamari%2Fspb)
 
-Hi my name is `SIMON` and this is a Simple build tool for REALLY simple pages.
+`SPB` is a really simple build tool, designed to just take input fields and automatically generate files without the hassle of creating a bloated config file.
 
 ## Examples
 - This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)
@@ -44,15 +44,26 @@ All options declared in the config file will be overwritten by options from the 
 You can also use this projects JSON schema to ensure integrity but it is not necessary.
 
 For example when the configuration file (for example named `config.spb.json`) is in the root directory and `spb` is installed locally:
-```
+```json
 {
   "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
   "files": [
+    "./src/example.pug",
     "./src/index.twig",
     "./src/main.ts",
     "./src/styles.css"
   ],
   "output": "dist/",
+}
+```
+
+If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the `compilers` part of the config file. Like in this example:
+```json
+{
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  
+  ...
+  
   "compilers": {
     "postcss": {
       "plugins": [
@@ -71,12 +82,32 @@ Using this config file you can then build your project like this: `$ spb -c conf
 
 For examples take a look at `examples` in this repository. The gh-page for this repository is built using `spb` and you can have a look at the setup under `examples/spb-page`.
 
-## twig 
+You can currently compile `typescript`, `postcss`, `pug` and `twig` files uing `spb`. all other files given to the builder will simply be copied to the output directory.
 
-The `spb` adds a context object (`spb`) to all .twig files which contains all `stylesheets`, `scripts` and `html` files. This allowes to dynamically add all files to the html page.
+## twig and pug
 
-### Expample usage:
+The `spb` adds a context object (`spb`) to all `.twig` and `.pug` files which contains all `stylesheets`, `scripts` and `html` files. This allowes to dynamically add all files to the html page.
+
+### Expample usage for `pug`:
+```pug
+
+html
+  head
+    
+    ...
+
+    each stylesheet in spb.stylesheets
+      link(rel="text/stlesheet", href=stylesheet)
+  
+  body
+    block content
+    each script in spb.scripts
+      script(type="text/javascript", src=script)
+
+
 ```
+### Expample usage for `twig`:
+```twig
 ...
 <head>
   ....

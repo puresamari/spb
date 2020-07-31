@@ -20,15 +20,20 @@ export function make(program: Command) {
       const progressBar = getProgressBar(builder);
 
       const contextFiles = await builder.getContextFiles();
-
+      
       log('Watching files');
-      contextFiles.forEach(v => log('  ' + chalk.underline.blue(v)))
+      contextFiles.map(v => v.files.map(file => chalk.underline.blue(file)).join('\n  ')).forEach(v => log('  ' + v));
+      log('');
 
-      contextFiles.forEach(file => {
-        fs.watchFile(file, () => build(builder, progressBar));
+      contextFiles.forEach(context => {
+        [ ...context.files ].forEach(file => {
+          fs.watchFile(file, (curr, prev) => {
+            build(builder, progressBar, file);
+          });
+        });
       });
 
-      // build(builder);
+      build(builder, progressBar);
     });
   return heat;
 }

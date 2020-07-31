@@ -80,14 +80,21 @@ export function getProgressBar(builder: Builder) {
   return bar;
 }
 
-export async function build(builder: Builder, progressBar: Bar) {
-  console.log();
-  
-  progressBar.start(builder.options.files.length, 0);
+export async function build(builder: Builder, progressBar: Bar, file?: string) {
 
-  await builder.build(async v => await progressBar.increment(1));
+  progressBar.start(file ? 1 : builder.options.files.length, 0);
+
+  await builder.build(async v => await progressBar.increment(1), file ? [file] : builder.options.files);
   
   progressBar.stop();
+
+  
+  if (file) {
+    return console.log(chalk`
+  ${chalkFile(file)}
+`);
+
+  }
 
   const outputs = ([...builder.builderContext.stylesheets, ...builder.builderContext.scripts, ...builder.builderContext.html]).map(v => `${builder.options.output}/${v}`);
   console.log(chalk`

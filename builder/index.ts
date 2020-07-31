@@ -18,21 +18,22 @@ export class Builder {
   }
 
   public async getContextFiles() {
-    let contextFiles: string[] = [];
+    let contextFiles: {
+      source: string,
+      files: string[]
+    }[] = [];
     for (let i = 0; i < this.options.files.length; i++) {
-      contextFiles = [
-        ...contextFiles,
-        ...(await getContextFiles(
+      contextFiles.push({
+        source: this.options.files[i],
+        files: await getContextFiles(
           this.options.files[i],
           this.options.output,
           this.builderContext
-        )),
-      ];
+        )
+      });
     }
     return contextFiles;
   }
-
-  private contextFiles: string[] = [];
 
   public readonly builderContext: IBuilderContext;
 
@@ -41,13 +42,13 @@ export class Builder {
       path: string;
       type: ExportType;
       affectedFiles: string[];
-    }) => Promise<void>
+    }) => Promise<void>,
+    files: string[] = this.options.files
   ) {
-    this.contextFiles = await this.getContextFiles();
     await mkdirp(this.options.output);
-    for (let i = 0; i < this.options.files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
       const built = await buildFile(
-        this.options.files[i],
+        files[i],
         this.options.output,
         this.builderContext
       );

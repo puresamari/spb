@@ -8,11 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - GP-pages
 
-### Changed spb-page compiles to dist
-- Public folder
+### Changed
+- Watcher only compiles changed files
+- spb-page compiles to dist
 
 ### Removed
 - Public folder
+
+### Fixed
+- Issue where watcher compiled 2 times initially
 
 ## 0.0.9 - 31. July 2020
 ### Added

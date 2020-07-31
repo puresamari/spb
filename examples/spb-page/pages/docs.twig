@@ -1,0 +1,140 @@
+{% extends "../base.twig" %}
+
+{% block content %}
+
+  <a class="underline" href="./index.html">< Back to the landingpage</a>
+
+	<h1 id="installation">Installation</h1>
+	<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> <span class="hljs-selector-attr">[-g|-D|-S]</span> @<span class="hljs-keyword">puresamari</span>/<span class="hljs-keyword">spb</span>
+</code></pre>
+	<h1 id="cli">CLI</h1>
+	<p>Once the
+		<code>spb</code>
+		cli is installed you can use the cli.</p>
+	<h2 id="usage-">Usage:</h2>
+	<pre><code>spb <span class="hljs-string">[options]</span> <span class="hljs-string">[command]</span>
+</code></pre>
+	<p>Options:</p>
+	<ul>
+		<li>
+			<code>-V, --version</code>
+			output the version number</li>
+		<li>
+			<code>-c, --config &lt;path&gt;</code>
+			path to config json file (default: &quot;config.spb.json&quot;)</li>
+		<li>
+			<code>-o, --out &lt;path&gt;</code>
+			where the compiles files should be compiled to (overwrites configurations from the config file)</li>
+		<li>
+			<code>--files &lt;files...&gt;</code>
+			files that should be compiled (overwrites configurations from the config file)</li>
+		<li>
+			<code>--verbose</code>
+			enable verbose logging</li>
+		<li>
+			<code>-h, --help</code>
+			display help for command</li>
+	</ul>
+	<p>Commands:</p>
+	<ul>
+		<li>
+			<code>build</code>
+			build once (is default)<ul>
+				<li>
+					<code>$ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...</code>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<code>watch</code>
+			watch and automatically build when input files change<ul>
+				<li>
+					<code>$ spb watch --config examples/hello-world/config.spb.json</code>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<h2 id="building">Building</h2>
+	<h2 id="config-file">Config file</h2>
+	<p>You can use a configuration file with the flag
+		<code>-c</code>
+		or
+		<code>--config</code>.
+								All options declared in the config file will be overwritten by options from the cli:</p>
+	<ul>
+		<li>
+			<code>spb public -c config.spb.json</code>
+			if the config file has a declaration for output it will be overwritten with
+			<code>public</code>
+			in this case.</li>
+		<li>
+			<code>spb public ./src/styles.css -c config.spb.json</code>
+			if the config file has a declaration for files it will be overwritten with
+			<code>./src/styles.css</code>
+			in this case.</li>
+	</ul>
+	<p>You can also use this projects JSON schema to ensure integrity but it is not necessary.</p>
+	<p>For example when the configuration file (for example named
+		<code>config.spb.json</code>) is in the root directory and
+		<code>spb</code>
+		is installed locally:</p>
+	<pre><code>{
+  <span class="hljs-attr">"$schema"</span>: <span class="hljs-string">"node_modules/@puresamari/spb/lib/config.schema.json"</span>,
+  <span class="hljs-attr">"files"</span>: [
+    <span class="hljs-string">"./src/index.twig"</span>,
+    <span class="hljs-string">"./src/main.ts"</span>,
+    <span class="hljs-string">"./src/styles.css"</span>
+  ],
+  <span class="hljs-attr">"output"</span>: <span class="hljs-string">"dist/"</span>,
+  <span class="hljs-attr">"compilers"</span>: {
+    <span class="hljs-attr">"postcss"</span>: {
+      <span class="hljs-attr">"plugins"</span>: [
+        ...
+        <span class="hljs-string">"precss"</span>, // or other
+        ...
+      ]
+    }
+  }
+}
+</code></pre>
+	<p>Using this config file you can then build your project like this:
+		<code>$ spb -c config.spb.json</code>
+	</p>
+	<h1 id="compilers">Compilers</h1>
+	<p>For examples take a look at
+		<code>examples</code>
+		in this repository. The gh-page for this repository is built using
+		<code>spb</code>
+		and you can have a look at the setup under
+		<code>examples/spb-page</code>.</p>
+	<h2 id="twig">twig</h2>
+	<p>The
+		<code>spb</code>
+		adds a context object (<code>spb</code>) to all .twig files which contains all
+		<code>stylesheets</code>,
+		<code>scripts</code>
+		and
+		<code>html</code>
+		files. This allowes to dynamically add all files to the html page.</p>
+	{# <h3 id="expample-usage-">Expample usage:</h3>
+	<pre><code><span class="xml">...
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  ....
+  </span><span class="hljs-template-tag"></span><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{stylesheet}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> &gt;</span>
+  </span><span class="hljs-template-tag"></span><span class="xml">
+  ....
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  ...
+  </span><span class="hljs-template-tag"></span><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{script}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> &gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}</span><span class="xml">
+  ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+</code></pre> {% <span class="hljs-name"><span class="hljs-name">for</span></span> script <span class="hljs-keyword">in</span> spb.scripts %}
+	{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}
+	{% <span class="hljs-name"><span class="hljs-name">for</span></span> stylesheet <span class="hljs-keyword">in</span> spb.stylesheets %} #}
+
+{% endblock %}

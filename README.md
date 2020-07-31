@@ -4,6 +4,9 @@
 
 Hi my name is `SIMON` and this is a Simple build tool for REALLY simple pages.
 
+## Examples
+- This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)
+
 # Installation
     npm i [-g|-D|-S] @puresamari/spb
 

@@ -31,6 +31,14 @@ Commands:
     - `$ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...`
   - `watch` watch and automatically build when input files change
     - `$ spb watch --config examples/hello-world/config.spb.json`
+  - `dev-server` starts the dev server
+    - `$ spb dev-server --config examples/hello-world/config.spb.json`
+
+## Dev Server
+
+The dev server starts a server and loads all compiled files temporarily instead of building and saving them.
+
+When opening a html file the devserver adds a script to it to automatically reload the page when changes occure to the code.
 
 ## Building
 

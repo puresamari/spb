@@ -1,9 +1,19 @@
 {
   "$schema": "../../lib/config.schema.json",
   "files": [
-    "./index.twig",
+    "./pages/index.twig",
+    "./pages/docs.twig",
     "./main.ts",
     "./styles.css"
   ],
-  "output": "../../public"
+  "output": "../../dist",
+  "compilers": {
+    "postcss": {
+      "plugins": [
+        "precss",
+        "tailwindcss",
+        "autoprefixer"
+      ]
+    }
+  }
 }

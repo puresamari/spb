@@ -12,6 +12,7 @@ export function getExportType(file: string): ExportType {
     case 'ts':
       return 'js';
     case 'twig':
+    case 'pug':
       return 'html';
     default:
       return type as any;

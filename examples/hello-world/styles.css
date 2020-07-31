@@ -1,7 +1,9 @@
-body {
-  display: flex;
-  &::after {
-    content: 'Hello world from css';
-    display: block;
-  }
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+h1 {
+  @apply text-2xl text-red-500;
 }

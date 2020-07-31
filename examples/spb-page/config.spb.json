@@ -1,8 +1,8 @@
 {
   "$schema": "../../lib/config.schema.json",
   "files": [
-    "./pages/index.twig",
-    "./pages/docs.twig",
+    "./views/index.pug",
+    "./views/docs.pug",
     "./main.ts",
     "./styles.css"
   ],

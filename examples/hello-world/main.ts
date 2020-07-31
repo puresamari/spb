@@ -1,1 +1,6 @@
-alert('Hello World from js');
+// import 'alpinejs';
+require('alpinejs');
+
+console.log('asdf');
+
+console.log('simon')

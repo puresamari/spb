@@ -1,3 +1,5 @@
+import { ExportType } from './../builder/builders/utils';
+import { CompielableType } from './../builder/builders/compilers/index';
 import { Builder } from './../builder/index';
 import chalk from 'chalk';
 import * as path from 'path';
@@ -51,19 +53,20 @@ export function generateConfig(options: IMainCommanderOptions): IBuilderOptions 
   return config;
 }
 
-export function chalkFileType(type: 'ts' | 'css' | 'twig' | string) {
+export function chalkFileType(type: CompielableType | ExportType) {
   switch(type) {
-    case 'twig':            return chalk.white.bgGreen(' twig ');
-    case 'css':              return chalk.white.bgBlue(' css  ');
-    case 'ts':               return chalk.white.bgBlue(' ts   ');
-    case 'js':             return chalk.black.bgYellow(' js   ');
-    case 'html': return chalk.white.bgRgb(212, 87, 56)(' html ');
-    default:                        return chalk.white(' ---- ');
+    case 'twig':             return chalk.white.bgGreen(' twig ');
+    case 'pug':  return chalk.white.bgRgb(168, 100, 84)(' pug  ');
+    case 'css':               return chalk.white.bgBlue(' css  ');
+    case 'ts':                return chalk.white.bgBlue(' ts   ');
+    case 'js':              return chalk.black.bgYellow(' js   ');
+    case 'html':  return chalk.white.bgRgb(212, 87, 56)(' html ');
+    default:                         return chalk.white(' ---- ');
   }
 }
 
 export function chalkFile(file: string) {
-  const ending = file.split('.')[file.split('.').length - 1];
+  const ending = file.split('.')[file.split('.').length - 1] as CompielableType | ExportType;
   return `${ chalkFileType(ending)}: ${chalk.blue.underline(file)}`
 }
 

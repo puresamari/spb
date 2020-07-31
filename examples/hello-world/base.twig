@@ -3,16 +3,15 @@
 	<head>
 		<title>Simple page builder</title>
 		{% for stylesheet in spb.stylesheets %}
-			<link rel="stylesheet" href="{{stylesheet}}" >
+			<link rel="stylesheet" href="{{stylesheet}}">
 		{% endfor %}
 	</head>
 	<body class="flex p-4 flex-col">
-    {% block content %}
-		<h1>My Webpage</h1>
-    {% endblock %}
+		{% block content %}
+			<h1>My Webpage</h1>
+		{% endblock %}
 		{% for script in spb.scripts %}
-			<script type="text/javascript" src="{{script}}" ></script>
+			<script type="text/javascript" src="{{script}}"></script>
 		{% endfor %}
 	</body>
 </html>
-

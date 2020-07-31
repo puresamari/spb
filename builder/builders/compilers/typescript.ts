@@ -1,5 +1,4 @@
-import { TypescriptBundler } from '../../../../ts-bundler/src/main';
-// import { TypescriptBundler } from '@puresamari/ts-bundler';
+import { TypescriptBundler } from '@puresamari/ts-bundler';
 import * as fs from 'fs';
 import { stringify } from 'querystring';
 

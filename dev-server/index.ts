@@ -84,7 +84,6 @@ export class DevServer {
     await contextFiles.forEach(async context => {
       [ ...context.files ].forEach(file => {
         fs.watchFile(file, (curr, prev) => {
-          // build(builder, progressBar, file);
           this.compileFile(file);
         });
       });

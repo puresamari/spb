@@ -1,4 +1,5 @@
 import 'alpinejs';
 
-console.log('asdf');
-console.log('simon');
+console.log('asdf finanllly');
+
+console.log('simon fixed the reloading part');

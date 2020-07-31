@@ -4,3 +4,4 @@ lib/*
 !lib/simonlang.js
 dist/
 .npmrc
+public/

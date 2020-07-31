@@ -14,7 +14,8 @@
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
     "test": "npm i -g && spb -o dist --files examples/hello-world/index.twig examples/hello-world/styles.css examples/hello-world/main.ts && spb -o dist -c examples/hello-world/config.spb.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "prepublish": "npm run build && npm run test"
+    "prepublish": "npm run build && npm run test",
+    "publish-pages": "ts-node ./publish-pages.ts"
   },
   "keywords": [
     "buildsystem",
@@ -32,12 +33,14 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/cli-progress": "^3.7.0",
+    "@types/gh-pages": "^3.0.0",
     "@types/js-beautify": "^1.11.0",
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^14.0.20",
     "@types/nodemon": "^1.19.0",
     "@types/twig": "^1.12.3",
     "alpinejs": "^2.5.0",
+    "gh-pages": "^3.1.0",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",

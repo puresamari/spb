@@ -5,7 +5,7 @@
     "./main.ts",
     "./styles.css"
   ],
-  "output": "../../public",
+  "output": "../../dist",
   "compilers": {
     "postcss": {
       "plugins": []

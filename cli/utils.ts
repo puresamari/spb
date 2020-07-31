@@ -5,7 +5,8 @@ import * as path from 'path';
 import { IBuilderOptions } from './../builder/definitions/builder-options';
 import { option } from 'commander';
 
-export const version = '0.0.9';
+// TODO: Dynamically detect version from package.json
+export const version = '0.10.0';
 
 export const basePath = process.cwd();
 import { Bar, Presets } from 'cli-progress';
@@ -88,7 +89,7 @@ export async function build(builder: Builder, progressBar: Bar, file?: string) {
   
   progressBar.stop();
 
-  
+
   if (file) {
     return console.log(chalk`
   ${chalkFile(file)}

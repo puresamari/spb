@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Split file compilation and building into different functions
 
+### Added
+- Added a dynamic development server
+
 ## 0.1.1 - 31. July 2020
 ### Added
 - Pug compiler

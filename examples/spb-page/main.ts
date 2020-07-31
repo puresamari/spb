@@ -1,5 +1,4 @@
-// import 'alpinejs';
-require('alpinejs');
+import 'alpinejs';
 
 console.log('asdf');
 

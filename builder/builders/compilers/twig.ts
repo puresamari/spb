@@ -53,28 +53,3 @@ export class TWIGCompiler extends Compiler {
     ];
   }
 }
-
-// export async function CompileTWIG(context: IBuilderContext) {
-//   return new Promise<{ path: string, type: ExportType, affectedFiles: string[] }>(resolve => {
-//     const data = fs.readFileSync(file, "utf8");
-//     try {
-//       const template = twig({
-//         data,
-//         // allowInlineIncludes: true,
-//         async: false,
-//         path: path.dirname(file) + '/'
-//       } as any);
-//       fs.writeFileSync(exportPath, pretty(template.render({ spb: context })), { });
-//       // console.log((template as any));
-//       traverseDir(path.dirname(file));
-//       // console.log((template as any));
-//       // console.log((template as any).getBlocks().content.tempylate.blocks.defined.content.template);
-//       // console.log((template as any).blocks.defined.content.template.tokens[0].token.stack);
-//       resolve({ path: exportPath, type: 'html', affectedFiles: [] });
-//     } catch(e) {
-//       console.log('Error while compiling twig', e);
-//       resolve()
-//     }
-//   });
-
-// }

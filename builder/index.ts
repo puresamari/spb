@@ -1,10 +1,10 @@
-import { buildFile, compileFile, getContextFiles } from "./builders";
-import { getExportFileName, ExportType } from "./builders/utils";
-import { IBuilderContext, IBuilderOptions } from "./utils";
-import fs from "fs";
-import mkdirp from "mkdirp";
+import mkdirp from 'mkdirp';
+import path from 'path';
 
-const path = require("path");
+import { buildFile, compileFile, getContextFiles } from './builders';
+import { CompilerResult } from './builders/compilers/definitions';
+import { ExportType, getExportFileName, getFileType } from './builders/utils';
+import { IBuilderContext, IBuilderOptions } from './utils';
 
 export class Builder {
   constructor(public readonly options: IBuilderOptions) {
@@ -23,14 +23,16 @@ export class Builder {
       files: string[]
     }[] = [];
     for (let i = 0; i < this.options.files.length; i++) {
-      contextFiles.push({
-        source: this.options.files[i],
-        files: await getContextFiles(
-          this.options.files[i],
-          this.options.output,
-          this.builderContext
-        )
-      });
+      if (!!getFileType(this.options.files[i])) {
+        contextFiles.push({
+          source: this.options.files[i],
+          files: await getContextFiles(
+            this.options.files[i],
+            this.options.output,
+            this.builderContext
+          )
+        });
+      }
     }
     return contextFiles;
   }
@@ -38,22 +40,24 @@ export class Builder {
   public readonly builderContext: IBuilderContext;
 
   public async compile(
-    onFileBuildFinished?: (file: {
+    onFileBuildFinished?: ((file: {
       path: string;
       type: ExportType;
       affectedFiles: string[];
-    }) => Promise<void>,
+    }) => Promise<void>) | null,
     files: string[] = this.options.files
   ) {
-    const compiledFiles: { output: string; file: string, path: string, type: ExportType, affectedFiles: string[] }[] = [];
+    const compiledFiles: CompilerResult[] = [];
     await mkdirp(this.options.output);
     for (let i = 0; i < files.length; i++) {
-      compiledFiles.push(await compileFile(
-        files[i],
-        this.options.output,
-        this.builderContext
-      ));
-      if (onFileBuildFinished) { await onFileBuildFinished(compiledFiles[i]); }
+      if (!!getFileType(files[i])) {
+        compiledFiles.push(await compileFile(
+          files[i],
+          this.options.output,
+          this.builderContext
+        ));
+        if (onFileBuildFinished) { await onFileBuildFinished(compiledFiles[i]); }
+      }
     }
     return compiledFiles;
   }
@@ -68,12 +72,14 @@ export class Builder {
   ) {
     await mkdirp(this.options.output);
     for (let i = 0; i < files.length; i++) {
-      const built = await buildFile(
-        files[i],
-        this.options.output,
-        this.builderContext
-      );
-      if (onFileBuildFinished) { await onFileBuildFinished(built); }
+      if (!!getFileType(files[i])) {
+        const built = await buildFile(
+          files[i],
+          this.options.output,
+          this.builderContext
+        );
+        if (onFileBuildFinished) { await onFileBuildFinished(built); }
+      }
     }
   }
 }

@@ -1,0 +1,10 @@
+{
+    "watch": [
+        "cli",
+        "dev-server",
+        "builder"
+    ],
+    "ext": "ts",
+    "ignore": ["*.spec.ts"],
+    "exec": "npx node -r ts-node/register cli/index.ts dev-server --config examples/spb-page/config.spb.json"
+  }

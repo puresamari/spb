@@ -1,12 +1,12 @@
-import * as path from 'path';
+import path from 'path';
 
 export type ExportType = 'js' | 'css' | 'html';
 
-export function getFileType(file: string) {
-  return file.split('.')[file.split('.').length - 1] as string;
+export function getFileType(file: string): string | null {
+  return path.extname(file).replace('.', '');
 }
 
-export function getExportType(file: string): ExportType {
+export function getExportType(file: string): ExportType | null {
   const type = getFileType(file);
   switch (type) {
     case 'ts':

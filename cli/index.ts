@@ -4,8 +4,8 @@ import { program } from 'commander';
 
 import { make as makeBuild } from './build';
 import { make as makeWatch } from './watch';
+import { make as makeDevServer } from './dev-server';
 import { version } from './utils';
-
 
 const chalk = require('chalk');
 const log = console.log;
@@ -36,6 +36,7 @@ program
   
 program.addCommand(makeBuild(program as any), { isDefault: true });
 program.addCommand(makeWatch(program as any));
+program.addCommand(makeDevServer(program as any));
 
 program.parse(process.argv);
 

@@ -1,4 +1,5 @@
-import { TypescriptBundler } from '@puresamari/ts-bundler';
+import { TypescriptBundler } from '../../../../ts-bundler/src/main';
+// import { TypescriptBundler } from '@puresamari/ts-bundler';
 import * as fs from 'fs';
 import { stringify } from 'querystring';
 
@@ -23,7 +24,7 @@ export default class TypescriptCompiler extends Compiler {
       file,
       path: exportedPath,
       type: 'js' as ExportType,
-      affectedFiles: result.modules
+      affectedFiles: []
     };
   }
 
@@ -34,6 +35,6 @@ export default class TypescriptCompiler extends Compiler {
   ): Promise<string[]> {
     const bundler = new TypescriptBundler(file);
     const result = await bundler.bundle();
-    return result.modules;
+    return result.modules.map(v => v.file);
   }
 }

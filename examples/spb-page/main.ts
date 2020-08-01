@@ -1,4 +1,7 @@
 import 'alpinejs';
+import { log } from './logger';
+
+log();
 
 console.log('asdf finanllly');
 

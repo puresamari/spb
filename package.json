@@ -33,6 +33,7 @@
   "homepage": "https://github.com/puresamari/spb#readme",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@puresamari/ts-bundler": "0.0.3",
     "@types/cli-progress": "^3.7.0",
     "@types/gh-pages": "^3.0.0",
     "@types/js-beautify": "^1.11.0",
@@ -57,7 +58,6 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@puresamari/ts-bundler": "0.0.2",
     "chalk": "^4.1.0",
     "cli-progress": "^3.8.2",
     "commander": "^6.0.0",

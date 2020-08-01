@@ -1,11 +1,9 @@
-import { TypescriptBundler } from '@puresamari/ts-bundler';
-import * as fs from 'fs';
-import { stringify } from 'querystring';
-
+import { TypescriptBundler } from '../../../../ts-bundler';
 import { IBuilderContext } from '../../utils';
 import { ExportType } from '../utils';
 import { Compiler } from './compiler';
 
+// import { TypescriptBundler } from '@puresamari/ts-bundler';
 export default class TypescriptCompiler extends Compiler {
 
   public async compile(
@@ -36,7 +34,7 @@ export default class TypescriptCompiler extends Compiler {
     const result = await bundler.bundle();
     return [
       file,
-      ...result.modules.filter((v: any) => !v.node_module).map(v => v.file)
-    ];
+      ...result.modules.filter((v: any) => !v.node_module).map((v: any) => v)
+    ].filter(v => !!v);
   }
 }

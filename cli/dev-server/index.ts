@@ -5,10 +5,10 @@ import fs from 'fs';
 import chalk from 'chalk';
 import WebSocket from 'ws';
 
-import { Builder } from '@builder';
-import { CompilerResult } from '@builder/builders/compilers/definitions';
-import { ExportType } from '@builder/builders/utils';
-import { IBuilderOptions } from '@builder/definitions/builder-options';
+import { Builder } from '../../builder';
+import { CompilerResult } from '../../builder/builders/compilers/definitions';
+import { ExportType } from '../../builder/builders/utils';
+import { IBuilderOptions } from '../../builder/definitions/builder-options';
 
 const log = console.log;
 

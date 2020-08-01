@@ -16,3 +16,5 @@ dist/
 .gitignore
 examples/
 .npmrc
+lib/publish-pages.js
+lib/examples

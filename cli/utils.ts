@@ -1,7 +1,7 @@
-import { Builder } from '@builder';
-import { CompielableType } from '@builder/builders/compilers';
-import { ExportType } from '@builder/builders/utils';
-import { IBuilderOptions } from '@builder/definitions/builder-options';
+import { Builder } from '../builder';
+import { CompielableType } from '../builder/builders/compilers';
+import { ExportType } from '../builder/builders/utils';
+import { IBuilderOptions } from '../builder/definitions/builder-options';
 import chalk from 'chalk';
 import { Bar, Presets } from 'cli-progress';
 import * as path from 'path';

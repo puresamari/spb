@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import fs from 'fs';
 import chalk from 'chalk';
 
-import { Builder } from '@builder';
+import { Builder } from '../builder';
 import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder } from './utils';
 
 // const chalk = require('chalk');

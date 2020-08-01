@@ -37,9 +37,12 @@ export class DevServer {
   }
 
   private async compileFile(file: string) {
+    const exportPath = this.builder.getExportPathOfFile(file);
+    if (!exportPath) { return; }
+
     const results = await this.builder.compile(
-      async (file: { path: string; type: ExportType; affectedFiles: string[]; }) =>
-        new Promise<void>(resolve => { console.log('compiled', file.path); resolve() }),
+      async (localFile: { path: string; type: ExportType; affectedFiles: string[]; }) =>
+        new Promise<void>(resolve => { console.log('compiled', file); resolve() }),
       [file]
     );
 
@@ -65,7 +68,7 @@ export class DevServer {
 </script>
 `;
       }
-      this.files.set(path.relative(this.builder.options.output, v.path), {
+      this.files.set(path.relative(this.builder.options.output, exportPath), {
         ...v,
         output
       });
@@ -83,7 +86,7 @@ export class DevServer {
 
     await contextFiles.forEach(async context => {
       [ ...context.files ].forEach(file => {
-        fs.watchFile(file, (curr, prev) => {
+        fs.watch(file, (curr, prev) => {
           this.compileFile(file);
         });
       });

@@ -18,15 +18,18 @@ export class Builder {
     };
     options.files.forEach(file => {
       this.compilers.set(file, getCompiler(file));
-    })
+    });
   }
+
+  public get Files() { return [...this.compilers.keys()]; }
+  public getExportPathOfFile(file: string) { return this.compilers.get(file)?.getExportFilePath(this.options.output); }
 
   public async getContextFiles() {
     let contextFiles: {
       source: string,
       files: string[]
     }[] = [];
-    const files = [...this.compilers.keys()];
+    const files = this.Files;
     for (let i = 0; i < files.length; i++) {
       contextFiles.push({
         source: files[i],
@@ -49,10 +52,10 @@ export class Builder {
       type: ExportType;
       affectedFiles: string[];
     }) => Promise<void>) | null,
-    files: string[] = [...this.compilers.keys()]
+    files: string[] = this.Files
   ) {
     const compiledFiles: CompilerResult[] = [];
-    await mkdirp(this.options.output);
+    // await mkdirp(this.options.output);
     for (let i = 0; i < files.length; i++) {
       compiledFiles.push(await this.compilers.get(files[i])!.compile(
         this.options.output,
@@ -69,7 +72,7 @@ export class Builder {
       type: ExportType;
       affectedFiles: string[];
     }) => Promise<void>,
-    files: string[] = [...this.compilers.keys()]
+    files: string[] = this.Files
   ) {
     await mkdirp(this.options.output);
     for (let i = 0; i < files.length; i++) {

@@ -19,8 +19,11 @@ export abstract class Compiler {
     return { ...data } as BuilderResult;
   }
 
-  public async getContextFiles( exportPath: string, context: IBuilderContext): Promise<string[]> {
-    return [this.file];
+  public async getContextFiles(exportPath: string, context: IBuilderContext): Promise<string[]> {
+    return [
+      this.file,
+      ...(await this.build(exportPath, context)).affectedFiles
+    ];
   }
 
 }

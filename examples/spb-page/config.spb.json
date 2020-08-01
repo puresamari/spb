@@ -3,6 +3,7 @@
   "files": [
     "./views/index.pug",
     "./views/docs.pug",
+    "./views-twig/index.twig",
     "./main.ts",
     "./styles.css"
   ],

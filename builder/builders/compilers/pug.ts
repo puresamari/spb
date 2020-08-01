@@ -13,7 +13,7 @@ const extendsRegex = /extends (.*?).pug/g;
 
 export default class PUGCompiler extends Compiler {
 
-  private getIncludes(pugFilePath: string) {
+  private discoverExternals(pugFilePath: string) {
     const pugContent = fs.readFileSync(pugFilePath, 'utf-8');
     return pugContent.match(extendsRegex)?.map(v => path.resolve(path.dirname(pugFilePath), v.replace('extends ', '')));
   }
@@ -29,7 +29,7 @@ export default class PUGCompiler extends Compiler {
       file: this.file,
       path: exportPath,
       type: 'html' as ExportType,
-      affectedFiles: this.getIncludes(this.file) || []
+      affectedFiles: this.discoverExternals(this.file) || []
     };
   }
 }

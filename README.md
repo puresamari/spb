@@ -134,3 +134,7 @@ html
 </body>
 
 ```
+
+# Links
+
+- [Changelog](https://github.com/puresamari/spb/blob/master/CHANGELOG.md)

@@ -22,7 +22,7 @@ Options:
 - `-V, --version       ` output the version number
 - `-c, --config <path> ` path to config json file (default: "config.spb.json")
 - `-o, --out <path>    ` where the compiles files should be compiled to (overwrites configurations from the config file)
-- `--files <files...>  ` files that should be compiled (overwrites configurations from the config file)
+- `--files <files...>  ` files that should be compiled (overwrites configurations from the config file). All files can also be defined with wildcardmatching for example `./views/*.pug`
 - `--verbose           ` enable verbose logging
 - `-h, --help          ` display help for command
 
@@ -40,14 +40,12 @@ The dev server starts a server and loads all compiled files temporarily instead 
 
 When opening a html file the devserver adds a script to it to automatically reload the page when changes occure to the code.
 
-## Building
-
 ## Config file
 
 You can use a configuration file with the flag `-c` or `--config`.
 All options declared in the config file will be overwritten by options from the cli:
 - `spb public -c config.spb.json` if the config file has a declaration for output it will be overwritten with `public` in this case.
-- `spb public ./src/styles.css -c config.spb.json` if the config file has a declaration for files it will be overwritten with `./src/styles.css` in this case.
+- `spb public ./src/styles.css ./views/*.pug -c config.spb.json` if the config file has a declaration for files it will be overwritten with `./src/styles.css` and all `./views/*.pug` files in this case.
 
 You can also use this projects JSON schema to ensure integrity but it is not necessary.
 
@@ -57,6 +55,7 @@ For example when the configuration file (for example named `config.spb.json`) is
   "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
   "files": [
     "./src/example.pug",
+    "./views/*.pug",
     "./src/index.twig",
     "./src/main.ts",
     "./src/styles.css"

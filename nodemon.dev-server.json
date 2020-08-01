@@ -2,6 +2,7 @@
     "watch": [
         "cli",
         "dev-server",
+        "examples/spb-page/config.spb.json",
         "builder"
     ],
     "ext": "ts",

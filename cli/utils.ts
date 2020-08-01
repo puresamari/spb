@@ -1,11 +1,12 @@
-import { ExportType } from '@builder/builders/utils';
+import { Builder } from '@builder';
 import { CompielableType } from '@builder/builders/compilers';
-import { Builder } from '@builder/index';
+import { ExportType } from '@builder/builders/utils';
+import { IBuilderOptions } from '@builder/definitions/builder-options';
 import chalk from 'chalk';
+import { Bar, Presets } from 'cli-progress';
 import * as path from 'path';
 
-import { IBuilderOptions } from '@builder/definitions/builder-options';
-import { option } from 'commander';
+import glob from "glob";
 
 export const version: string = (() => {
   try {
@@ -20,8 +21,6 @@ export const version: string = (() => {
 })();
 
 export const basePath = process.cwd();
-import { Bar, Presets } from 'cli-progress';
-
 export interface IMainCommanderOptions {
   out?: string,
   files?: string | string[],
@@ -39,7 +38,7 @@ function getConfig(configPath: string): IBuilderOptions {
     return {
       ...configs,
       output: path.resolve(dir, configs.output),
-      files: configs.files.map(v => path.resolve(dir, v))
+      files: collectFiles(configs.files.map(v => path.join(dir, v)))
     };
   } catch {
     return {
@@ -49,14 +48,25 @@ function getConfig(configPath: string): IBuilderOptions {
   }
 }
 
+export function collectFiles(files: string[]) {
+  let retFiles: string[] = [];
+  files.forEach(pattern => {
+    retFiles = [
+      ...retFiles,
+      ...glob.sync(pattern)
+    ]
+  });
+  return retFiles.map(resolveFilePath);
+}
+
 export function generateConfig(options: IMainCommanderOptions): IBuilderOptions {
   const config: IBuilderOptions = options.config ? getConfig(options.config) || { output: '', files: [] } : { output: '', files: [] };
   if (options.out) { config.output = resolveFilePath(options.out); }
   if (options.files) {
     if (typeof options.files === 'string') {
-      config.files = [resolveFilePath(options.files)];
+      config.files = collectFiles([options.files]);
     } else if (options.files.length > 0) {
-      config.files = options.files.map(resolveFilePath);
+      config.files = collectFiles(options.files);
     }
   }
   return config;

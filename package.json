@@ -1,6 +1,6 @@
 {
   "name": "@puresamari/spb",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A simple build tool for quick website development.",
   "main": "./lib/cli/index.js",
   "bin": {

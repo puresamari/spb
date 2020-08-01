@@ -1,9 +1,8 @@
-import { TypescriptBundler } from '../../../../ts-bundler';
+import { TypescriptBundler } from '@puresamari/ts-bundler';
 import { IBuilderContext } from '../../utils';
 import { ExportType } from '../utils';
 import { Compiler } from './compiler';
 
-// import { TypescriptBundler } from '@puresamari/ts-bundler';
 export default class TypescriptCompiler extends Compiler {
 
   public async compile(

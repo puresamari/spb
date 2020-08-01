@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## WIP
 ### Changed
 - Compiler structure so that a compiler is instanciated when a spb builder option is loaded.
+- Improved re-compilation for watcher and dev-server since the compilers are always instanciated
 
 ## 0.2.2 - 1. August 2020
 ### Changed

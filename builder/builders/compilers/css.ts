@@ -1,11 +1,24 @@
-import * as fs from "fs";
+import fs from "fs";
+import path from 'path';
 import postcss from "postcss";
 
 import { ExportType } from "../utils";
 import { IBuilderContext } from "./../../utils";
 import { Compiler } from './compiler';
 
+// @import './styles/header.css';
+
+const extendsRegex = /@import ("|')(.*?).css("|');/g;
+
 export class CSSCompiler extends Compiler {
+
+  private discoverExternals(cssFile: string) {
+    const pugContent = fs.readFileSync(cssFile, 'utf-8');
+    return pugContent.match(extendsRegex)?.map
+      (v => path.resolve(path.dirname(cssFile), (v.replace(/(@import ("|'))|("|');/g, '')))).filter(function(item, pos, a) {
+        return a.indexOf(item) == pos;
+    });
+  }
 
   public async compile(
     exportPath: string,
@@ -26,7 +39,7 @@ export class CSSCompiler extends Compiler {
               file: this.file,
               path: exportPath,
               type: 'css' as ExportType,
-              affectedFiles: []
+              affectedFiles: this.discoverExternals(this.file)
             });
           });
       } else {
@@ -35,7 +48,7 @@ export class CSSCompiler extends Compiler {
           file: this.file,
           path: exportPath,
           type: 'css' as ExportType,
-          affectedFiles: []
+          affectedFiles: this.discoverExternals(this.file)
         });
       }
       

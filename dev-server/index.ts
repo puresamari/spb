@@ -86,8 +86,8 @@ export class DevServer {
 
     await contextFiles.forEach(async context => {
       [ ...context.files ].forEach(file => {
-        fs.watch(file, (curr, prev) => {
-          this.compileFile(file);
+        fs.watch(file, () => {
+          this.compileFile(context.source);
         });
       });
       await this.compileFile(context.source);

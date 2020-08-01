@@ -95,9 +95,9 @@ export function getProgressBar(builder: Builder) {
 
 export async function build(builder: Builder, progressBar: Bar, file?: string) {
 
-  progressBar.start(file ? 1 : builder.options.files.length, 0);
+  progressBar.start(file ? 1 : builder.Files.length, 0);
 
-  await builder.build(async v => await progressBar.increment(1), file ? [file] : builder.options.files);
+  await builder.build(async v => await progressBar.increment(1), file ? [file] : builder.Files);
   
   progressBar.stop();
 

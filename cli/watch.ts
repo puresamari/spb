@@ -26,9 +26,9 @@ export function make(program: Command) {
       log('');
 
       contextFiles.forEach(context => {
-        [ ...context.files ].forEach(file => {
-          fs.watch(file, (curr, prev) => {
-            build(builder, progressBar, file);
+        [ ...context.files ].forEach((file) => {
+          fs.watch(file, () => {
+            build(builder, progressBar, context.source);
           });
         });
       });

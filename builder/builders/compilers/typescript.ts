@@ -35,8 +35,7 @@ export default class TypescriptCompiler extends Compiler {
     const bundler = new TypescriptBundler(this.file);
     const result = await bundler.bundle();
     return [
-      this.file,
-      ...result.modules.filter((v: any) => !v.node_module).map((v: any) => v)
+      ...result.modules.filter((v: any) => !v.node_module).map((v: any) => v.file)
     ].filter(v => !!v);
   }
 }

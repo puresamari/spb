@@ -1,5 +1,5 @@
 import { ExportType } from './../builder/builders/utils';
-import { CompielableType } from './../builder/builders/compilers/index';
+import { CompielableType } from './../builder/builders/compilers';
 import { Builder } from './../builder/index';
 import chalk from 'chalk';
 import * as path from 'path';

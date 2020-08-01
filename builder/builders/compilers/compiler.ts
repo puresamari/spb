@@ -1,7 +1,7 @@
 import fs from 'fs';
+import { getExportPath } from '../utils';
 
 import { IBuilderContext } from './../../definitions';
-import { ExportType } from './../utils';
 import { BuilderResult, CompilerResult } from './definitions';
 
 export abstract class Compiler {
@@ -11,7 +11,7 @@ export abstract class Compiler {
     
   public async build(file: string, exportPath: string, context: IBuilderContext) {
     const data = await this.compile(file, exportPath, context);
-    fs.writeFileSync(exportPath, data.output);
+    fs.writeFileSync(getExportPath(file, exportPath), data.output);
     return { ...data } as BuilderResult;
   }
     

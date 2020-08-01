@@ -1,4 +1,4 @@
-import { ExportType } from './../utils';
+import { ExportType } from '../utils';
 
 export interface BuilderResult {
   path: string;

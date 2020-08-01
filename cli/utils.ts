@@ -1,10 +1,10 @@
-import { ExportType } from './../builder/builders/utils';
-import { CompielableType } from './../builder/builders/compilers';
-import { Builder } from './../builder/index';
+import { ExportType } from '@builder/builders/utils';
+import { CompielableType } from '@builder/builders/compilers';
+import { Builder } from '@builder/index';
 import chalk from 'chalk';
 import * as path from 'path';
 
-import { IBuilderOptions } from './../builder/definitions/builder-options';
+import { IBuilderOptions } from '@builder/definitions/builder-options';
 import { option } from 'commander';
 
 export const version: string = (() => {

@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 
-import { DevServer } from '../dev-server';
-import { generateConfig, IMainCommanderOptions } from './utils';
+import { DevServer } from './index';
+import { generateConfig, IMainCommanderOptions } from '../utils';
 
 export function make(program: Command) {
   const heat = new Command('dev-server');

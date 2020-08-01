@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 
-import { Builder } from './../builder';
+import { Builder } from '@builder';
 import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder } from './utils';
 
 const log = console.log;

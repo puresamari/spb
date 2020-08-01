@@ -8,5 +8,5 @@
     ],
     "ext": "ts",
     "ignore": ["*.spec.ts"],
-    "exec": "npx node -r ts-node/register cli/index.ts --verbose -c examples/spb-page/config.spb.json"
+    "exec": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts --verbose -c examples/spb-page/config.spb.json"
   }

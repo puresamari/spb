@@ -5,16 +5,18 @@ import { IBuilderContext } from './../../definitions';
 import { BuilderResult, CompilerResult } from './definitions';
 
 export abstract class Compiler {
-  constructor() { }
+  constructor(public readonly file: string) { }
 
-  public abstract async compile(file: string, exportPath: string, context: IBuilderContext): Promise<CompilerResult>;
+  public abstract async compile(exportPath: string, context: IBuilderContext): Promise<CompilerResult>;
     
-  public async build(file: string, exportPath: string, context: IBuilderContext) {
-    const data = await this.compile(file, exportPath, context);
-    fs.writeFileSync(getExportPath(file, exportPath), data.output);
+  public async build(exportPath: string, context: IBuilderContext) {
+    const data = await this.compile(exportPath, context);
+    fs.writeFileSync(getExportPath(this.file, exportPath), data.output);
     return { ...data } as BuilderResult;
   }
     
-  public abstract async getContextFiles(file: string, exportPath: string, context: IBuilderContext): Promise<string[]>;
+  public async getContextFiles( exportPath: string, context: IBuilderContext): Promise<string[]> {
+    return [this.file];
+  }
 
 }

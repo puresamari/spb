@@ -31,7 +31,6 @@ export class Builder {
       contextFiles.push({
         source: files[i],
         files: await this.compilers.get(files[i])!.getContextFiles(
-          files[i],
           this.options.output,
           this.builderContext
         )
@@ -56,7 +55,6 @@ export class Builder {
     await mkdirp(this.options.output);
     for (let i = 0; i < files.length; i++) {
       compiledFiles.push(await this.compilers.get(files[i])!.compile(
-        files[i],
         this.options.output,
         this.builderContext
       ));
@@ -76,7 +74,6 @@ export class Builder {
     await mkdirp(this.options.output);
     for (let i = 0; i < files.length; i++) {
       const built = await this.compilers.get(files[i])!.build(
-        files[i],
         this.options.output,
         this.builderContext
       );

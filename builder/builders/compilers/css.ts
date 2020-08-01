@@ -8,23 +8,22 @@ import { Compiler } from './compiler';
 export class CSSCompiler extends Compiler {
 
   public async compile(
-    file: string,
     exportPath: string,
     context: IBuilderContext
   ) {
     const plugins = (context.options.compilers?.postcss?.plugins || []).map(
       require
     );
-    let output = fs.readFileSync(file, "utf8");
+    let output = fs.readFileSync(this.file, "utf8");
     return new Promise<any>(resolve => {
     
       if (plugins.length > 0) {
         // output = await postcss(plugins).process(output, { from: file, to: exportPath }).css
-        postcss(plugins).process(output, { from: file, to: exportPath })
+        postcss(plugins).process(output, { from: this.file, to: exportPath })
           .then((result) => {
             resolve({
               output: result.css,
-              file,
+              file: this.file,
               path: exportPath,
               type: 'css' as ExportType,
               affectedFiles: []
@@ -33,7 +32,7 @@ export class CSSCompiler extends Compiler {
       } else {
         resolve({
           output: output,
-          file,
+          file: this.file,
           path: exportPath,
           type: 'css' as ExportType,
           affectedFiles: []
@@ -42,10 +41,4 @@ export class CSSCompiler extends Compiler {
       
     })
   }
-
-  public async getContextFiles(
-    file: string,
-    exportPath: string,
-    context: IBuilderContext
-  ): Promise<string[]> { return [file]; }
 }

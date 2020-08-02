@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.3.0 - 2. August 2020
+### Changed
+- Config file data aquiration from require to fs.readfilesync for the application
+- Exposing native .ts files for now
+
 ## 0.2.8 - 2. August 2020
 ### Added
 - Deep dependency discovery for `.twig`, `.pug` and `.css` files

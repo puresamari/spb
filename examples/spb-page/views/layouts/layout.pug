@@ -5,7 +5,8 @@ html
       link(rel="stylesheet", type="text/css", href=stylesheet)
   
   body
-    header This is a website
+    include ./header.pug
+    p Below
     block content
     each script in spb.scripts
       script(type="text/javascript", src=script)

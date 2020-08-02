@@ -4,21 +4,17 @@ import { twig } from "twig";
 
 import { ExportType } from "../utils";
 import { IBuilderContext } from "./../../utils";
-import { Compiler } from "./compiler";
+import { AutoDiscoverCompiler, Compiler } from "./compiler";
 
 const pretty = require("pretty");
 
 const extendsRegex = /{% (extends|include) ("|')(.*?).twig("|') %}/g;
+const removeRegex = /({% (extends|include) ("|'))|(("|') %})/g;
 
-export class TWIGCompiler extends Compiler {
+export class TWIGCompiler extends AutoDiscoverCompiler {
 
-  private discoverExternals(twigFile: string) {
-    const pugContent = fs.readFileSync(twigFile, 'utf-8');
-    return pugContent.match(extendsRegex)?.map
-      (v => path.resolve(path.dirname(twigFile), (v.replace(/({% (extends|include) ("|'))|("|') %}/g, '')))).filter(function(item, pos, a) {
-        return a.indexOf(item) == pos;
-    });
-  }
+  public readonly discoverExpression = /{% (extends|include) ("|')(.*?).twig("|') %}/g;
+  public readonly removeExpression = /({% (extends|include) ("|'))|(("|') %})/g;
 
   public async compile(
     exportPath: string,

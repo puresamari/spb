@@ -18035,6 +18035,9 @@ video {
 
 h1 {
   font-size: 1.5rem;
+  --text-opacity: 1;
+  color: #f56565;
+  color: rgba(245, 101, 101, var(--text-opacity));
 }
 
 @media (min-width: 640px) {

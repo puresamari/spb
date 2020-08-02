@@ -1,24 +1,15 @@
 import fs from "fs";
-import path from 'path';
 import postcss from "postcss";
 
 import { ExportType } from "../utils";
 import { IBuilderContext } from "./../../utils";
-import { Compiler } from './compiler';
-
-// @import './styles/header.css';
+import { AutoDiscoverCompiler, Compiler } from './compiler';
 
 const extendsRegex = /@import ("|')(.*?).css("|');/g;
 
-export class CSSCompiler extends Compiler {
-
-  private discoverExternals(cssFile: string) {
-    const pugContent = fs.readFileSync(cssFile, 'utf-8');
-    return pugContent.match(extendsRegex)?.map
-      (v => path.resolve(path.dirname(cssFile), (v.replace(/(@import ("|'))|("|');/g, '')))).filter(function(item, pos, a) {
-        return a.indexOf(item) == pos;
-    });
-  }
+export class CSSCompiler extends AutoDiscoverCompiler {
+  public readonly discoverExpression = /@import ("|')(.*?).css("|');/g;
+  public readonly removeExpression = /(@import ("|'))|("|');/g;
 
   public async compile(
     exportPath: string,

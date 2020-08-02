@@ -1,10 +1,10 @@
-html
+html.bg-gray-900
   head
     title Simple page builder
     each stylesheet in spb.stylesheets
       link(rel="stylesheet", type="text/css", href=stylesheet)
   
-  body.flex.flex-col.min-h-full
+  body.text-white.flex.flex-col.min-h-full.p-4.mx-auto.text-center(class="md:w-1/2")
     include ./header.pug
     block content
     .flex.flex-1

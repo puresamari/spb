@@ -28,6 +28,9 @@ export class DevServer {
     this.start();
   }
 
+  public get ServerURL() { return `http://localhost:${this.devServerOptions.port}`; }
+  public get WebSocketURL() { return `ws://localhost:${this.devServerOptions.socketPort}`; }
+
   private files = new Map<string, CompilerResult>();
 
   private sockets = new Map<string, WebSocket>();
@@ -77,8 +80,12 @@ export class DevServer {
     this.reload();
   }
 
+  public async getWatchingFiles() {
+    return await this.builder.getContextFiles()
+  }
+
   private async start() {
-    const contextFiles = await this.builder.getContextFiles();
+    const contextFiles = await this.getWatchingFiles();
       
     log('Watching files');
     contextFiles.map(v => v.files.map(file => chalk.underline.blue(file)).join('\n  ')).forEach(v => log('  ' + v));
@@ -145,8 +152,8 @@ export class DevServer {
 
     log(`
 Starded development servers 
-  http: ${chalk.blue(`http://localhost:${this.devServerOptions.port}/`)}
-  ws:   ${chalk.blue(`ws://localhost:${this.devServerOptions.socketPort}/`)}
+  http: ${chalk.blue(this.ServerURL)}
+  ws:   ${chalk.blue(this.WebSocketURL)}
 `);
 
   }

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { Builder } from '../builder';
 import { CompielableType } from '../builder/builders/compilers';
 import { ExportType } from '../builder/builders/utils';
@@ -33,14 +34,17 @@ export function resolveFilePath(file: string) {
 
 function getConfig(configPath: string): IBuilderOptions {
   const dir = path.dirname(configPath);
+  console.log(dir);
   try {
-    const configs = require(resolveFilePath(configPath)) as IBuilderOptions;
+    const configs = JSON.parse(fs.readFileSync(resolveFilePath(configPath), 'utf-8')) as IBuilderOptions;
+    // const configs = require(resolveFilePath(configPath)) as IBuilderOptions;
     return {
       ...configs,
       output: path.resolve(dir, configs.output),
       files: collectFiles(configs.files.map(v => path.join(dir, v)))
     };
-  } catch {
+  } catch (e) {
+    console.error('error while getting config', configPath, e);
     return {
       output: path.resolve(dir, 'dist'),
       files: []

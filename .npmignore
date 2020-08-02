@@ -1,10 +1,8 @@
 .DS_Store
-cli/
 node_modules/
 index.html
 nodemon.json
 nodemon.watch.json
-builder/
 .git
 .git/
 .gitattributes

@@ -1,0 +1,17 @@
+{
+  "$schema": "../../lib/config.schema.json",
+  "files": [
+    "./views/*.pug",
+    "./views-twig/index-twig.twig"
+  ],
+  "output": "../../dist",
+  "compilers": {
+    "postcss": {
+      "plugins": [
+        "precss",
+        "tailwindcss",
+        "autoprefixer"
+      ]
+    }
+  }
+}

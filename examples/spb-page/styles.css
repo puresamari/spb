@@ -9,3 +9,10 @@
 h1 {
   @apply text-2xl text-red-500;
 }
+
+a[href] {
+  @apply text-blue-500;
+  &:not(:hover) {
+    @apply underline;
+  }
+}

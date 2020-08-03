@@ -18033,11 +18033,31 @@ video {
           animation: bounce 1s infinite;
 }
 
+header {
+  --text-opacity: 1;
+  color: #4299e1;
+  color: rgba(66, 153, 225, var(--text-opacity));
+}
+
+header .logo {
+  margin: 1rem;
+}
+
 h1 {
   font-size: 1.5rem;
   --text-opacity: 1;
   color: #f56565;
   color: rgba(245, 101, 101, var(--text-opacity));
+}
+
+a[href] {
+  --text-opacity: 1;
+  color: #4299e1;
+  color: rgba(66, 153, 225, var(--text-opacity))
+}
+
+a[href]:not(:hover) {
+  text-decoration: underline;
 }
 
 @media (min-width: 640px) {

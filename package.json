@@ -16,7 +16,7 @@
     "test": "npm i -g && spb -o dist --files examples/hello-world/pages/test-from-cli.pug examples/hello-world/styles.css examples/hello-world/main.ts && spb -o dist -c examples/hello-world/config.spb.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test",
-    "publish-pages": "ts-node ./publish-pages.ts"
+    "publish-pages": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts --verbose -c examples/spb-page/config.spb.json && ts-node ./publish-pages.ts"
   },
   "keywords": [
     "buildsystem",
@@ -59,7 +59,7 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@puresamari/ts-bundler": "0.0.4",
+    "@puresamari/ts-bundler": "0.0.6",
     "chalk": "^4.1.0",
     "cli-progress": "^3.8.2",
     "commander": "^6.0.0",

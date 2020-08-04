@@ -34,7 +34,6 @@ export function resolveFilePath(file: string) {
 
 function getConfig(configPath: string): IBuilderOptions {
   const dir = path.dirname(configPath);
-  console.log(dir);
   try {
     const configs = JSON.parse(fs.readFileSync(resolveFilePath(configPath), 'utf-8')) as IBuilderOptions;
     // const configs = require(resolveFilePath(configPath)) as IBuilderOptions;

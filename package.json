@@ -59,7 +59,7 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@puresamari/ts-bundler": "0.0.6",
+    "@puresamari/ts-bundler": "0.0.7",
     "chalk": "^4.1.0",
     "cli-progress": "^3.8.2",
     "commander": "^6.0.0",

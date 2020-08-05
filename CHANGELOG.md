@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.3.4 - 5. August 2020
 ### Changed
-- Upgraded `@puresamari/ts-bundler` to v0.0.7 for compatibility for the bundler application
+- Upgraded `@puresamari/ts-bundler` to `v0.0.7` for compatibility for the bundler application
 
 ## 0.3.3 - 4. August 2020
 ### Changed

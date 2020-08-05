@@ -6,7 +6,7 @@
 
 ## App
 
-The simple page builder also has an application you can download [for mac](https://github.com/puresamari/spb-app/releases/download/v0.0.2/SPB.zip) (Its in really early development phase).
+The simple page builder also has an application you can download [for mac](https://github.com/puresamari/spb-app/releases/download/v0.0.3/SPB.zip) (Its in really early development phase).
 
 ## Examples
 - This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)

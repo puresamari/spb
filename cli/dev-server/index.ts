@@ -161,17 +161,6 @@ Starded development servers
 `);
 
   }
-
-  // async close() {
-  //   const new 
-  //   for (const socket of sockets) {
-  //     socket.destroy();
-  
-  //     sockets.delete(socket);
-  //   }
-  
-  //   server.close(callback);
-  // };
   
 
   public async destroy() {
@@ -199,22 +188,6 @@ Starded development servers
       }
 
       check();
-      // const sRunning = () => {
-      //   if (
-      //     (!this.webserver || this.webserver.listening) &&
-      //     (!this.websocket || (this.websocket as any)._server.listening)
-      //   ) {
-      //     resolve();
-      //   } else {
-      //     console.log(this.webserver?.listening)
-      //     setTimeout(() => sRunning(), 100);
-      //   }
-      //   // console.log('server', this.webserver?.listening)
-      //   // if (this.websocket) {
-      //   //   console.log('socket', (this.websocket as any)._server.listening)
-      //   // }
-      // }
-      // sRunning();
     });
   }
 

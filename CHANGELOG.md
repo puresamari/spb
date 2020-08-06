@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.3.6 - 6. August 2020
 ### Added
-- Added destroy function to dev-server
+- Added destroy function to `dev-server`
 
 ## 0.3.4 - 5. August 2020
 ### Changed

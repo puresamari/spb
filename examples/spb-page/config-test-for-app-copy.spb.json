@@ -1,9 +1,9 @@
 {
   "$schema": "../../lib/config.schema.json",
   "files": [
-    "./pages/index.twig",
-    "./pages/docs.twig",
-    "./main.ts"
+    "./views/*.pug",
+    "./main.ts",
+    "./views-twig/index-twig.twig"
   ],
   "output": "../../dist",
   "compilers": {

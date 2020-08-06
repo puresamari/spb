@@ -28,6 +28,9 @@ export class DevServer {
     this.start();
   }
 
+  public webserver?: http.Server;
+  public websocket?: WebSocket.Server;
+
   public get ServerURL() { return `http://localhost:${this.devServerOptions.port}`; }
   public get WebSocketURL() { return `ws://localhost:${this.devServerOptions.socketPort}`; }
 
@@ -85,6 +88,7 @@ export class DevServer {
   }
 
   private async start() {
+    this.destroy();
     const contextFiles = await this.getWatchingFiles();
       
     log('Watching files');
@@ -101,7 +105,7 @@ export class DevServer {
     });
 
     
-    const server = http.createServer((req, res) => {
+    this.webserver = http.createServer((req, res) => {
       if (!req.url || !this.files.has(req.url.slice(1))) {
         res.writeHead(404);
         res.end(`
@@ -120,7 +124,7 @@ export class DevServer {
       res.end(requestedFile.output);
     });
 
-    server.listen(this.devServerOptions.port);
+    this.webserver.listen(this.devServerOptions.port);
     // var net = require("net");
 
     // function createSocket(socket = new net.Socket(options)){
@@ -130,10 +134,10 @@ export class DevServer {
 
     // exports.createSocket = createSocket;
  
-    const wss = new WebSocket.Server({ port: this.devServerOptions.socketPort });
+    this.websocket = new WebSocket.Server({ port: this.devServerOptions.socketPort });
     
     let index = 0;
-    wss.on('connection', (ws) => {
+    this.websocket.on('connection', (ws) => {
       index += 1;
       this.sockets.set('' + index, ws);
       ws.on('close', () => {
@@ -156,6 +160,62 @@ Starded development servers
   ws:   ${chalk.blue(this.WebSocketURL)}
 `);
 
+  }
+
+  // async close() {
+  //   const new 
+  //   for (const socket of sockets) {
+  //     socket.destroy();
+  
+  //     sockets.delete(socket);
+  //   }
+  
+  //   server.close(callback);
+  // };
+  
+
+  public async destroy() {
+    return new Promise(resolve => {
+      let closed: { [key: string]: boolean } = {};
+
+      const check = () => {
+        if (Object.values(closed).filter(v => !!v).length === 0) { resolve(); }
+      }
+
+      if (this.webserver) {
+        closed['webserver'] = false;
+        this.webserver!.close(() => {
+          closed['webserver'] = true;
+          check();
+        });
+      }
+
+      if (this.websocket) {
+        closed['websocket'] = false;
+        this.websocket!.close(() => {
+          closed['websocket'] = true;
+          check();
+        });
+      }
+
+      check();
+      // const sRunning = () => {
+      //   if (
+      //     (!this.webserver || this.webserver.listening) &&
+      //     (!this.websocket || (this.websocket as any)._server.listening)
+      //   ) {
+      //     resolve();
+      //   } else {
+      //     console.log(this.webserver?.listening)
+      //     setTimeout(() => sRunning(), 100);
+      //   }
+      //   // console.log('server', this.webserver?.listening)
+      //   // if (this.websocket) {
+      //   //   console.log('socket', (this.websocket as any)._server.listening)
+      //   // }
+      // }
+      // sRunning();
+    });
   }
 
 }

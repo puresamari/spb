@@ -38,6 +38,8 @@ export class DevServer {
 
   private sockets = new Map<string, WebSocket>();
 
+  private watchers: fs.FSWatcher[] = [];
+
   private async reload() {
     [ ...this.sockets.values() ].forEach(socket => socket.send('reload'));
   }
@@ -97,9 +99,9 @@ export class DevServer {
 
     await contextFiles.forEach(async context => {
       [ ...context.files ].forEach(file => {
-        fs.watch(file, () => {
+        this.watchers.push(fs.watch(file, () => {
           this.compileFile(context.source);
-        });
+        }));
       });
       await this.compileFile(context.source);
     });
@@ -164,28 +166,31 @@ Starded development servers
   
 
   public async destroy() {
-    return new Promise(resolve => {
-      let closed: { [key: string]: boolean } = {};
+    let closed: { [key: string]: boolean } = {};
 
+    if (this.webserver) { closed['webserver'] = false; }
+    if (this.websocket) { closed['websocket'] = false; }
+
+    return new Promise(resolve => {
       const check = () => {
         if (Object.values(closed).filter(v => !!v).length === 0) { resolve(); }
       }
 
       if (this.webserver) {
-        closed['webserver'] = false;
-        this.webserver!.close(() => {
+        this.webserver?.close(() => {
           closed['webserver'] = true;
           check();
         });
       }
 
       if (this.websocket) {
-        closed['websocket'] = false;
-        this.websocket!.close(() => {
+        this.websocket?.close(() => {
           closed['websocket'] = true;
           check();
         });
       }
+
+      this.watchers.forEach(v => v.close());
 
       check();
     });

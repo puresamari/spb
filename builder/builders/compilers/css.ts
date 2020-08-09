@@ -1,4 +1,6 @@
-import fs from "fs";
+import fs from 'fs';
+import path from 'path';
+import resolve from 'resolve';
 import postcss from "postcss";
 
 import { ExportType } from "../utils";
@@ -6,6 +8,13 @@ import { IBuilderContext } from "./../../utils";
 import { AutoDiscoverCompiler, Compiler } from './compiler';
 
 const extendsRegex = /@import ("|')(.*?).css("|');/g;
+
+export function reqRes(file: string, basedir: string): string {
+  if (path.extname(file) !== '') { return file; }
+  const module = file.split('/')[file.split('/').length - 1];
+  const res = resolve.sync(module, { basedir });
+  return res;
+}
 
 export class CSSCompiler extends AutoDiscoverCompiler {
   public readonly discoverExpression = /@import ("|')(.*?).css("|');/g;
@@ -15,14 +24,20 @@ export class CSSCompiler extends AutoDiscoverCompiler {
     exportPath: string,
     context: IBuilderContext
   ) {
+    const absDir = path.dirname(path.join(__filename));
     const plugins = (context.options.compilers?.postcss?.plugins || []).map(
-      require
+      v => {
+        const file = path.dirname(reqRes(v, path.dirname(this.file)));
+        const dir = absDir;
+        const resolved = path.relative(dir, file);
+        console.log(file, dir, resolved);
+        return require(resolved)
+      }
     );
     let output = fs.readFileSync(this.file, "utf8");
     return new Promise<any>(resolve => {
     
       if (plugins.length > 0) {
-        // output = await postcss(plugins).process(output, { from: file, to: exportPath }).css
         postcss(plugins).process(output, { from: this.file, to: exportPath })
           .then((result) => {
             resolve({

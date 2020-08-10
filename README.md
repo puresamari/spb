@@ -16,7 +16,11 @@ The simple page builder also has an application you can download or you can chec
 - More features to come...
   
 ### Downloads 
-- [Mac .dmg](https://github.com/puresamari/spb-app/releases/download/0.1.0/SPB.0.1.0.dmg) *(I still have to fully sign it so its going to warn you that im not trustworthy)* 
+
+#### Mac
+*(I still have to fully sign it so its going to warn you that im not trustworthy)* 
+- ~~[.dmg](https://github.com/puresamari/spb-app/releases/download/0.1.0/SPB.0.1.0.dmg)~~ The dmg has an issue on most system please use the .app file
+- [.app](https://github.com/puresamari/spb-app/releases/download/0.1.0/SPB-mac.zip)
   
 
 ## Examples

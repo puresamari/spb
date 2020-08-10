@@ -5,8 +5,19 @@
 `SPB` is a really simple build tool, designed to just take input fields and automatically generate files without the hassle of creating a bloated config file.
 
 ## App
+[![version](https://img.shields.io/badge/version-0.1.0-yellow.svg)](https://semver.org)
 
-The simple page builder also has an application you can download [for mac](https://github.com/puresamari/spb-app/releases/download/v0.0.8/SPB-mac.zip) (Its in really early development phase).
+The simple page builder also has an application you can download or you can checkout the [repository](https://github.com/puresamari/spb-app).
+
+### Available features
+- Run a fully functional spb-dev-server from different *.spb.json files
+- Create new projects (spb.json files).
+- Have multiple projects listed and switch between them.
+- More features to come...
+  
+### Downloads 
+- [Mac .dmg](https://github.com/puresamari/spb-app/releases/download/0.1.0/SPB.0.1.0.dmg) *(I still have to fully sign it so its going to warn you that im not trustworthy)* 
+  
 
 ## Examples
 - This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)

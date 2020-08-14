@@ -18,3 +18,5 @@ examples/
 lib/publish-pages.js
 lib/examples
 publish-pages.ts
+builder/
+cli/

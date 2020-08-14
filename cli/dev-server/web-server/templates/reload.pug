@@ -1,0 +1,16 @@
+script(type="text/javascript").
+  var connection = new WebSocket({{websocketUrl}});
+
+  /* connection.addEventListener('reload', function incoming(message) {
+    alert('please reload');
+  }); */
+
+  connection.addEventListener('message', function (event) {
+    switch (event.data) {
+      case 'reload':
+        window.location.href = window.location.href;
+        return;
+      default:
+        console.log('unknown event', event);
+    }
+  });

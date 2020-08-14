@@ -1,52 +1,44 @@
-import path from 'path';
-import net from 'net';
-import http from 'http';
-import fs from 'fs';
 import chalk from 'chalk';
-import WebSocket from 'ws';
+import fs from 'fs';
+import path from 'path';
+import { BehaviorSubject } from 'rxjs';
 
 import { Builder } from '../../builder';
 import { CompilerResult } from '../../builder/builders/compilers/definitions';
 import { ExportType } from '../../builder/builders/utils';
 import { IBuilderOptions } from '../../builder/definitions/builder-options';
+import { WebServer } from './web-server';
 
 const log = console.log;
 
 export class DevServer {
 
   private readonly builder: Builder;
+  public readonly webSever?: WebServer;
 
   constructor(
     public readonly options: IBuilderOptions,
-    private readonly devServerOptions = {
+    public readonly devServerOptions = {
       port: 5678,
       socketPort: 5679
     }
   ) {
     this.builder = new Builder(options);
 
+    this.webSever = new WebServer(options, this.files.asObservable(), devServerOptions);
+
     this.start();
   }
 
-  public webserver?: http.Server;
-  public websocket?: WebSocket.Server;
-
-  public get ServerURL() { return `http://localhost:${this.devServerOptions.port}`; }
-  public get WebSocketURL() { return `ws://localhost:${this.devServerOptions.socketPort}`; }
-
-  private files = new Map<string, CompilerResult>();
-
-  private sockets = new Map<string, WebSocket>();
-
   private watchers: fs.FSWatcher[] = [];
 
-  private async reload() {
-    [ ...this.sockets.values() ].forEach(socket => socket.send('reload'));
-  }
-
+  private files = new BehaviorSubject(new Map<string, CompilerResult>());
+  
   private async compileFile(file: string) {
     const exportPath = this.builder.getExportPathOfFile(file);
     if (!exportPath) { return; }
+
+    const files = this.files.getValue();
 
     const results = await this.builder.compile(
       async (localFile: { path: string; type: ExportType; affectedFiles: string[]; }) =>
@@ -54,35 +46,20 @@ export class DevServer {
       [file]
     );
 
-    results.forEach(({ output, ...v }) => {
-      if (v.type === 'html') {
-        output += `
-<script type="text/javascript">
-  var connection = new WebSocket('ws://localhost:${this.devServerOptions.socketPort}');
-
-  /* connection.addEventListener('reload', function incoming(message) {
-    alert('please reload');
-  }); */
-
-  connection.addEventListener('message', function (event) {
-    switch (event.data) {
-      case 'reload':
-        window.location.href = window.location.href;
-        return;
-      default:
-        console.log('unknown event', event);
-    }
-  });
-</script>
-`;
-      }
-      this.files.set(path.relative(this.builder.options.output, exportPath), {
-        ...v,
+    results.forEach((file) => {
+      const { output } = this.webSever!.processFile(file);
+      files.set(path.relative(this.builder.options.output, exportPath), {
+        ...file,
         output
       });
     });
 
-    this.reload();
+    this.files.next(files);
+  }
+
+  // TODO: Somehow make the builder push changes rather than checking for them.
+  public async getWatchingFilesObservable() {
+    return await this.builder.getContextFiles()
   }
 
   public async getWatchingFiles() {
@@ -90,7 +67,7 @@ export class DevServer {
   }
 
   private async start() {
-    this.destroy();
+    
     const contextFiles = await this.getWatchingFiles();
       
     log('Watching files');
@@ -106,94 +83,11 @@ export class DevServer {
       await this.compileFile(context.source);
     });
 
-    
-    this.webserver = http.createServer((req, res) => {
-      if (!req.url || !this.files.has(req.url.slice(1))) {
-        res.writeHead(404);
-        res.end(`
-<h1>The requested resource (${(req.url || '/unknown').slice(1)}) is not available</h1>
-<h3>These files are available</h3>
-<ul>
-  ${[...this.files.keys()].map(file => `<li><a href="${file}">${file}</a></li>`).join('\n')}
-</ul>
-`);
-        return;
-      }
-
-      const requestedFile = this.files.get(req.url.slice(1))!;
-
-      res.writeHead(200);
-      res.end(requestedFile.output);
-    });
-
-    this.webserver.listen(this.devServerOptions.port);
-    // var net = require("net");
-
-    // function createSocket(socket = new net.Socket(options)){
-    // }
-    // var s = new net.Socket({ });
-    // s.write("hello!");
-
-    // exports.createSocket = createSocket;
- 
-    this.websocket = new WebSocket.Server({ port: this.devServerOptions.socketPort });
-    
-    let index = 0;
-    this.websocket.on('connection', (ws) => {
-      index += 1;
-      this.sockets.set('' + index, ws);
-      ws.on('close', () => {
-        this.sockets.delete('' + index);
-      });
-    });
-
-    // var s = new net.Socket();
-
-    // s.on("data", function(data) {
-    //   console.log("data received:", data);
-    // });
-    // s.connect(this.devServerOptions.socketPort, function(){
-    //   s.write("hello!");
-    // });
-
-    log(`
-Starded development servers 
-  http: ${chalk.blue(this.ServerURL)}
-  ws:   ${chalk.blue(this.WebSocketURL)}
-`);
-
   }
   
 
   public async destroy() {
-    let closed: { [key: string]: boolean } = {};
-
-    if (this.webserver) { closed['webserver'] = false; }
-    if (this.websocket) { closed['websocket'] = false; }
-
-    return new Promise(resolve => {
-      const check = () => {
-        if (Object.values(closed).filter(v => !!v).length === 0) { resolve(); }
-      }
-
-      if (this.webserver) {
-        this.webserver?.close(() => {
-          closed['webserver'] = true;
-          check();
-        });
-      }
-
-      if (this.websocket) {
-        this.websocket?.close(() => {
-          closed['websocket'] = true;
-          check();
-        });
-      }
-
-      this.watchers.forEach(v => v.close());
-
-      check();
-    });
+    return this.webSever!.destroy();
   }
 
 }

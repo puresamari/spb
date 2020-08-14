@@ -1,7 +1,8 @@
 import chalk from 'chalk';
-import fs from 'fs';
+import fs, { watch } from 'fs';
 import path from 'path';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, timer, of, from, Subscription } from 'rxjs';
+import { mergeMap, filter, tap } from 'rxjs/operators';
 
 import { Builder } from '../../builder';
 import { CompilerResult } from '../../builder/builders/compilers/definitions';
@@ -15,6 +16,8 @@ export class DevServer {
 
   private readonly builder: Builder;
   public readonly webSever?: WebServer;
+
+  private watcherSub?: Subscription;
 
   constructor(
     public readonly options: IBuilderOptions,
@@ -58,8 +61,13 @@ export class DevServer {
   }
 
   // TODO: Somehow make the builder push changes rather than checking for them.
-  public async getWatchingFilesObservable() {
-    return await this.builder.getContextFiles()
+  public getWatchingFilesObservable() {
+    let files: { source: string; files: string[]; }[] = [];
+    return timer(0, 2000).pipe(
+      mergeMap(() => from(this.builder.getContextFiles())),
+      filter(v => JSON.stringify(v) !== JSON.stringify(files)),
+      tap(v => files = v)
+    )
   }
 
   public async getWatchingFiles() {
@@ -67,26 +75,36 @@ export class DevServer {
   }
 
   private async start() {
-    
-    const contextFiles = await this.getWatchingFiles();
-      
-    log('Watching files');
-    contextFiles.map(v => v.files.map(file => chalk.underline.blue(file)).join('\n  ')).forEach(v => log('  ' + v));
-    log('');
 
-    await contextFiles.forEach(async context => {
-      [ ...context.files ].forEach(file => {
-        this.watchers.push(fs.watch(file, () => {
-          this.compileFile(context.source);
-        }));
+    this.watcherSub = this.getWatchingFilesObservable().subscribe(async contextFiles =>{
+      
+      // const contextFiles = this.getWatchingFiles();
+        
+      log('Watching files');
+      contextFiles.map(v => v.files.map(file => chalk.underline.blue(file)).join('\n  ')).forEach(v => log('  ' + v));
+      log('');
+
+      this.watchers.forEach(watcher => {
+        watcher.close();
+      })
+  
+      await contextFiles.forEach(async context => {
+        [ ...context.files ].forEach(file => {
+          this.watchers.push(fs.watch(file, () => {
+            this.compileFile(context.source);
+          }));
+        });
+        await this.compileFile(context.source);
       });
-      await this.compileFile(context.source);
-    });
+
+    })
+    
 
   }
   
 
   public async destroy() {
+    this.watcherSub?.unsubscribe();
     return this.webSever!.destroy();
   }
 

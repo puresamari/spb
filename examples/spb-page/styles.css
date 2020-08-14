@@ -2,9 +2,9 @@
 
 @tailwind components;
 
-@tailwind utilities;
-
 @import './styles/header.css';
+
+@tailwind utilities;
 
 h1 {
   @apply text-2xl text-red-500;

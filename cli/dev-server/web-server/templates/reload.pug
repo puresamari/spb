@@ -1,5 +1,5 @@
 script(type="text/javascript").
-  var connection = new WebSocket({{websocketUrl}});
+  var connection = new WebSocket('#{websocketUrl}');
 
   /* connection.addEventListener('reload', function incoming(message) {
     alert('please reload');

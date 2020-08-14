@@ -46,6 +46,7 @@ export class WebServer {
 
     filesObservable.subscribe(v => {
       this.files = v;
+      this.reload();
     });
     
     this.webserver = http.createServer((req, res) => {

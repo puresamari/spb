@@ -7,6 +7,8 @@ import { AutoDiscoverCompiler, Compiler } from './compiler';
 
 const extendsRegex = /@import ("|')(.*?).css("|');/g;
 
+declare var __webpack_require__: any;
+
 export class CSSCompiler extends AutoDiscoverCompiler {
   public readonly discoverExpression = /@import ("|')(.*?).css("|');/g;
   public readonly removeExpression = /(@import ("|'))|("|');/g;
@@ -15,9 +17,18 @@ export class CSSCompiler extends AutoDiscoverCompiler {
     exportPath: string,
     context: IBuilderContext
   ) {
-    const plugins = (context.options.compilers?.postcss?.plugins || []).map(
-      require
-    );
+    const plugins = (context.options.compilers?.postcss?.plugins || []).map(v => {
+      if (typeof __webpack_require__ === 'function') {
+        // if spb is compiled with webpack, we need to explicitly require the postcss plugins.
+        switch (v) {
+          case 'tailwindcss': return require('tailwindcss');
+          case 'autoprefixer': return require('autoprefixer');
+          default:
+            throw new Error('When compiling spb with webpack the postcss plugins have to be required explicitly for its bundler. Consider adding your postcss plugin to the list of plugins in the spb repo: https://github.com/puresamari/spb/blob/master/builder/builders/compilers/css.ts#L22');
+        }
+      }
+      return require(v);
+    });
     let output = fs.readFileSync(this.file, "utf8");
     return new Promise<any>(resolve => {
     

@@ -3,6 +3,7 @@ node_modules/
 index.html
 nodemon.json
 nodemon.watch.json
+nodemon.dev-server.json
 .git
 .git/
 .gitattributes

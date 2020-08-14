@@ -1,6 +1,6 @@
 {
   "name": "@puresamari/spb",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "A simple build tool for quick website development.",
   "main": "./lib/cli/index.js",
   "bin": {
@@ -11,7 +11,7 @@
     "start:watch": "nodemon --config nodemon.watch.json",
     "start:dev-server": "nodemon --config nodemon.dev-server.json",
     "create": "npm run build && npm run test",
-    "build": "rm -rf lib && tsc -p . && npm run build:schema",
+    "build": "rm -rf lib && tsc -p . && cp -R cli/dev-server/web-server/templates lib/cli/dev-server/web-server && npm run build:schema",
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
     "test": "npm i -g && spb -o dist --files examples/hello-world/pages/test-from-cli.pug examples/hello-world/styles.css examples/hello-world/main.ts && spb -o dist -c examples/hello-world/config.spb.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",

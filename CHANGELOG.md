@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 0.4.6 - 14. August 2020
+### Added
+- Switch between explicit postcss plugin require for webpack and implicit for nodejs based applications.
+
 ## 0.4.3 - 14. August 2020
 ### Added
 - Dynamically add new dependencies while watching or running dev-server.

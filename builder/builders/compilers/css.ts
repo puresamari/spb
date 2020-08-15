@@ -9,9 +9,15 @@ const extendsRegex = /@import ("|')(.*?).css("|');/g;
 
 declare var __webpack_require__: any;
 
+export const SUPPORTED_PLUGINS_FOR_WEBPACK = [
+  'tailwindcss',
+  'autoprefixer'
+]
+
 export class CSSCompiler extends AutoDiscoverCompiler {
   public readonly discoverExpression = /@import ("|')(.*?).css("|');/g;
   public readonly removeExpression = /(@import ("|'))|("|');/g;
+
 
   public async compile(
     exportPath: string,

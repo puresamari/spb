@@ -1,13 +1,13 @@
 import chalk from 'chalk';
-import fs, { watch } from 'fs';
+import fs from 'fs';
 import path from 'path';
-import { BehaviorSubject, timer, of, from, Subscription } from 'rxjs';
-import { mergeMap, filter, tap } from 'rxjs/operators';
+import { from, Subscription, timer } from 'rxjs';
+import { filter, mergeMap, tap } from 'rxjs/operators';
 
 import { Builder } from '../../builder';
-import { CompilerResult } from '../../builder/builders/compilers/definitions';
 import { ExportType } from '../../builder/builders/utils';
 import { IBuilderOptions } from '../../builder/definitions/builder-options';
+import { CompilationMap, CompilationStatus } from './compilation-map';
 import { WebServer } from './web-server';
 
 const log = console.log;
@@ -19,6 +19,10 @@ export class DevServer {
 
   private watcherSub?: Subscription;
 
+  private watchers: fs.FSWatcher[] = [];
+
+  private readonly files: CompilationMap;
+
   constructor(
     public readonly options: IBuilderOptions,
     public readonly devServerOptions = {
@@ -28,36 +32,45 @@ export class DevServer {
   ) {
     this.builder = new Builder(options);
 
-    this.webSever = new WebServer(options, this.files.asObservable(), devServerOptions);
+    this.files = new CompilationMap(options);
+
+    this.webSever = new WebServer(options, this.Files, devServerOptions);
 
     this.start();
   }
-
-  private watchers: fs.FSWatcher[] = [];
-
-  private files = new BehaviorSubject(new Map<string, CompilerResult>());
+  public get Files() {
+    return this.files.asObservable(); 
+  }
   
   private async compileFile(file: string) {
     const exportPath = this.builder.getExportPathOfFile(file);
     if (!exportPath) { return; }
+    const eFile = path.relative(this.builder.options.output, exportPath);
 
-    const files = this.files.getValue();
-
-    const results = await this.builder.compile(
+    this.files.changeFile(eFile);
+    
+    const result = (await this.builder.compile(
       async (localFile: { path: string; type: ExportType; affectedFiles: string[]; }) =>
         new Promise<void>(resolve => { console.log('compiled', file); resolve() }),
       [file]
-    );
+    ))[0];
 
-    results.forEach((file) => {
-      const { output } = this.webSever!.processFile(file);
-      files.set(path.relative(this.builder.options.output, exportPath), {
-        ...file,
-        output
+    const fileOutput = this.files.getValue().get(eFile);
+    if (fileOutput) {
+      this.files.patchFile(eFile, {
+        ...fileOutput,
+        output: this.webSever?.processFile(result).output || result.output,
+        compilationStatus: CompilationStatus.Compiled,
+        changeAmount: fileOutput.changeAmount
       });
-    });
-
-    this.files.next(files);
+    } else {
+      this.files.patchFile(eFile, {
+        ...result,
+        output: this.webSever?.processFile(result).output || result.output,
+        compilationStatus: CompilationStatus.Compiled,
+        changeAmount: 1
+      });
+    }
   }
 
   // TODO: Somehow make the builder push changes rather than checking for them.

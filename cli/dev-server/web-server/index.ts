@@ -1,12 +1,14 @@
 import chalk from 'chalk';
 import http from 'http';
-import pug from 'pug';
 import path from 'path';
-import { from, Observable } from 'rxjs';
+import pug from 'pug';
+import { from, Observable, Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import WebSocket from 'ws';
 
 import { CompilerResult } from '../../../builder/builders/compilers/definitions';
 import { IBuilderOptions } from '../../../builder/definitions/builder-options';
+import { IDynamicCompilerResult } from './../compilation-map';
 
 const log = console.log;
 
@@ -19,6 +21,9 @@ export class WebServer {
 
   public webserver?: http.Server;
   public websocket?: WebSocket.Server;
+
+  private filesSub?: Subscription;
+  private statusSub?: Subscription;
 
   public get ServerURL() { return `http://localhost:${this.devServerOptions.port}`; }
   public get WebSocketURL() { return `ws://localhost:${this.devServerOptions.socketPort}`; }
@@ -37,17 +42,28 @@ export class WebServer {
 
   constructor(
     public readonly options: IBuilderOptions,
-    private readonly filesObservable: Observable<Map<string, CompilerResult>>,
+    readonly filesObservable: Observable<Map<string, IDynamicCompilerResult>>,
     public readonly devServerOptions = {
       port: 5678,
       socketPort: 5679
     },
   ) {
 
-    filesObservable.subscribe(v => {
+    this.filesSub = filesObservable.subscribe(v => {
       this.files = v;
-      this.reload();
     });
+    
+    let statusBefore: 'compiling' | 'reload' | null = null;
+    this.statusSub = filesObservable.pipe(
+      map(v => [...v.values()].find(e => e.compilationStatus === 0) ? 'compiling' : 'reload'),
+      filter(v => v !== statusBefore),
+      tap(v => statusBefore = v),
+      filter(v => !!v),
+    ).subscribe(v => {
+      if (v) {
+        this.send(v);
+      }
+    })
     
     this.webserver = http.createServer((req, res) => {
 
@@ -68,15 +84,7 @@ export class WebServer {
     });
 
     this.webserver.listen(this.devServerOptions.port);
-    // var net = require("net");
-
-    // function createSocket(socket = new net.Socket(options)){
-    // }
-    // var s = new net.Socket({ });
-    // s.write("hello!");
-
-    // exports.createSocket = createSocket;
- 
+    
     this.websocket = new WebSocket.Server({ port: this.devServerOptions.socketPort });
     
     let index = 0;
@@ -88,15 +96,6 @@ export class WebServer {
       });
     });
 
-    // var s = new net.Socket();
-
-    // s.on("data", function(data) {
-    //   console.log("data received:", data);
-    // });
-    // s.connect(this.devServerOptions.socketPort, function(){
-    //   s.write("hello!");
-    // });
-
     log(`
 Starded development servers 
   http: ${chalk.blue(this.ServerURL)}
@@ -106,12 +105,16 @@ Starded development servers
 
   private sockets = new Map<string, WebSocket>();
 
-  private async reload() {
-    [ ...this.sockets.values() ].forEach(socket => socket.send('reload'));
+  private async send(message: string) {
+    console.log('sendign', message);
+    [ ...this.sockets.values() ].forEach(socket => socket.send(message));
   }
 
 
   public async destroy() {
+
+    this.filesSub?.unsubscribe();
+    this.statusSub?.unsubscribe();
 
     let closed: { [key: string]: boolean } = {};
 

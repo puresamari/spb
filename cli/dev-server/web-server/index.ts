@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import http from 'http';
 import path from 'path';
+import fs from 'fs';
 import pug from 'pug';
 import { from, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -15,8 +16,8 @@ const log = console.log;
 export class WebServer {
 
   private readonly templates = {
-    reload: pug.compileFile(path.resolve(__dirname, 'templates/reload.pug') ),
-    404: pug.compileFile(path.resolve(__dirname, 'templates/404.pug') ),
+    reload: pug.compile(fs.readFileSync(path.resolve(__dirname, 'templates/reload.pug'), 'utf-8') ),
+    404: pug.compile(fs.readFileSync(path.resolve(__dirname, 'templates/404.pug'), 'utf-8') ),
   }
 
   public webserver?: http.Server;

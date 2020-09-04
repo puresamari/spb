@@ -1,1 +1,10 @@
-{"$schema":"node_modules/@puresamari/spb/lib/config.schema.json","files":["logger.ts","views/docs.pug","views/index.pug","main.ts"],"output":"dist"}
+{
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "files": [
+    "logger.ts",
+    "views/docs.pug",
+    "views/index.pug",
+    "main.ts"
+  ],
+  "output": "dist"
+}

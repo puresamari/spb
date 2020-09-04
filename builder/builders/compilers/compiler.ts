@@ -16,7 +16,11 @@ export abstract class Compiler {
 
   public async build(exportPath: string, context: IBuilderContext) {
     const data = await this.compile(exportPath, context);
-    fs.writeFileSync(this.getExportFilePath(exportPath), data.output);
+    const exportFilePath = this.getExportFilePath(exportPath);
+    if (!fs.existsSync(path.dirname(exportFilePath))) {
+      fs.mkdirSync(path.dirname(exportFilePath), { recursive: true });
+    }
+    fs.writeFileSync(exportFilePath, data.output);
     return { ...data } as BuilderResult;
   }
 

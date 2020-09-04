@@ -6,7 +6,7 @@
     "./main.ts",
     "./styles.css"
   ],
-  "output": "../../dist",
+  "output": "./dist/test/test/dist/test",
   "compilers": {
     "postcss": {
       "plugins": [

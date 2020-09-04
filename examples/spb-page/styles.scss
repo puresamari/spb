@@ -1,0 +1,14 @@
+@import './styles/header.scss';
+
+$background: red;
+
+h1 {
+  background: $background;
+}
+
+a[href] {
+  background: blue;
+  &:not(:hover) {
+    background: $background;
+  }
+}

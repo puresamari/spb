@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## 0.5.0 - 15. August 2020
+### Fixed
+- `[dev-server]` Fixed issue when output folder doesn't exist
+
+## 0.5.0 - 15. August 2020
 ### Added
 - `[dev-server]` Added compile indication to html views
 

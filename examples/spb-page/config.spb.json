@@ -5,6 +5,7 @@
     "./views-twig/index-twig.twig",
     "./main.ts",
     "./styles.css",
+    "./styles.scss",
     "./images/*"
   ],
   "output": "./dist/test/test/dist/test",

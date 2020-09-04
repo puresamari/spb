@@ -33,10 +33,10 @@ export class Builder {
     for (let i = 0; i < files.length; i++) {
       contextFiles.push({
         source: files[i],
-        files: await this.compilers.get(files[i])!.getContextFiles(
+        files: await this.compilers.get(files[i])?.getContextFiles(
           this.options.output,
           this.builderContext
-        )
+        ) || []
       });
     }
     return contextFiles;
@@ -44,7 +44,7 @@ export class Builder {
 
   public readonly builderContext: IBuilderContext;
 
-  private readonly compilers = new Map<string, Compiler>();
+  private readonly compilers = new Map<string, Compiler | null>();
 
   public async compile(
     onFileBuildFinished?: ((file: {

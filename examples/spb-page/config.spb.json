@@ -4,7 +4,8 @@
     "./views/*.pug",
     "./views-twig/index-twig.twig",
     "./main.ts",
-    "./styles.css"
+    "./styles.css",
+    "./images/*"
   ],
   "output": "./dist/test/test/dist/test",
   "compilers": {

@@ -16,7 +16,8 @@ export const CompilerMapping : {
   twig: TWIGCompiler
 }
 
-export function getCompiler(file: string) {
+export function getCompiler(file: string): Compiler | null {
   const type = path.extname(file).slice(1) as CompielableType;
+  if (!CompilerMapping[type]) { return null; }
   return new (CompilerMapping[type])(file);
 }

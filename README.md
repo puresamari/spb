@@ -4,6 +4,9 @@
 
 `SPB` is a really simple build tool, designed to just take input fields and automatically generate files without the hassle of creating a bloated config file.
 
+## Supported files
+At the moment, `spb` supports the compilation of `.ts`, `.css`, `.scss`, `.js`, `.twig` and `.pug` files.
+
 ## Examples
 - This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)
 
@@ -64,6 +67,7 @@ For example when the configuration file (for example named `config.spb.json`) is
 }
 ```
 
+### PostCSS plugins
 If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the `compilers` part of the config file. Like in this example:
 ```json
 {
@@ -83,6 +87,18 @@ If it is necessary to add options to the builders / compilers (for example postc
 }
 ```
 
+### Post build script
+It is possible to run a script after a build was completed. **NOTE** this script will not be executed when running a `dev-server`.
+```json
+{
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  
+  ...
+  
+  "postBuild": "npm run deploy" // For example
+}
+```
+
 Using this config file you can then build your project like this: `$ spb -c config.spb.json`
 
 # Compilers
@@ -91,7 +107,7 @@ For examples take a look at `examples` in this repository. The gh-page for this 
 
 You can currently compile `typescript`, `postcss`, `scss`, `js`, `pug` and `twig` files uing `spb`. all other files given to the builder will simply be copied to the output directory.
 
-## twig and pug
+## `twig` and `pug`
 
 The `spb` adds a context object (`spb`) to all `.twig` and `.pug` files which contains all `stylesheets`, `scripts` and `html` files. This allowes to dynamically add all files to the html page.
 

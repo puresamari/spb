@@ -1,6 +1,5 @@
-// import 'alpinejs';
-require('alpinejs');
+import 'alpinejs';
+// @ts-ignore
+import { log } from './logger.ts';
 
-console.log('asdf');
-
-console.log('simon')
+log();

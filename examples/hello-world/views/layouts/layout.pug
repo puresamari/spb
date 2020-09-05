@@ -1,0 +1,15 @@
+html.bg-gray-900
+  head
+    title Simple page builder
+    each stylesheet in spb.stylesheets
+      link(rel="stylesheet", type="text/css", href=stylesheet)
+  
+  body.text-white.flex.flex-col.min-h-full.p-4.mx-auto.text-center(class="md:w-1/2")
+    include ./header.pug
+    block content
+    .flex.flex-1
+    p
+      | Created by 
+      a(href="rothert.cc") Simon Rothert
+    each script in spb.scripts
+      script(type="text/javascript", src=script)

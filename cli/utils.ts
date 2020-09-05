@@ -9,6 +9,7 @@ import * as path from 'path';
 
 import glob from "glob";
 
+// TODO: Wow thats an ugly solution for getting the version number
 export const version: string = (() => {
   try {
     return require('../package.json').version;
@@ -43,11 +44,9 @@ function getConfig(configPath: string): IBuilderOptions {
       files: collectFiles(configs.files.map(v => path.join(dir, v)))
     };
   } catch (e) {
-    console.error('error while getting config', configPath, e);
-    return {
-      output: path.resolve(dir, 'dist'),
-      files: []
-    };
+    console.error('Error while getting config', configPath);
+    console.error(e);
+    process.exit(100);
   }
 }
 

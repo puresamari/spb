@@ -1,11 +1,15 @@
 {
   "$schema": "../../lib/config.schema.json",
   "files": [
-    "./pages/index.twig",
-    "./pages/docs.twig",
-    "./main.ts"
+    "./views/*.pug",
+    "./views-twig/index-twig.twig",
+    "./main.ts",
+    "./testjs.js",
+    "./styles.css",
+    "./styles-scss.scss",
+    "./images/*.ts"
   ],
-  "output": "../../dist",
+  "output": "./dist/test/test/dist/test",
   "compilers": {
     "postcss": {
       "plugins": [

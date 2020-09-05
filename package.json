@@ -13,7 +13,7 @@
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && cp -R cli/dev-server/web-server/templates lib/cli/dev-server/web-server && npm run build:schema",
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
-    "test": "npm i -g && spb -o dist --files examples/hello-world/pages/test-from-cli.pug examples/hello-world/styles.css examples/hello-world/main.ts && spb -o dist -c examples/hello-world/config.spb.json",
+    "test": "./test-cli.sh",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test",
     "publish-pages": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts --verbose -c examples/spb-page/config.spb.json && ts-node ./publish-pages.ts"

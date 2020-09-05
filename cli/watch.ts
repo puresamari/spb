@@ -1,6 +1,9 @@
+import chalk from 'chalk';
+import { execSync } from 'child_process';
 import { Command } from 'commander';
 import fs from 'fs';
-import chalk from 'chalk';
+import path from 'path';
+import rimraf from 'rimraf';
 
 import { Builder } from '../builder';
 import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder } from './utils';
@@ -16,6 +19,21 @@ export function make(program: Command) {
     .action(async () => {
       const config = generateConfig(program.opts() as IMainCommanderOptions);
       const builder = new Builder(config);
+
+      if (config.clearOutputFolder !== false) {
+        rimraf.sync(path.join(config.output, '*'));
+      }
+
+      function _build(source?: string) {
+        build(builder, progressBar, source);
+
+        if (config.postBuild) {
+          execSync(config.postBuild);
+        }
+  
+      }
+
+
       printBuilder(builder);
       const progressBar = getProgressBar(builder);
 
@@ -28,12 +46,12 @@ export function make(program: Command) {
       contextFiles.forEach(context => {
         [ ...context.files ].forEach((file) => {
           fs.watch(file, () => {
-            build(builder, progressBar, context.source);
+            _build(context.source);
           });
         });
       });
 
-      build(builder, progressBar);
+      _build();
     });
   return heat;
 }

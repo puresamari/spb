@@ -12,5 +12,8 @@ a[href] {
   @apply text-blue-500;
   &:not(:hover) {
     @apply underline;
+    @apply underline;
+    @apply underline;
+    @apply underline;
   }
 }

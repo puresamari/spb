@@ -1,4 +1,8 @@
 import { Command } from 'commander';
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import rimraf from 'rimraf';
 
 import { Builder } from '../builder';
 import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder } from './utils';
@@ -12,10 +16,20 @@ export function make(program: Command) {
     .action(async () => {
 
       const config = generateConfig(program.opts() as IMainCommanderOptions);
+
+      if (config.clearOutputFolder !== false) {
+        rimraf.sync(path.join(config.output, '*'));
+      }
+
       const builder = new Builder(config);
       printBuilder(builder);
 
       build(builder, getProgressBar(builder));
+
+      if (config.postBuild) {
+        execSync(config.postBuild);
+      }
+
     });
   return heat;
 }

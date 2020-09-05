@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import mkdirp from 'mkdirp';
 import path from 'path';
 
@@ -82,9 +81,6 @@ export class Builder {
         this.builderContext
       );
       if (onFileBuildFinished) { await onFileBuildFinished(built); }
-    }
-    if (this.options.postBuild) {
-      execSync(this.options.postBuild);
     }
   }
 }

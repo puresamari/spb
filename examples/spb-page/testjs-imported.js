@@ -1,0 +1,1 @@
+export function log(...test) { console.log('asdf', ...test); }

@@ -1,17 +1,20 @@
 import path from 'path';
+
 import { Compiler } from './compiler';
 import { CSSCompiler } from './css';
 import PUGCompiler from './pug';
+import { SCSSCompiler } from './scss';
 import { TWIGCompiler } from './twig';
 import TSCompiler from './typescript';
 
-export type CompielableType = 'ts' | 'css' | 'twig' | 'pug';
+export type CompielableType = 'ts' | 'css' | 'scss' | 'twig' | 'pug';
 
 export const CompilerMapping : {
   [key in CompielableType]: new(file: string) => Compiler
 } = {
   ts: TSCompiler,
   css: CSSCompiler,
+  scss: SCSSCompiler,
   pug: PUGCompiler,
   twig: TWIGCompiler
 }

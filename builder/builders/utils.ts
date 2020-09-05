@@ -9,6 +9,8 @@ export function getFileType(file: string): string | null {
 export function getExportType(file: string): ExportType | null {
   const type = getFileType(file);
   switch (type) {
+    case 'scss':
+      return 'css';
     case 'ts':
       return 'js';
     case 'twig':

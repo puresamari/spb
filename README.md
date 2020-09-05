@@ -89,7 +89,7 @@ Using this config file you can then build your project like this: `$ spb -c conf
 
 For examples take a look at `examples` in this repository. The gh-page for this repository is built using `spb` and you can have a look at the setup under `examples/spb-page`.
 
-You can currently compile `typescript`, `postcss`, `pug` and `twig` files uing `spb`. all other files given to the builder will simply be copied to the output directory.
+You can currently compile `typescript`, `postcss`, `scss`, `js`, `pug` and `twig` files uing `spb`. all other files given to the builder will simply be copied to the output directory.
 
 ## twig and pug
 

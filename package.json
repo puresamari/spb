@@ -17,7 +17,7 @@
     "page:docs": "typedoc",
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && cp -R cli/dev-server/web-server/templates lib/cli/dev-server/web-server && npm run build:schema",
-    "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
+    "build:schema": "typescript-json-schema --titles builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
     "test": "./test-cli.sh",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test",

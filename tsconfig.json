@@ -77,5 +77,9 @@
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
   "include": ["./**/*.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules", ".vscode"]
+  "exclude": ["node_modules", ".vscode"],
+  "typedocOptions": {
+      "mode": "modules",
+      "out": "dist/docs"
+  }
 }

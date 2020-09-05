@@ -1,5 +1,5 @@
 import 'alpinejs';
 // @ts-ignore
-import { log } from './logger.ts';
+// import { log } from './logger.ts';
 
-log();
+// log();

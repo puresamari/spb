@@ -2,8 +2,6 @@
 
 @tailwind components;
 
-@import './styles/header.css';
-
 @tailwind utilities;
 
 h1 {

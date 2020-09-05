@@ -2,14 +2,11 @@
   "$schema": "../../lib/config.schema.json",
   "files": [
     "./views/*.pug",
-    "./views-twig/index-twig.twig",
     "./main.ts",
-    "./testjs.js",
     "./styles.css",
-    "./styles-scss.scss",
-    "./images/*"
+    "./docs/*"
   ],
-  "output": "./dist/test/test/dist/test",
+  "output": "../../dist",
   "compilers": {
     "postcss": {
       "plugins": [
@@ -18,5 +15,6 @@
         "autoprefixer"
       ]
     }
-  }
+  },
+  "postBuild": "npm run page:docs"
 }

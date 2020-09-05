@@ -5,5 +5,6 @@ export interface IBuilderOptions {
     postcss?: {
       plugins?: string[]
     }
-  }
+  },
+  postBuild?: string;
 }

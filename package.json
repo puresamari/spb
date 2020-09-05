@@ -7,16 +7,21 @@
     "spb": "lib/cli/index.js"
   },
   "scripts": {
+    "spb": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts --verbose ",
     "start": "nodemon",
     "start:watch": "nodemon --config nodemon.watch.json",
     "start:dev-server": "nodemon --config nodemon.dev-server.json",
+    "page": "npm run spb -- -c examples/spb-page/config.spb.json",
+    "page:watch": "npm run spb -- watch -c examples/spb-page/config.spb.json",
+    "page:dev-server": "npm run spb -- dev-server -c examples/spb-page/config.spb.json",
+    "page:docs": "typedoc",
     "create": "npm run build && npm run test",
     "build": "rm -rf lib && tsc -p . && cp -R cli/dev-server/web-server/templates lib/cli/dev-server/web-server && npm run build:schema",
     "build:schema": "typescript-json-schema builder/definitions/builder-options.ts IBuilderOptions -o lib/config.schema.json",
     "test": "./test-cli.sh",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "prepublish": "npm run build && npm run test",
-    "publish-pages": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts --verbose -c examples/spb-page/config.spb.json && ts-node ./publish-pages.ts"
+    "publish-pages": "npm run page && ts-node ./publish-pages.ts"
   },
   "keywords": [
     "buildsystem",
@@ -58,6 +63,7 @@
     "tailwindcss": "^1.6.0",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
+    "typedoc": "^0.19.1",
     "typescript": "^3.9.6",
     "typescript-json-schema": "^0.42.0"
   },

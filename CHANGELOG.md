@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## 0.5.4 - 5. August 2020
+### Changed
+- `[tests]` Removed test files from npm tarball
+
+## 0.5.4 - 5. August 2020
 ### Added
 - `[config]` Added postbuild script option to the configs
 

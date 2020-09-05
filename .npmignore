@@ -20,3 +20,5 @@ lib/examples
 publish-pages.ts
 builder/
 cli/
+test-cli.sh
+test-dist/

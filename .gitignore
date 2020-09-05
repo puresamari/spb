@@ -3,5 +3,6 @@ node_modules/
 lib/*
 !lib/simonlang.js
 dist/
+test-dist/
 .npmrc
 public/

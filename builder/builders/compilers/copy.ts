@@ -14,23 +14,13 @@ export default class CopyCompiler extends Compiler {
   }
 
   private cmp() {
-    switch (this.Type) {
-      case 'png':
-        return fs.readFileSync(this.file, 'base64');
-      default:
-        return fs.readFileSync(this.file);
-    }
+    return fs.readFileSync(this.file);
   }
 
   public async compile(
     exportPath: string,
     context: IBuilderContext
   ) {
-    // const output = pug.compileFile(this.file)({ spb: context });
-
-    
-    // const fileData = fs.readFileSync(this.file, 'utf-8');
-
     return {
       output: this.cmp(),
       file: this.file,

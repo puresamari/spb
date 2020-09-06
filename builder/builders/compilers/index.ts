@@ -1,6 +1,7 @@
 import path from 'path';
 
 import { Compiler } from './compiler';
+import CopyCompiler from './copy';
 import { CSSCompiler } from './css';
 import JSCompiler from './js';
 import PUGCompiler from './pug';
@@ -23,6 +24,6 @@ export const CompilerMapping : {
 
 export function getCompiler(file: string): Compiler | null {
   const type = path.extname(file).slice(1) as CompielableType;
-  if (!CompilerMapping[type]) { return null; }
+  if (!CompilerMapping[type]) { return new CopyCompiler(file); }
   return new (CompilerMapping[type])(file);
 }

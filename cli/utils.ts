@@ -121,7 +121,7 @@ export async function build(builder: Builder, progressBar: Bar, file?: string) {
 
   }
 
-  const outputs = ([...builder.builderContext.stylesheets, ...builder.builderContext.scripts, ...builder.builderContext.html]).map(v => `${builder.options.output}/${v}`);
+  const outputs = ([...builder.builderContext.stylesheets, ...builder.builderContext.scripts, ...builder.builderContext.html, ...builder.builderContext.other]).map(v => `${builder.options.output}/${v}`);
   console.log(chalk`
 OUTPUT:
   ${outputs.map(chalkFile).join('\n  ')}

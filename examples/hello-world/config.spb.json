@@ -7,7 +7,7 @@
     "./testjs.js",
     "./styles.css",
     "./styles-scss.scss",
-    "./images/*.ts"
+    "./images/*"
   ],
   "output": "./dist/test/test/dist/test",
   "compilers": {

@@ -14,6 +14,8 @@ export class Builder {
       stylesheets: exportedFiles.filter((v) => v.endsWith("css")),
       scripts: exportedFiles.filter((v) => v.endsWith("js")),
       html: exportedFiles.filter((v) => v.endsWith("html")),
+      // TODO: make it smarter
+      other: exportedFiles.filter((v) => !v.endsWith("css") && !v.endsWith("js") && !v.endsWith("html")),
       options,
     };
     options.files.forEach(file => {

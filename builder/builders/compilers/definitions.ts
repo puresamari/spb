@@ -7,6 +7,6 @@ export interface BuilderResult {
 }
 
 export interface CompilerResult extends BuilderResult {
-  output: string;
+  output: string | Buffer;
   file: string;
 }

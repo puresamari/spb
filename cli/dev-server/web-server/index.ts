@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import http from 'http';
+import http, { OutgoingHttpHeaders } from 'http';
 import path from 'path';
 import fs from 'fs';
 import pug from 'pug';
@@ -41,6 +41,18 @@ export class WebServer {
     return {...v, output};
   }
 
+  public getHeaders({ type }: CompilerResult): OutgoingHttpHeaders | undefined {
+    switch (type) {
+      case 'svg':
+        return {'content-type':'image/svg+xml'};
+      case 'png':
+      case 'jpg':
+        return {'content-type':'image/' + type};
+      default:
+        return undefined;
+    }
+  }
+
   constructor(
     public readonly options: IBuilderOptions,
     readonly filesObservable: Observable<Map<string, IDynamicCompilerResult>>,
@@ -80,7 +92,7 @@ export class WebServer {
 
       const requestedFile = this.files.get(req.url.slice(1))!;
 
-      res.writeHead(200);
+      res.writeHead(200, this.getHeaders(requestedFile));
       res.end(requestedFile.output);
     });
 

@@ -1,6 +1,6 @@
 import path from 'path';
 
-export type ExportType = 'js' | 'css' | 'html';
+export type ExportType = 'js' | 'css' | 'html' | 'svg' | 'png' | 'jpg';
 
 export function getFileType(file: string): string | null {
   return path.extname(file).replace('.', '');

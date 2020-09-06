@@ -45,7 +45,7 @@ export function make(program: Command) {
 
       contextFiles.forEach(context => {
         [ ...context.files ].forEach((file) => {
-          fs.watch(file, () => {
+          fs.watchFile(file, () => {
             _build(context.source);
           });
         });

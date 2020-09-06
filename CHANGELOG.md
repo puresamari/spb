@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `[compilers]` Added copy compiler for if no compiler is found for files.
 
+### Fixed
+- `[dev-server]` Fixed issue with double compiling files.
+
 ## 0.5.6 - 6. August 2020
 ### Added
 - `[config]` Option for not clearing dist dir when building

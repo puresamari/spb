@@ -116,15 +116,17 @@ export async function build(builder: Builder, progressBar: Bar, file?: string) {
   
   progressBar.stop();
 
-
   if (file) {
-    return console.log(chalk`
-  ${chalkFile(file)}
-`);
-
+    return console.log(chalk`\n  ${chalkFile(file)}`);
   }
 
-  const outputs = ([...builder.builderContext.stylesheets, ...builder.builderContext.scripts, ...builder.builderContext.html, ...builder.builderContext.other]).map(v => `${builder.options.output}/${v}`);
+  const outputs = ([
+    ...builder.builderContext.stylesheets,
+    ...builder.builderContext.scripts,
+    ...builder.builderContext.html,
+    ...builder.builderContext.other
+  ]).map(v => `${builder.options.output}/${v}`);
+
   console.log(chalk`
 OUTPUT:
   ${outputs.map(chalkFile).join('\n  ')}

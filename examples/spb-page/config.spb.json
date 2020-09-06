@@ -3,8 +3,7 @@
   "files": [
     "./views/*.pug",
     "./main.ts",
-    "./styles.css",
-    "./docs/*"
+    "./styles.css"
   ],
   "output": "../../dist",
   "compilers": {

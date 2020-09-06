@@ -15,7 +15,6 @@ export default class PUGCompiler extends AutoDiscoverCompiler {
     context: IBuilderContext
   ) {
     const output = pug.compileFile(this.file)({ spb: context });
-    
     return {
       output: pretty(output),
       file: this.file,

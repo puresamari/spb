@@ -24,10 +24,10 @@ export function make(program: Command) {
       const builder = new Builder(config);
       printBuilder(builder);
 
-      build(builder, getProgressBar(builder));
+      await build(builder, getProgressBar(builder));
 
       if (config.postBuild) {
-        execSync(config.postBuild);
+        await execSync(config.postBuild);
       }
 
     });

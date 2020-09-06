@@ -88,7 +88,6 @@ export class DevServer {
   }
 
   private async start() {
-
     this.watcherSub = this.getWatchingFilesObservable().subscribe(async contextFiles =>{
       
       // const contextFiles = this.getWatchingFiles();
@@ -103,9 +102,9 @@ export class DevServer {
   
       await contextFiles.forEach(async context => {
         [ ...context.files ].forEach(file => {
-          this.watchers.push(fs.watch(file, () => {
+          this.watchers.push(fs.watchFile(file, (curr: any, prev: any) => {
             this.compileFile(context.source);
-          }));
+          }) as any);
         });
         await this.compileFile(context.source);
       });

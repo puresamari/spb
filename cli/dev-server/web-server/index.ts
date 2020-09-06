@@ -119,7 +119,6 @@ Starded development servers
   private sockets = new Map<string, WebSocket>();
 
   private async send(message: string) {
-    console.log('sendign', message);
     [ ...this.sockets.values() ].forEach(socket => socket.send(message));
   }
 

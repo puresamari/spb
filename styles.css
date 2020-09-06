@@ -18040,16 +18040,13 @@ h1 {
   color: rgba(245, 101, 101, var(--text-opacity));
 }
 
-a[href] {
+a[href]:not(.custom) {
   --text-opacity: 1;
   color: #4299e1;
   color: rgba(66, 153, 225, var(--text-opacity))
 }
 
-a[href]:not(:hover) {
-  text-decoration: underline;
-  text-decoration: underline;
-  text-decoration: underline;
+a[href]:not(.custom):not(:hover) {
   text-decoration: underline;
 }
 

@@ -14,6 +14,5 @@
         "autoprefixer"
       ]
     }
-  },
-  "postBuild": "npm run page:docs"
+  }
 }

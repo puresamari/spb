@@ -8,8 +8,4 @@ html.bg-gray-900
     include ./header.pug
     block content
     .flex.flex-1
-    p
-      | Created by 
-      a(href="rothert.cc") Simon Rothert
-    each script in spb.scripts
-      script(type="text/javascript", src=script)
+    include ./footer.pug

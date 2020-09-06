@@ -8,12 +8,9 @@ h1 {
   @apply text-2xl text-red-500;
 }
 
-a[href] {
+a[href]:not(.custom) {
   @apply text-blue-500;
   &:not(:hover) {
-    @apply underline;
-    @apply underline;
-    @apply underline;
     @apply underline;
   }
 }

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.6.1 - 6. August 2020
 ### Added
 - `[dev-server]` Added `.html` and `index.html` resolving for urls.
+- `[init]` Added init command to easily initialize your spb website.
 
 ## 0.6.0 - 6. August 2020
 ### Added

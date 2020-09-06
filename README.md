@@ -13,6 +13,23 @@ At the moment, `spb` supports the compilation of `.ts`, `.css`, `.scss`, `.js`, 
 # Installation
     npm i [-g|-D|-S] @puresamari/spb
 
+# Getting started
+
+After you installed the spb application the easiest way to get started is using the `init` command. Here is a step by step guide for it.
+1. `npm i -g @puresamari/spb`
+2. `spb init`
+   1. Select the directory where spb should be created (leave empty if you want to init it in your current directory).
+   2. Select the directory where spb should compile into (leave empty for dist)
+   3. Select the files you want to compile (Add files one by one. To finish just leave the field empty and hit enter)
+3. `spb dev-server -c config.spb.json`
+
+If you want to run it in your local enviroment do:
+
+1. `npm i -D @puresamari/spb`
+2. `npx spb init`
+   1. Same instructions as above
+3. `npx spb dev-server -c config.spb.json`
+
 # CLI
 
 Once the `spb` cli is installed you can use the cli.
@@ -30,6 +47,7 @@ Options:
 - `-h, --help          ` display help for command
 
 Commands:
+  - `init` generate the config file using the init-wizard.
   - `build` build once (is default)
     - `$ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...`
   - `watch` watch and automatically build when input files change

@@ -11,6 +11,7 @@
     "start": "nodemon",
     "start:watch": "nodemon --config nodemon.watch.json",
     "start:dev-server": "nodemon --config nodemon.dev-server.json",
+    "start:init": "nodemon --config nodemon.init.json",
     "page": "npm run spb -- -c examples/spb-page/config.spb.json",
     "page:watch": "npm run spb -- watch -c examples/spb-page/config.spb.json",
     "page:dev-server": "npm run spb -- dev-server -c examples/spb-page/config.spb.json",

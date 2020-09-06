@@ -4,6 +4,7 @@ import { program } from 'commander';
 
 import { make as makeBuild } from './build';
 import { make as makeWatch } from './watch';
+import { make as makeInit } from './init';
 import { make as makeDevServer } from './dev-server/make';
 import { version } from './utils';
 
@@ -29,14 +30,19 @@ program
   .storeOptionsAsProperties(true)
   .passCommandToAction(true)
   .version(version)
+
+
+program.addCommand(makeWatch(program as any));
+
+const programForBuilding = program
   .option('-c, --config <path>', 'path to config json file', 'config.spb.json')
   .option('-o, --out <path>', 'director to compile to')
   .option('--verbose', 'log verbose')
   .option('--files <path...>', 'Files to compile', [] as any);
   
-program.addCommand(makeBuild(program as any), { isDefault: true });
-program.addCommand(makeWatch(program as any));
-program.addCommand(makeDevServer(program as any));
+programForBuilding.addCommand(makeBuild(program as any), { isDefault: true });
+programForBuilding.addCommand(makeInit(program as any));
+programForBuilding.addCommand(makeDevServer(program as any));
 
 program.parse(process.argv);
 

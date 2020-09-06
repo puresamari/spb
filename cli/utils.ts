@@ -82,7 +82,10 @@ export function chalkFileType(type: CompielableType | ExportType) {
     case 'ts':                return chalk.white.bgBlue(' ts   ');
     case 'js':              return chalk.black.bgYellow(' js   ');
     case 'html':  return chalk.white.bgRgb(212, 87, 56)(' html ');
-    default:                         return chalk.white(' ---- ');
+    case 'scss': return chalk.white.bgRgb(191, 64, 128)(' scss ');
+    case 'ts':                       return chalk.white(' ts   ');
+    default: 
+      return chalk.white(' ' + type.padEnd(4, ' ').slice(0,4) + ' ');
   }
 }
 

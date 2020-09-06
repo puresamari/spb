@@ -1,3 +1,4 @@
+import { FilesMap } from './files-map';
 import chalk from 'chalk';
 import http, { OutgoingHttpHeaders } from 'http';
 import path from 'path';
@@ -29,7 +30,7 @@ export class WebServer {
   public get ServerURL() { return `http://localhost:${this.devServerOptions.port}`; }
   public get WebSocketURL() { return `ws://localhost:${this.devServerOptions.socketPort}`; }
 
-  private files?: Map<string, CompilerResult>;
+  private files?: FilesMap;
 
   public processFile({ output, ...v }: CompilerResult): CompilerResult {
 
@@ -63,7 +64,7 @@ export class WebServer {
   ) {
 
     this.filesSub = filesObservable.subscribe(v => {
-      this.files = v;
+      this.files = FilesMap.fromDynamic(v);
     });
     
     let statusBefore: 'compiling' | 'reload' | null = null;
@@ -79,7 +80,7 @@ export class WebServer {
     })
     
     this.webserver = http.createServer((req, res) => {
-
+      
       if (!req.url || !this.files || !this.files.has(req.url.slice(1))) {
         res.writeHead(404);
         res.end(this.templates[404]({
@@ -90,7 +91,7 @@ export class WebServer {
         return;
       }
 
-      const requestedFile = this.files.get(req.url.slice(1))!;
+      const requestedFile = this.files.resolve(req.url.slice(1))!;
 
       res.writeHead(200, this.getHeaders(requestedFile));
       res.end(requestedFile.output);

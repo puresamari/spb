@@ -5,7 +5,7 @@
 `SPB` is a really simple build tool, designed to just take input fields and automatically generate files without the hassle of creating a bloated config file.
 
 ## Supported files
-At the moment, `spb` supports the compilation of `.ts`, `.css`, `.scss`, `.js`, `.twig` and `.pug` files.
+At the moment, `spb` supports the compilation of `.ts`, `.css`, `.scss`, `.js`, `.twig` and `.pug` files. All other file types defined will just be copied when `watching` or `building` and served when using the `dev-server`. Images will automatically converted to the correct mime type as well.
 
 ## Examples
 - This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)
@@ -60,6 +60,8 @@ For example when the configuration file (for example named `config.spb.json`) is
     "./src/example.pug",
     "./views/*.pug",
     "./src/index.twig",
+    "./src/images/*",
+    "./src/license.pdf",
     "./src/main.ts",
     "./src/styles.css"
   ],

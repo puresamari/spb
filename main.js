@@ -4,7 +4,6 @@ var dependencies = {} // loaded modules
 var modules = {} // code of your dependencies
 // require function
 var require = function(module) {
-  console.log('require', module)
   if (!dependencies[module]) {
     // module not loaded, let's load it
     var exports = {}
@@ -22,10 +21,9 @@ modules['main.ts'] = function(exports) {
     value: true
   });
   require("alpinejs");
-  var logger_1 = require("./logger");
-  logger_1.log();
-  console.log('asdf finanllly');
-  console.log('simon fixed the reloading part');
+  // @ts-ignore
+  // import { log } from './logger.ts';
+  // log();
 }
 
 modules['alpinejs'] = function(exports) {
@@ -235,7 +233,7 @@ modules['alpinejs'] = function(exports) {
     }
 
     function camelCase(subject) {
-      return subject.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, function(match, char) {
+      return subject.toLowerCase().replace(/-(\w)/g, function(match, char) {
         return char.toUpperCase();
       });
     }
@@ -279,16 +277,29 @@ modules['alpinejs'] = function(exports) {
         additionalHelperVariables = {};
       }
       if (typeof expression === 'function') {
-        return expression.call(dataContext, additionalHelperVariables['$event']);
-      } // For the cases when users pass only a function reference to the caller: `x-on:click="foo"`
+        return Promise.resolve(expression.call(dataContext, additionalHelperVariables['$event']));
+      }
+      var AsyncFunction = Function;
+      /* MODERN-ONLY:START */
+      AsyncFunction = Object.getPrototypeOf(function() {
+        return __awaiter(this, void 0, void 0, function() {
+          return __generator(this, function(_a) {
+            return [2 /*return*/ ];
+          });
+        });
+      }).constructor;
+      /* MODERN-ONLY:END */
+      // For the cases when users pass only a function reference to the caller: `x-on:click="foo"`
       // Where "foo" is a function. Also, we'll pass the function the event instance when we call it.
       if (Object.keys(dataContext).includes(expression)) {
         var methodReference = new Function(__spreadArrays(['dataContext'], Object.keys(additionalHelperVariables)), "with(dataContext) { return " + expression + " }").apply(void 0, __spreadArrays([dataContext], Object.values(additionalHelperVariables)));
         if (typeof methodReference === 'function') {
-          return methodReference.call(dataContext, additionalHelperVariables['$event']);
+          return Promise.resolve(methodReference.call(dataContext, additionalHelperVariables['$event']));
+        } else {
+          return Promise.resolve();
         }
       }
-      return new Function(__spreadArrays(['dataContext'], Object.keys(additionalHelperVariables)), "with(dataContext) { " + expression + " }").apply(void 0, __spreadArrays([dataContext], Object.values(additionalHelperVariables)));
+      return Promise.resolve(new AsyncFunction(__spreadArrays(['dataContext'], Object.keys(additionalHelperVariables)), "with(dataContext) { " + expression + " }").apply(void 0, __spreadArrays([dataContext], Object.values(additionalHelperVariables))));
     }
     var xAttrRE = /^x-(on|bind|data|text|html|model|if|for|show|cloak|transition|ref|spread)\b/;
 
@@ -334,7 +345,7 @@ modules['alpinejs'] = function(exports) {
         value = _a.value;
       var normalizedName = replaceAtAndColonWithStandardSyntax(name);
       var typeMatch = normalizedName.match(xAttrRE);
-      var valueMatch = normalizedName.match(/:([a-zA-Z\-:]+)/);
+      var valueMatch = normalizedName.match(/:([a-zA-Z0-9\-:]+)/);
       var modifiers = normalizedName.match(/\.[^.\]]+(?=[^\]]*$)/g) || [];
       return {
         type: typeMatch ? typeMatch[1] : null,
@@ -811,8 +822,9 @@ modules['alpinejs'] = function(exports) {
     function handleAttributeBindingDirective(component, el, attrName, expression, extraVars, attrType, modifiers) {
       var value = component.evaluateReturnExpression(el, expression, extraVars);
       if (attrName === 'value') {
-        // If nested model key is undefined, set the default value to empty string.
-        if (value === undefined && expression.match(/\./).length) {
+        if (Alpine.ignoreFocusedForValueBinding && document.activeElement.isSameNode(el))
+          return; // If nested model key is undefined, set the default value to empty string.
+        if (value === undefined && expression.match(/\./)) {
           value = '';
         }
         if (el.type === 'radio') {
@@ -1036,13 +1048,15 @@ modules['alpinejs'] = function(exports) {
           // event on, run the handler
           if (!modifiers.includes('self') || e.target === el) {
             var returnValue = runListenerHandler(component, expression, e, extraVars);
-            if (returnValue === false) {
-              e.preventDefault();
-            } else {
-              if (modifiers.includes('once')) {
-                listenerTarget_1.removeEventListener(event, handler_2, options);
+            returnValue.then(function(value) {
+              if (value === false) {
+                e.preventDefault();
+              } else {
+                if (modifiers.includes('once')) {
+                  listenerTarget_1.removeEventListener(event, handler_2, options);
+                }
               }
-            }
+            });
           }
         };
         if (modifiers.includes('debounce')) {
@@ -1624,9 +1638,20 @@ modules['alpinejs'] = function(exports) {
         var dataAttr = this.$el.getAttribute('x-data');
         var dataExpression = dataAttr === '' ? '{}' : dataAttr;
         var initExpression = this.$el.getAttribute('x-init');
-        this.unobservedData = componentForClone ? componentForClone.getUnobservedData() : saferEval(dataExpression, {
+        var dataExtras = {
           $el: this.$el
+        };
+        var canonicalComponentElementReference = componentForClone ? componentForClone.$el : this.$el;
+        Object.entries(Alpine.magicProperties).forEach(function(_a) {
+          var name = _a[0],
+            callback = _a[1];
+          Object.defineProperty(dataExtras, "$" + name, {
+            get: function get() {
+              return callback(canonicalComponentElementReference);
+            }
+          });
         });
+        this.unobservedData = componentForClone ? componentForClone.getUnobservedData() : saferEval(dataExpression, dataExtras);
         // Construct a Proxy-based observable. This will be used to handle reactivity.
         var _a = this.wrapDataInObservable(this.unobservedData),
           membrane = _a.membrane,
@@ -1645,8 +1670,7 @@ modules['alpinejs'] = function(exports) {
           if (!_this.watchers[property])
             _this.watchers[property] = [];
           _this.watchers[property].push(callback);
-        };
-        var canonicalComponentElementReference = componentForClone ? componentForClone.$el : this.$el; // Register custom magic properties.
+        }; // Register custom magic properties.
         Object.entries(Alpine.magicProperties).forEach(function(_a) {
           var name = _a[0],
             callback = _a[1];
@@ -1658,6 +1682,9 @@ modules['alpinejs'] = function(exports) {
         });
         this.showDirectiveStack = [];
         this.showDirectiveLastElement;
+        componentForClone || Alpine.onBeforeComponentInitializeds.forEach(function(callback) {
+          return callback(_this);
+        });
         var initReturnedCallback; // If x-init is present AND we aren't cloning (skip x-init on clone)
         if (initExpression && !componentForClone) {
           // We want to allow data manipulation, but not trigger DOM updates just yet.
@@ -1842,16 +1869,6 @@ modules['alpinejs'] = function(exports) {
           initialUpdate = false;
         }
         var attrs = getXAttrs(el, this);
-        if (el.type !== undefined && el.type === 'radio') {
-          // If there's an x-model on a radio input, move it to end of attribute list
-          // to ensure that x-bind:value (if present) is processed first.
-          var modelIdx = attrs.findIndex(function(attr) {
-            return attr.type === 'model';
-          });
-          if (modelIdx > -1) {
-            attrs.push(attrs.splice(modelIdx, 1)[0]);
-          }
-        }
         attrs.forEach(function(_a) {
           var type = _a.type,
             value = _a.value,
@@ -1991,10 +2008,12 @@ modules['alpinejs'] = function(exports) {
       return Component;
     }());
     var Alpine = {
-      version: "2.5.0",
+      version: "2.6.0",
       pauseMutationObserver: false,
       magicProperties: {},
       onComponentInitializeds: [],
+      onBeforeComponentInitializeds: [],
+      ignoreFocusedForValueBinding: false,
       start: function start() {
         return __awaiter(this, void 0, void 0, function() {
           var _this = this;
@@ -2093,6 +2112,9 @@ modules['alpinejs'] = function(exports) {
       },
       onComponentInitialized: function onComponentInitialized(callback) {
         this.onComponentInitializeds.push(callback);
+      },
+      onBeforeComponentInitialized: function onBeforeComponentInitialized(callback) {
+        this.onBeforeComponentInitializeds.push(callback);
       }
     };
     if (!isTesting()) {
@@ -2107,19 +2129,6 @@ modules['alpinejs'] = function(exports) {
     }
     return Alpine;
   })));
-}
-
-modules['./logger'] = function(exports) {
-  "use strict";
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.log = void 0;
-
-  function log() {
-    console.log('Log');
-  }
-  exports.log = log;
 }
 
 require('main.ts')

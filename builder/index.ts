@@ -8,15 +8,20 @@ import { ExportType, getExportFileName } from './builders/utils';
 import { IBuilderContext, IBuilderOptions } from './utils';
 
 export class Builder {
-  constructor(public readonly options: IBuilderOptions) {
-    const exportedFiles = options.files.map((v) => getExportFileName(v));
+  constructor(public readonly options: IBuilderOptions, public readonly basePath: string) {
+    const simpleContext = {
+      options,
+      basePath
+    };
+
+    const exportedFiles = options.files.map((v) => getExportFileName(v, simpleContext));
     this.builderContext = {
+      ...simpleContext,
       stylesheets: exportedFiles.filter((v) => v.endsWith("css")),
       scripts: exportedFiles.filter((v) => v.endsWith("js")),
       html: exportedFiles.filter((v) => v.endsWith("html")),
       // TODO: make it smarter
-      other: exportedFiles.filter((v) => !v.endsWith("css") && !v.endsWith("js") && !v.endsWith("html")),
-      options,
+      other: exportedFiles.filter((v) => !v.endsWith("css") && !v.endsWith("js") && !v.endsWith("html"))
     };
     options.files.forEach(file => {
       this.compilers.set(file, getCompiler(file));
@@ -24,7 +29,7 @@ export class Builder {
   }
 
   public get Files() { return [...this.compilers.keys()]; }
-  public getExportPathOfFile(file: string) { return this.compilers.get(file)?.getExportFilePath(this.options.output); }
+  public getExportPathOfFile(file: string) { return this.compilers.get(file)?.getExportFilePath(this.options.output, this.builderContext); }
 
   public async getContextFiles() {
     let contextFiles: {

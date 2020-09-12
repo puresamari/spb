@@ -125,8 +125,9 @@ export async function build(builder: Builder, progressBar: Bar, file?: string) {
     ...builder.builderContext.scripts,
     ...builder.builderContext.html,
     ...builder.builderContext.other
-  ]).map(v => `${builder.options.output}/${v}`);
+  ]).map(v => `${builder.options.output}/${v.replace(builder.basePath + '/', '')}`);
 
+  console.log(builder.options.output)
   console.log(chalk`
 OUTPUT:
   ${outputs.map(chalkFile).join('\n  ')}

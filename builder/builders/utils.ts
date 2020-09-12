@@ -1,4 +1,6 @@
-import path from 'path';
+import path, { dirname } from 'path';
+
+import { IBuilderContextSimple } from './../definitions';
 
 export type ExportType = 'js' | 'css' | 'html' | 'svg' | 'png' | 'jpg';
 
@@ -21,16 +23,15 @@ export function getExportType(file: string): ExportType | null {
   }
 }
 
-export function getFileName(file: string): string {
+export function getFileName(file: string, context: IBuilderContextSimple): string {
   return file.split('/')[file.split('/').length - 1];
 }
 
-export function getExportFileName(file: string): string {
-  const fileName = getFileName(file);
-  return fileName.replace('.' + getFileType(fileName), '.' + getExportType(fileName));
+export function getExportFileName(file: string, context: IBuilderContextSimple): string {
+  return file.replace('.' + getFileType(file), '.' + getExportType(file));
 }
 
-export function getExportPath(file: string, outDir: string): string {
-  const fileName = getFileName(file);
-  return path.join(outDir, getExportFileName(fileName));
+export function getExportPath(file: string, outDir: string, context: IBuilderContextSimple): string {
+  const fileName = path.relative(context.basePath, file);
+  return path.join(outDir, getExportFileName(fileName, context));
 }

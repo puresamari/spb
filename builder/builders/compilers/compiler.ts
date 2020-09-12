@@ -8,15 +8,15 @@ import { BuilderResult, CompilerResult } from './definitions';
 export abstract class Compiler {
   constructor(public readonly file: string) { }
 
-  public abstract async compile(exportPath: string, context: IBuilderContext): Promise<CompilerResult>;
+  public abstract compile(exportPath: string, context: IBuilderContext): Promise<CompilerResult>;
     
-  public getExportFilePath(exportPath: string) {
-    return getExportPath(this.file, exportPath);
+  public getExportFilePath(exportPath: string, context: IBuilderContext) {
+    return getExportPath(this.file, exportPath, context);
   }
 
   public async build(exportPath: string, context: IBuilderContext) {
     const data = await this.compile(exportPath, context);
-    const exportFilePath = this.getExportFilePath(exportPath);
+    const exportFilePath = this.getExportFilePath(exportPath, context);
     if (!fs.existsSync(path.dirname(exportFilePath))) {
       fs.mkdirSync(path.dirname(exportFilePath), { recursive: true });
     }

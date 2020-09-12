@@ -9,7 +9,7 @@ export function make(program: Command) {
   heat
     .action(async () => {
       const config = generateConfig(program.opts() as IMainCommanderOptions);
-      const devServer = new DevServer(config);
+      const devServer = new DevServer(program.opts() as IMainCommanderOptions, config);
     });
   return heat;
 }

@@ -1,0 +1,138 @@
+<html class="bg-blue-600">
+
+  <head>
+    <title>Simple page builder</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/styles/default.min.css" />
+  </head>
+
+  <body class="text-white flex flex-col min-h-full p-12 w-full text-center">
+    <div class="flex flex-row items-center"><a class="flex flex-row items-end custom" href="/"><img class="mr-4 w-12" src="/assets/images/logo.png" /></a>
+      <p class="ml-4"><a href="https://badge.fury.io/js/%40puresamari%2Fspb"></a><img src="https://badge.fury.io/js/%40puresamari%2Fspb.svg" alt="" /></p>
+      <div class="flex flex-1"></div><a class="mx-4" href="https://github.com/puresamari/spb">github</a><a class="mx-4" href="/docs/">Docs</a>
+    </div>
+    <div class="mt-12 flex flex-row text-left">
+      <ul class="rounded p-8 bg-blue-400 mr-4">
+        <li><a href="/docs/installation">Installation</a></li>
+        <li><a href="/docs/cli">CLI</a></li>
+        <li><a href="/docs/compilers">Compilers</a></li>
+      </ul>
+      <div class="ml-4">
+        <h1 class="mt-4">CLI</h1>
+        <p>Once the <code>SPB </code>cli is installed you can use the cli.</p>
+        <h1 class="mt-4">Usage:</h1><pre class="hljs"><code class="cli">spb [options] [command]</code></pre>
+        <p>Options:</p>
+        <ul>
+          <li>
+            <p><code>-V, --version </code>output the version number</p>
+          </li>
+          <li>
+            <p><code>-c, --config <path> </code>path to config json file (default: “config.spb.json”)</p>
+          </li>
+          <li>
+            <p><code>-o, --out <path> </code>where the compiles files should be compiled to (overwrites configurations from the config file)</p>
+          </li>
+          <li>
+            <p><code>--files <files...> </code>files that should be compiled (overwrites configurations from the config file). All files can also be defined with wildcardmatching for example <code>./views/*.pug</code></p>
+          </li>
+          <li>
+            <p><code>--verbose </code>enable verbose logging</p>
+          </li>
+          <li>
+            <p><code>-h, --help </code>display help for command</p>
+          </li>
+        </ul>
+        <p>Commands:</p>
+        <ul>
+          <li>
+            <p><code>init </code>generate the config file using the init-wizard.</p>
+          </li>
+          <li>
+            <p><code>build </code>build once (is default)</p>
+            <ul>
+              <li>
+                <p><code>$ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...</code></p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><code>watch </code>watch and automatically build when input files change</p>
+            <ul>
+              <li>
+                <p><code>$ spb watch --config examples/hello-world/config.spb.json</code></p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><code>dev-server </code>starts the dev server</p>
+            <ul>
+              <li>
+                <p><code>$ spb dev-server --config examples/hello-world/config.spb.json</code></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h1 class="mt-4">Dev Server</h1>
+        <p>The dev server starts a server and loads all compiled files temporarily instead of building and saving them.</p>
+        <p>When opening a html file the devserver adds a script to it to automatically reload the page when changes occure to the code.</p>
+        <h1 class="mt-4">Config file</h1>
+        <p>You can use a configuration file with the flag <code>-c </code>or <code>--config</code>. All options declared in the config file will be overwritten by options from the cli:</p>
+        <ul>
+          <li>
+            <p><code>spb public -c config.spb.json </code>if the config file has a declaration for output it will be overwritten with <code>public </code>in this case.</p>
+          </li>
+          <li>
+            <p><code>spb public ./src/styles.css ./views/*.pug -c config.spb.json </code>if the config file has a declaration for files it will be overwritten with <code>./src/styles.css </code>and all <code>./views/*.pug </code>files in this case.</p>
+          </li>
+        </ul>
+        <p>You can also use this projects JSON schema to ensure integrity but it is not necessary.</p>
+        <p>For example when the configuration file (for example named <code>config.spb.json</code>) is in the root directory and <code>spb </code>is installed locally:</p><pre class="hljs language-json"><code>{
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "files": [
+    "./src/example.pug",
+    "./views/*.pug",
+    "./src/index.twig",
+    "./src/images/*",
+    "./src/license.pdf",
+    "./src/main.ts",
+    "./src/styles.css"
+  ],
+  "output": "dist/",
+}</code></pre>
+        <h2 class="mt-2"> PostCSS plugins</h2>
+        <p>If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the <code>compilers </code>part of the config file. Like in this example:</p><pre class="hljs language-json"><code> {
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  
+  ...
+  
+  "compilers": {
+    "postcss": {
+      "plugins": [
+        ...
+        "precss", // or other
+        ...
+      ]
+    }
+  }
+}</code></pre>
+        <h2 class="mt-2"> Post build script</h2>
+        <p>It is possible to run a script after a build was completed. <strong>NOTE </strong>this script will not be executed when running a <code>dev-server</code>.</p><pre class="hljs language-json"><code> {
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  
+  ...
+  
+  "postBuild": "npm run deploy" // For example
+}</code></pre>
+        <p>Using this config file you can then build your project like this: <code>$ spb -c config.spb.json</code></p>
+      </div>
+    </div>
+    <div class="flex flex-1"></div>
+    <p>Created by <a href="https://rothert.cc">Simon Rothert</a></p>
+    <script type="text/javascript" src="/main.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/highlight.min.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad()
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,74 @@
+<html class="bg-blue-600">
+
+  <head>
+    <title>Simple page builder</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/styles/default.min.css" />
+  </head>
+
+  <body class="text-white flex flex-col min-h-full p-12 w-full text-center">
+    <div class="flex flex-row items-center"><a class="flex flex-row items-end custom" href="/"><img class="mr-4 w-12" src="/assets/images/logo.png" /></a>
+      <p class="ml-4"><a href="https://badge.fury.io/js/%40puresamari%2Fspb"></a><img src="https://badge.fury.io/js/%40puresamari%2Fspb.svg" alt="" /></p>
+      <div class="flex flex-1"></div><a class="mx-4" href="https://github.com/puresamari/spb">github</a><a class="mx-4" href="/docs/">Docs</a>
+    </div>
+    <div class="mt-12 flex flex-row text-left">
+      <ul class="rounded p-8 bg-blue-400 mr-4">
+        <li><a href="/docs/installation">Installation</a></li>
+        <li><a href="/docs/cli">CLI</a></li>
+        <li><a href="/docs/compilers">Compilers</a></li>
+      </ul>
+      <div class="ml-4">
+        <h1>Installation</h1><pre class="hljs"><code class="cli">npm i [-g|-D|-S] @puresamari/spb</code></pre>
+        <h1 class="mt-4">Getting started</h1>
+        <p>After you installed the spb application the easiest way to get started is using the <code class="text-red-500">init </code>command. Here is a step by step guide for it.</p>
+        <ol>
+          <li>
+            <p><code class="text-red-500">npm i -g @puresamari/spb</code></p>
+          </li>
+          <li>
+            <p><code class="text-red-500">spb init</code></p>
+            <ol>
+              <li>
+                <p>Select the directory where spb should be created (leave empty if you want to init it in your current directory).</p>
+              </li>
+              <li>
+                <p>Select the directory where spb should compile into (leave empty for dist)</p>
+              </li>
+              <li>
+                <p>Select the files you want to compile (Add files one by one. To finish just leave the field empty and hit enter)</p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p><code class="text-red-500">spb dev-server -c config.spb.json</code></p>
+          </li>
+        </ol>
+        <p>If you want to run it in your local enviroment do:</p>
+        <ol>
+          <li>
+            <p><code class="text-red-500">npm i -D @puresamari/spb</code></p>
+          </li>
+          <li>
+            <p><code class="text-red-500">npx spb init</code></p>
+            <ol>
+              <li>
+                <p>Same instructions as above</p>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p><code class="text-red-500">npx spb dev-server -c config.spb.json</code></p>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="flex flex-1"></div>
+    <p>Created by <a href="https://rothert.cc">Simon Rothert</a></p>
+    <script type="text/javascript" src="/main.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/highlight.min.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad()
+    </script>
+  </body>
+
+</html>

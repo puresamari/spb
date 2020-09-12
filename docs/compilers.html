@@ -1,0 +1,66 @@
+<html class="bg-blue-600">
+
+  <head>
+    <title>Simple page builder</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/styles/default.min.css" />
+  </head>
+
+  <body class="text-white flex flex-col min-h-full p-12 w-full text-center">
+    <div class="flex flex-row items-center"><a class="flex flex-row items-end custom" href="/"><img class="mr-4 w-12" src="/assets/images/logo.png" /></a>
+      <p class="ml-4"><a href="https://badge.fury.io/js/%40puresamari%2Fspb"></a><img src="https://badge.fury.io/js/%40puresamari%2Fspb.svg" alt="" /></p>
+      <div class="flex flex-1"></div><a class="mx-4" href="https://github.com/puresamari/spb">github</a><a class="mx-4" href="/docs/">Docs</a>
+    </div>
+    <div class="mt-12 flex flex-row text-left">
+      <ul class="rounded p-8 bg-blue-400 mr-4">
+        <li><a href="/docs/installation">Installation</a></li>
+        <li><a href="/docs/cli">CLI</a></li>
+        <li><a href="/docs/compilers">Compilers</a></li>
+      </ul>
+      <div class="ml-4">
+        <h1>Compilers</h1>
+        <p>For examples take a look at <code>examples </code>in this repository. The gh-page for this repository is built using <code>SPB </code>and you can have a look at the setup under <a href="//github.com/puresamari/spb/tree/master/examples/spb-page">examples/spb-page</a>.</p>
+        <p>You can currently compile <code>typescript</code>, <code>postcss</code>, <code>scss</code>, <code>js</code>, <code>pug </code>and <code>twig </code>files uing <code>SPB</code>. all other files given to the builder will simply be copied to the output directory.</p>
+        <h1 class="mt-2"><code>twig </code>and <code>pug</code></h1>
+        <p>The <code>SPB </code>adds a context object (<code>SPB</code>) to all <code>.twig </code>and <code>.pug </code>files which contains all <code>stylesheets</code>, <code>scripts </code>and <code>html </code>files. This allowes to dynamically add all files to the html page.</p>
+        <h3>Expample usage for <code>pug</code>:</h3><pre class="hljs language-pug"><code>  
+html
+  head
+    
+    ...
+ 
+    each stylesheet in spb.stylesheets
+      link(rel="text/stlesheet", href=stylesheet)
+  
+  body
+    block content
+    each script in spb.scripts
+      script(type="text/javascript", src=script)</code></pre>
+        <h3>Expample usage for <code>twig</code>:</h3><pre class="hljs language-twig"><code> ...
+<head>
+  ....
+  {% for stylesheet in spb.stylesheets %}
+    <link rel="stylesheet" href="{{stylesheet}}" >
+  {% endfor %}
+  ....
+</head>
+ 
+<body>
+  ...
+  {% for script in spb.scripts %}
+    <script type="text/javascript" href="{{script}}" ></script>
+  {% endfor %}
+  ...
+</body></code></pre>
+      </div>
+    </div>
+    <div class="flex flex-1"></div>
+    <p>Created by <a href="https://rothert.cc">Simon Rothert</a></p>
+    <script type="text/javascript" src="/main.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/highlight.min.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad()
+    </script>
+  </body>
+
+</html>

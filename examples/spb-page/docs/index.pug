@@ -1,0 +1,44 @@
+extends ./layouts/article.pug
+
+block article_content
+  h1 Installation
+  pre.hljs
+    code.cli
+      | npm i [-g|-D|-S] @puresamari/spb
+      
+  h1.mt-4 Getting started
+  p After you installed the spb application the easiest way to get started is using the 
+    code.text-red-500 init 
+    | command. Here is a step by step guide for it.
+  ol
+    li
+      p
+        code.text-red-500 npm i -g @puresamari/spb
+    li
+      p
+        code.text-red-500 spb init
+      ol
+        li
+          p Select the directory where spb should be created (leave empty if you want to init it in your current directory).
+        li
+          p Select the directory where spb should compile into (leave empty for dist)
+        li
+          p Select the files you want to compile (Add files one by one. To finish just leave the field empty and hit enter)
+    li
+      p
+        code.text-red-500 spb dev-server -c config.spb.json
+  p If you want to run it in your local enviroment do:
+  ol
+    li
+      p
+        code.text-red-500 npm i -D @puresamari/spb
+    li
+      p
+        code.text-red-500 npx spb init
+      ol
+        li
+          p Same instructions as above
+    li
+      p
+        code.text-red-500 npx spb dev-server -c config.spb.json
+  

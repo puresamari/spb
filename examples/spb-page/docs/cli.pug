@@ -1,0 +1,156 @@
+extends ./layouts/article.pug
+
+block article_content
+  h1.mt-4 CLI
+  p Once the 
+    code SPB 
+    | cli is installed you can use the cli.
+  h1.mt-4 Usage:
+  pre.hljs
+    code.cli
+      | spb [options] [command]
+      
+  p Options:
+  ul
+    li
+      p
+        code -V, --version 
+        | output the version number
+    li
+      p
+        code -c, --config <path> 
+        | path to config json file (default: “config.spb.json”)
+    li
+      p
+        code -o, --out <path> 
+        | where the compiles files should be compiled to (overwrites configurations from the config file)
+    li
+      p
+        code --files <files...> 
+        | files that should be compiled (overwrites configurations from the config file). All files can also be defined with wildcardmatching for example 
+        code ./views/*.pug
+    li
+      p
+        code --verbose 
+        | enable verbose logging
+    li
+      p
+        code -h, --help 
+        | display help for command
+  p Commands:
+  ul
+    li
+      p
+        code init 
+        | generate the config file using the init-wizard.
+    li
+      p
+        code build 
+        | build once (is default)
+      ul
+        li
+          p
+            code $ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...
+    li
+      p
+        code watch 
+        | watch and automatically build when input files change
+      ul
+        li
+          p
+            code $ spb watch --config examples/hello-world/config.spb.json
+    li
+      p
+        code dev-server 
+        | starts the dev server
+      ul
+        li
+          p
+            code $ spb dev-server --config examples/hello-world/config.spb.json
+  h1.mt-4 Dev Server
+  p The dev server starts a server and loads all compiled files temporarily instead of building and saving them.
+  p When opening a html file the devserver adds a script to it to automatically reload the page when changes occure to the code.
+  h1.mt-4 Config file
+  p You can use a configuration file with the flag 
+    code -c 
+    | or 
+    code --config
+    | . All options declared in the config file will be overwritten by options from the cli:
+  ul
+    li
+      p
+        code spb public -c config.spb.json 
+        | if the config file has a declaration for output it will be overwritten with 
+        code public 
+        | in this case.
+    li
+      p
+        code spb public ./src/styles.css ./views/*.pug -c config.spb.json 
+        | if the config file has a declaration for files it will be overwritten with 
+        code ./src/styles.css 
+        | and all 
+        code ./views/*.pug 
+        | files in this case.
+  p You can also use this projects JSON schema to ensure integrity but it is not necessary.
+  p For example when the configuration file (for example named 
+    code config.spb.json
+    | ) is in the root directory and 
+    code spb 
+    | is installed locally:
+  pre.hljs.language-json
+    code
+      | {
+      |   "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+      |   "files": [
+      |     "./src/example.pug",
+      |     "./views/*.pug",
+      |     "./src/index.twig",
+      |     "./src/images/*",
+      |     "./src/license.pdf",
+      |     "./src/main.ts",
+      |     "./src/styles.css"
+      |   ],
+      |   "output": "dist/",
+      | }
+      
+  h2.mt-2  PostCSS plugins
+  p If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the 
+    code compilers 
+    | part of the config file. Like in this example:
+  pre.hljs.language-json
+    code 
+      | {
+      |   "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+      |   
+      |   ...
+      |   
+      |   "compilers": {
+      |     "postcss": {
+      |       "plugins": [
+      |         ...
+      |         "precss", // or other
+      |         ...
+      |       ]
+      |     }
+      |   }
+      | }
+      
+  h2.mt-2  Post build script
+  p It is possible to run a script after a build was completed. 
+    strong NOTE 
+    | this script will not be executed when running a 
+    code dev-server
+    | .
+  pre.hljs.language-json
+    code 
+      | {
+      |   "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+      |   
+      |   ...
+      |   
+      |   "postBuild": "npm run deploy" // For example
+      | }
+      
+  p Using this config file you can then build your project like this: 
+    code $ spb -c config.spb.json
+  

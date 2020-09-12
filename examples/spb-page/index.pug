@@ -12,6 +12,36 @@ block content
   
   h2.my-4 Build Simple Webpages with little to no setup.
 
-  .bg-blue-400.p-12.rounded-lg.text-2xl.mt-12
+  .bg-blue-400.p-24.rounded-lg.mt-12.text-left
 
-    a(href="./docs.html") Go to the docs
+    p
+      code.text-red-500 SPB 
+      | is a really simple build tool, designed to just take input fields and automatically generate files without the hassle of creating a bloated config file.
+
+    h2.my-4 Supported files
+
+    p At the moment, 
+      code.text-red-500 SPB 
+      | supports the compilation of 
+      code.text-red-500 .ts
+      | ,
+      code.text-red-500 .css
+      | , 
+      code.text-red-500 .scss
+      | , 
+      code.text-red-500 .js
+      | , 
+      code.text-red-500 .twig 
+      | and 
+      code.text-red-500 .pug 
+      | files. All other file types defined will just be copied when 
+      code.text-red-500 watching 
+      | or 
+      code.text-red-500 building 
+      | and served when using the 
+      code.text-red-500 dev-server
+      | . Images will automatically converted to the correct mime type as well.
+    
+    a.mt-4.block(href="//github.com/puresamari/spb/tree/master/examples") Examples on github
+    a.block(href="//github.com/puresamari/spb/blob/master/CHANGELOG.md") Changelog
+    a.block(href="/docs/") Go to the docs

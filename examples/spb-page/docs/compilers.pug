@@ -1,0 +1,87 @@
+extends ./layouts/article.pug
+
+block article_content
+  h1 Compilers
+  p For examples take a look at 
+    code examples 
+    | in this repository. The gh-page for this repository is built using 
+    code SPB 
+    | and you can have a look at the setup under 
+    a(href="//github.com/puresamari/spb/tree/master/examples/spb-page") examples/spb-page
+    | .
+  p You can currently compile 
+    code typescript
+    | , 
+    code postcss
+    | , 
+    code scss
+    | , 
+    code js
+    | , 
+    code pug 
+    | and 
+    code twig 
+    | files uing 
+    code SPB
+    | . all other files given to the builder will simply be copied to the output directory.
+  h1.mt-2
+    code twig 
+    | and 
+    code pug
+  p The 
+    code SPB 
+    | adds a context object (
+    code SPB
+    | ) to all 
+    code .twig 
+    | and 
+    code .pug 
+    | files which contains all 
+    code stylesheets
+    | , 
+    code scripts 
+    | and 
+    code html 
+    | files. This allowes to dynamically add all files to the html page.
+  h3 Expample usage for 
+    code pug
+    | :
+  pre.hljs.language-pug
+    code 
+      | 
+      | html
+      |   head
+      |     
+      |     ...
+      | 
+      |     each stylesheet in spb.stylesheets
+      |       link(rel="text/stlesheet", href=stylesheet)
+      |   
+      |   body
+      |     block content
+      |     each script in spb.scripts
+      |       script(type="text/javascript", src=script)
+      
+      
+      
+  h3 Expample usage for 
+    code twig
+    | :
+  pre.hljs.language-twig
+    code 
+      | ...
+      | <head>
+      |   ....
+      |   {% for stylesheet in spb.stylesheets %}
+      |     <link rel="stylesheet" href="{{stylesheet}}" >
+      |   {% endfor %}
+      |   ....
+      | </head>
+      | 
+      | <body>
+      |   ...
+      |   {% for script in spb.scripts %}
+      |     <script type="text/javascript" href="{{script}}" ></script>
+      |   {% endfor %}
+      |   ...
+      | </body>

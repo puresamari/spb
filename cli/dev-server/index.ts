@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import { resolveFilePath } from 'cli/utils';
 import fs from 'fs';
 import path from 'path';
 import { from, Subscription, timer } from 'rxjs';
@@ -8,7 +7,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 import { Builder } from '../../builder';
 import { ExportType } from '../../builder/builders/utils';
 import { IBuilderOptions } from '../../builder/definitions/builder-options';
-import { IMainCommanderOptions } from './../../lib/cli/utils.d';
+import { IMainCommanderOptions, resolveFilePath } from '../utils';
 import { CompilationMap, CompilationStatus } from './compilation-map';
 import { WebServer } from './web-server';
 

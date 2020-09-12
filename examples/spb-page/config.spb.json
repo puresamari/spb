@@ -1,7 +1,7 @@
 {
   "$schema": "../../lib/config.schema.json",
   "files": [
-    "./views/*.pug",
+    "./*.pug",
     "./main.ts",
     "./styles.css",
     "./fonts/*/*.ttf"

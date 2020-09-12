@@ -8,7 +8,7 @@
 At the moment, `spb` supports the compilation of `.ts`, `.css`, `.scss`, `.js`, `.twig` and `.pug` files. All other file types defined will just be copied when `watching` or `building` and served when using the `dev-server`. Images will automatically converted to the correct mime type as well.
 
 ## Examples
-- This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/) (carefull its really ugly and only for demonstration at the moment)
+- This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/)
 
 # Installation
     npm i [-g|-D|-S] @puresamari/spb

@@ -4,7 +4,8 @@
     "./*.pug",
     "./main.ts",
     "./styles.css",
-    "./fonts/*/*.ttf"
+    "./fonts/*/*.ttf",
+    "./assets/**/*.png"
   ],
   "output": "../../dist",
   "compilers": {

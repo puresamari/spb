@@ -7,11 +7,15 @@
 @import './fonts/fonts.css';
 
 h1 {
-  @apply text-2xl text-red-500;
+  @apply text-4xl;
+}
+
+h2 {
+  @apply text-2xl;
 }
 
 a[href]:not(.custom) {
-  @apply text-blue-500;
+  /* @apply text-blue-500; */
   &:not(:hover) {
     @apply underline;
   }

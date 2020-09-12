@@ -4,6 +4,8 @@
 
 @tailwind utilities;
 
+@import './fonts/fonts.css';
+
 h1 {
   @apply text-2xl text-red-500;
 }

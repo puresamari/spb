@@ -1,7 +1,7 @@
 import pug from 'pug';
 
 import { ExportType } from '../utils';
-import { IBuilderContext } from './../../utils';
+import { IBuilderContext, NormalizeContextForBuildContext } from './../../utils';
 import { AutoDiscoverCompiler } from './compiler';
 
 const pretty = require("pretty");
@@ -14,7 +14,7 @@ export default class PUGCompiler extends AutoDiscoverCompiler {
     exportPath: string,
     context: IBuilderContext
   ) {
-    const output = pug.compileFile(this.file)({ spb: context });
+    const output = pug.compileFile(this.file)({ spb: NormalizeContextForBuildContext(context) });
     return {
       output: pretty(output),
       file: this.file,

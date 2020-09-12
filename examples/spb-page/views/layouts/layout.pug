@@ -1,11 +1,15 @@
-html.bg-gray-900
+html.bg-blue-600
   head
     title Simple page builder
     each stylesheet in spb.stylesheets
       link(rel="stylesheet", type="text/css", href=stylesheet)
+    block head_sheets
   
-  body.text-white.flex.flex-col.min-h-full.p-4.mx-auto.text-center(class="md:w-1/2")
+  body.text-white.flex.flex-col.min-h-full.p-12.w-full.text-center
     include ./header.pug
     block content
     .flex.flex-1
+
     include ./footer.pug
+    
+    block body_scripts

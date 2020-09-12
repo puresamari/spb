@@ -1,9 +1,12 @@
 {
   "$schema": "../../lib/config.schema.json",
   "files": [
-    "./views/*.pug",
+    "./*.pug",
+    "./docs/*.pug",
     "./main.ts",
-    "./styles.css"
+    "./styles.css",
+    "./fonts/*/*.ttf",
+    "./assets/**/*.png"
   ],
   "output": "../../dist",
   "compilers": {

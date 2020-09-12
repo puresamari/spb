@@ -4,13 +4,23 @@
 
 @tailwind utilities;
 
+@import './fonts/fonts.css';
+
 h1 {
-  @apply text-2xl text-red-500;
+  @apply text-4xl mb-4;
+}
+
+h2 {
+  @apply text-2xl mb-2;
 }
 
 a[href]:not(.custom) {
-  @apply text-blue-500;
+  /* @apply text-blue-500; */
   &:not(:hover) {
     @apply underline;
   }
+}
+
+code {
+  @apply text-red-500;
 }

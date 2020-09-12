@@ -1,0 +1,21 @@
+extends ../../views/layouts/layout.pug
+
+block head_sheets
+  link(rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/styles/default.min.css")
+
+block body_scripts
+  script(src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/highlight.min.js")
+  script
+    | hljs.initHighlightingOnLoad()
+
+block content
+  .mt-12.flex.flex-row.text-left
+    ul.rounded.p-8.bg-blue-400.mr-4
+      li
+        a(href="/docs/installation") Installation
+      li
+        a(href="/docs/cli") CLI
+      li
+        a(href="/docs/compilers") Compilers
+    .ml-4
+      block article_content

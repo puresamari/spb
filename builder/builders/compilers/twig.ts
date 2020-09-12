@@ -3,7 +3,7 @@ import path from "path";
 import { twig } from "twig";
 
 import { ExportType } from "../utils";
-import { IBuilderContext } from "./../../utils";
+import { IBuilderContext, NormalizeContextForBuildContext } from "./../../utils";
 import { AutoDiscoverCompiler, Compiler } from "./compiler";
 
 const pretty = require("pretty");
@@ -29,7 +29,7 @@ export class TWIGCompiler extends AutoDiscoverCompiler {
     } as any);
 
     return {
-      output: pretty(template.render({ spb: context })),
+      output: pretty(template.render({ spb: NormalizeContextForBuildContext(context) })),
       file: this.file,
       path: exportPath,
       type: 'html' as ExportType,

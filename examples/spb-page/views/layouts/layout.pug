@@ -1,8 +1,12 @@
+block layout_variables
+  - var base = './'
+doctype html
 html.bg-blue-600
   head
     title Simple page builder
+    base(href=base)
     each stylesheet in spb.stylesheets
-      link(rel="stylesheet", type="text/css", href=stylesheet)
+      link(rel="stylesheet", type="text/css", href='.' + stylesheet)
     block head_sheets
   
   body.text-white.flex.flex-col.min-h-full.p-12.w-full.text-center

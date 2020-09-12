@@ -1,11 +1,15 @@
 import { IBuilderOptions } from './builder-options';
 
-export interface IBuilderContext {
+export interface IBuilderContextSimple {
+  options: IBuilderOptions;
+  basePath: string;
+}
+
+export interface IBuilderContext extends IBuilderContextSimple {
   stylesheets: string[];
   scripts: string[];
   html: string[];
   other: string[];
-  options: IBuilderOptions;
 }
 
 export { IBuilderOptions };

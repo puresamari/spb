@@ -136,7 +136,7 @@ Starded development servers
 
     const promi = new Promise(resolve => {
       const check = () => {
-        if (Object.values(closed).filter(v => !!v).length === 0) { resolve(); }
+        if (Object.values(closed).filter(v => !!v).length === 0) { resolve(null); }
       }
 
       if (this.webserver) {

@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { resolveFilePath } from 'cli/utils';
 import fs from 'fs';
 import path from 'path';
 import { from, Subscription, timer } from 'rxjs';
@@ -7,6 +8,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 import { Builder } from '../../builder';
 import { ExportType } from '../../builder/builders/utils';
 import { IBuilderOptions } from '../../builder/definitions/builder-options';
+import { IMainCommanderOptions } from './../../lib/cli/utils.d';
 import { CompilationMap, CompilationStatus } from './compilation-map';
 import { WebServer } from './web-server';
 
@@ -24,13 +26,14 @@ export class DevServer {
   private readonly files: CompilationMap;
 
   constructor(
+    commander: IMainCommanderOptions,
     public readonly options: IBuilderOptions,
     public readonly devServerOptions = {
       port: 5678,
       socketPort: 5679
     }
   ) {
-    this.builder = new Builder(options);
+    this.builder = new Builder(options, path.dirname(resolveFilePath(commander.config)));
 
     this.files = new CompilationMap(options);
 

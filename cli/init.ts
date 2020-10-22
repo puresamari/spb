@@ -51,7 +51,10 @@ export function make(program: Command) {
         }
       }
 
-      const configFileContents = { schema: 'node_modules/@puresamari/spb/lib/config.schema.json', ...config };
+      const configFileContents = {
+        '$schema': 'node_modules/@puresamari/spb/lib/config.schema.json',
+        ...config
+      };
 
       fs.writeFileSync(path.join(spbPath, 'config.spb.json'), JSON.stringify(configFileContents));
       

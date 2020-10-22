@@ -2,16 +2,16 @@
 
 @tailwind components;
 
-@import './styles/header.css';
-
 @tailwind utilities;
+
+@import './styles/header.css';
 
 h1 {
   @apply text-2xl text-red-500;
 }
 
 a[href] {
-  @apply text-blue-500;
+  @apply text-blue-400;
   &:not(:hover) {
     @apply underline;
   }

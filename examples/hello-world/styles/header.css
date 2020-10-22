@@ -1,5 +1,5 @@
 
 header {
-  @apply text-blue-500;
+  @apply text-blue-400;
   @import './header-logo.css';
 }

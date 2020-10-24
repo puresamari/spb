@@ -16,3 +16,7 @@ a[href] {
     @apply underline;
   }
 }
+
+canvas {
+  @apply h-screen w-screen;
+}

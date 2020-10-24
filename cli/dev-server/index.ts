@@ -104,9 +104,14 @@ export class DevServer {
   
       await contextFiles.forEach(async context => {
         [ ...context.files ].forEach(file => {
-          this.watchers.push(fs.watchFile(file, (curr: any, prev: any) => {
-            this.compileFile(context.source);
-          }) as any);
+          try {
+            this.watchers.push(fs.watchFile(file, (curr: any, prev: any) => {
+              this.compileFile(context.source);
+            }) as any);
+          } catch (e) {
+            console.log('FILE', file);
+            console.log(e)
+          }
         });
         await this.compileFile(context.source);
       });

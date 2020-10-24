@@ -1,6 +1,6 @@
 {
   "name": "@puresamari/spb",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A simple build tool for quick website development.",
   "main": "./lib/cli/index.js",
   "bin": {
@@ -47,7 +47,6 @@
   "homepage": "https://github.com/puresamari/spb#readme",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@puresamari/ts-bundler": "^0.1.0",
     "@types/cli-progress": "^3.7.0",
     "@types/gh-pages": "^3.0.0",
     "@types/glob": "^7.1.3",
@@ -77,6 +76,7 @@
     "lib": "lib"
   },
   "dependencies": {
+    "@puresamari/ts-bundler": "^0.1.0",
     "autoprefixer": "^9.8.6",
     "chalk": "^4.1.0",
     "cli-progress": "^3.8.2",

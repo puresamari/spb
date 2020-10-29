@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## 0.7.2 - 24. October 2020
+## 0.7.3 - 29. October 2020
+### Fixed
+- Added precss to dependencies.
+
+## 0.7.2 - 29. October 2020
 ### Fixed
 - Added precss for scss syntax files to fix nesting.
 

@@ -76,7 +76,7 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@puresamari/ts-bundler": "^0.1.0",
+    "@puresamari/ts-bundler": "^0.2.0",
     "autoprefixer": "^9.8.6",
     "chalk": "^4.1.0",
     "cli-progress": "^3.8.2",

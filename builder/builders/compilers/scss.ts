@@ -15,14 +15,21 @@ export class SCSSCompiler extends AutoDiscoverCompiler {
     exportPath: string,
     context: IBuilderContext
   ) {
-    return postcss([ require('autoprefixer') ])
-    .process(fs.readFileSync(this.file, "utf8"), { from: this.file, to: exportPath, syntax: { parse: parse as any as postcss.Parser, stringify: stringify as any as postcss.Stringifier }  })
+    return postcss([ require('autoprefixer'), require('precss') ])
+    .process(fs.readFileSync(this.file, "utf8"), {
+      from: this.file,
+      to: exportPath,
+      syntax: {
+        parse: parse as any,
+        stringify: stringify as any,
+      },
+    })
     .then((result) => ({
       output: result.css,
       file: this.file,
       path: exportPath,
-      type: 'css' as ExportType,
-      affectedFiles: this.discoverExternals(this.file)
+      type: "css" as ExportType,
+      affectedFiles: this.discoverExternals(this.file),
     }));
   }
 }

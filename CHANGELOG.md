@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## WIP
+### Changed
+- Instantly 404ing request with unresolvable path on dev-server for performance gains.
 
 ## 0.7.3 - 29. October 2020
 ### Fixed

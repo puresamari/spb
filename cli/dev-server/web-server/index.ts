@@ -1,8 +1,8 @@
-import { FilesMap } from './files-map';
+import { ExportType } from 'builder/builders/utils';
 import chalk from 'chalk';
+import fs from 'fs';
 import http, { OutgoingHttpHeaders } from 'http';
 import path from 'path';
-import fs from 'fs';
 import pug from 'pug';
 import { from, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import WebSocket from 'ws';
 import { CompilerResult } from '../../../builder/builders/compilers/definitions';
 import { IBuilderOptions } from '../../../builder/definitions/builder-options';
 import { IDynamicCompilerResult } from './../compilation-map';
+import { FilesMap } from './files-map';
 
 const log = console.log;
 
@@ -36,13 +37,12 @@ export class WebServer {
 
     if (v.type === 'html') {
       output += this.templates.reload({ websocketUrl: this.WebSocketURL });
-      // output += fs.readFileSync(path.resolve(__dirname, 'reload.html'), 'utf-8').replace('__WEBSOCKET_URL__', this.WebSocketURL);
     }
     
     return {...v, output};
   }
 
-  public getHeaders({ type }: CompilerResult): OutgoingHttpHeaders | undefined {
+  public getHeaders(type: ExportType): OutgoingHttpHeaders | undefined {
     switch (type) {
       case 'svg':
         return {'content-type':'image/svg+xml'};
@@ -63,6 +63,7 @@ export class WebServer {
     },
   ) {
 
+
     this.filesSub = filesObservable.subscribe(v => {
       this.files = FilesMap.fromDynamic(v);
     });
@@ -81,19 +82,19 @@ export class WebServer {
     
     this.webserver = http.createServer((req, res) => {
       
-      if (!req.url || !this.files || !this.files.has(req.url.slice(1))) {
+      if (!this.files?.has(req.url?.slice(1))) {
         res.writeHead(404);
         res.end(this.templates[404]({
           url: req.url,
-          requested_file: (req.url || '/unknown').slice(1),
+          requested_file: (req.url || '/unknown').slice(1) || 'unknown',
           files: [...this.files?.keys() || []]
         }));
         return;
       }
 
-      const requestedFile = this.files.resolve(req.url.slice(1))!;
+      const requestedFile = this.files?.resolve(req.url?.slice(1))!;
 
-      res.writeHead(200, this.getHeaders(requestedFile));
+      res.writeHead(200, this.getHeaders(requestedFile.type));
       res.end(requestedFile.output);
     });
 

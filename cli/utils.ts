@@ -29,6 +29,10 @@ export interface IMainCommanderOptions {
   config: string
 };
 
+export function resolveFilePathOnBase(file: string) {
+  return path.resolve(basePath, file);
+}
+
 export function resolveFilePath(file: string) {
   return path.resolve(basePath, file);
 }
@@ -36,12 +40,12 @@ export function resolveFilePath(file: string) {
 function getConfig(configPath: string): IBuilderOptions {
   const dir = path.dirname(configPath);
   try {
-    const configs = JSON.parse(fs.readFileSync(resolveFilePath(configPath), 'utf-8')) as IBuilderOptions;
+    const configs = JSON.parse(fs.readFileSync(resolveFilePathOnBase(configPath), 'utf-8')) as IBuilderOptions;
     // const configs = require(resolveFilePath(configPath)) as IBuilderOptions;
     return {
       ...configs,
       output: path.resolve(dir, configs.output),
-      files: collectFiles(configs.files.map(v => path.join(dir, v)))
+      files: collectFiles(configs.files.map(v => path.join(dir, configs.root || '', v)), configs)
     };
   } catch (e) {
     console.error('Error while getting config', configPath);
@@ -50,7 +54,7 @@ function getConfig(configPath: string): IBuilderOptions {
   }
 }
 
-export function collectFiles(files: string[]) {
+export function collectFiles(files: string[], config: IBuilderOptions) {
   let retFiles: string[] = [];
   files.forEach(pattern => {
     retFiles = [
@@ -58,7 +62,8 @@ export function collectFiles(files: string[]) {
       ...glob.sync(pattern)
     ]
   });
-  return retFiles.map(resolveFilePath);
+  console.log(retFiles)
+  return retFiles.map(v => resolveFilePath(v));
 }
 
 export function generateConfig(options: IMainCommanderOptions): IBuilderOptions {
@@ -66,9 +71,9 @@ export function generateConfig(options: IMainCommanderOptions): IBuilderOptions 
   if (options.out) { config.output = resolveFilePath(options.out); }
   if (options.files) {
     if (typeof options.files === 'string') {
-      config.files = collectFiles([options.files]);
+      config.files = collectFiles([options.files], config);
     } else if (options.files.length > 0) {
-      config.files = collectFiles(options.files);
+      config.files = collectFiles(options.files, config);
     }
   }
   return config;

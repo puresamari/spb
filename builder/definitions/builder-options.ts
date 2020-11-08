@@ -2,7 +2,12 @@ export interface IBuilderOptions {
   output: string;
 
   /**
-   * Files that should be built.
+   * Root path relative to path or config path. Default is ''.
+   */
+  root?: string;
+
+  /**
+   * Files that should be built (relative to root).
    */
   files: string[];
   compilers?: {

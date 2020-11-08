@@ -2,10 +2,10 @@
     "watch": [
         "cli",
         "dev-server",
-        "examples/spb-page/config.spb.json",
+        "examples/hello-world.config.spb.json",
         "builder"
     ],
     "ext": "ts",
     "ignore": ["*.spec.ts"],
-    "exec": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts dev-server --config examples/hello-world/config.spb.json"
+    "exec": "npx node -r ts-node/register -r tsconfig-paths/register cli/index.ts dev-server --config examples/hello-world.config.spb.json"
   }

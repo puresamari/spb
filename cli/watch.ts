@@ -6,7 +6,7 @@ import path from 'path';
 import rimraf from 'rimraf';
 
 import { Builder } from '../builder';
-import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePath } from './utils';
+import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePathOnBase } from './utils';
 
 // const chalk = require('chalk');
 
@@ -18,7 +18,7 @@ export function make(program: Command) {
   heat
     .action(async () => {
       const config = generateConfig(program.opts() as IMainCommanderOptions);
-      const builder = new Builder(config, path.dirname(resolveFilePath((program.opts() as IMainCommanderOptions).config)));
+      const builder = new Builder(config, path.dirname(resolveFilePathOnBase((program.opts() as IMainCommanderOptions).config)));
 
       if (config.clearOutputFolder !== false) {
         rimraf.sync(path.join(config.output, '*'));

@@ -1,5 +1,6 @@
 {
-  "$schema": "../../lib/config.schema.json",
+  "$schema": "../lib/config.schema.json",
+  "root": "hello-world/",
   "files": [
     "./index.pug",
     "./views/*.pug",

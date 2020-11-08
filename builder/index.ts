@@ -8,11 +8,14 @@ import { ExportType, getExportFileName } from './builders/utils';
 import { IBuilderContext, IBuilderOptions } from './utils';
 
 export class Builder {
-  constructor(public readonly options: IBuilderOptions, public readonly basePath: string) {
+  public readonly basePath: string;
+  constructor(public readonly options: IBuilderOptions, public readonly dir: string) {
+    this.basePath = path.join(dir, options.root || '');
     const simpleContext = {
       options,
-      basePath
+      basePath: this.basePath
     };
+    console.log(simpleContext);
 
     const exportedFiles = options.files.map((v) => getExportFileName(v, simpleContext));
     this.builderContext = {
@@ -24,6 +27,7 @@ export class Builder {
       other: exportedFiles.filter((v) => !v.endsWith("css") && !v.endsWith("js") && !v.endsWith("html"))
     };
     options.files.forEach(file => {
+      //TODO: this should be resolved in the compiler itself
       this.compilers.set(file, getCompiler(file));
     });
   }

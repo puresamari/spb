@@ -49,11 +49,11 @@ Options:
 Commands:
   - `init` generate the config file using the init-wizard.
   - `build` build once (is default)
-    - `$ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...`
+    - `$ spb --config examples/hello-world.config.spb.json -o dist --files test.twig ...`
   - `watch` watch and automatically build when input files change
-    - `$ spb watch --config examples/hello-world/config.spb.json`
+    - `$ spb watch --config examples/hello-world.config.spb.json`
   - `dev-server` starts the dev server
-    - `$ spb dev-server --config examples/hello-world/config.spb.json`
+    - `$ spb dev-server --config examples/hello-world.config.spb.json`
 
 ## Dev Server
 
@@ -87,6 +87,11 @@ For example when the configuration file (for example named `config.spb.json`) is
 }
 ```
 
+Here are all configurable options for this file:
+- [PostCSS plugins](#postcss-plugins)
+- [Post build script](#post-build-script)
+- [Root config](#root-config)
+
 ### PostCSS plugins
 If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the `compilers` part of the config file. Like in this example:
 ```json
@@ -116,6 +121,18 @@ It is possible to run a script after a build was completed. **NOTE** this script
   ...
   
   "postBuild": "npm run deploy" // For example
+}
+```
+
+### Root config
+By default, all [files](#config-file) are relative to the config file itself (when running on cli without file, they are relative to your current directory). You can manually set a root path (relative to the config file itself), which all files will be relative to:
+```json
+{
+  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  
+  ...
+  
+  "root": "src/" // For example
 }
 ```
 

@@ -5,7 +5,8 @@ import path from 'path';
 import rimraf from 'rimraf';
 
 import { Builder } from '../builder';
-import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePath } from './utils';
+import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePath, resolveFilePathOnBase } from './utils';
+import { IBuilderOptions } from 'builder/utils';
 
 const log = console.log;
 
@@ -21,7 +22,7 @@ export function make(program: Command) {
         rimraf.sync(path.join(config.output, '*'));
       }
 
-      const builder = new Builder(config, path.dirname(resolveFilePath((program.opts() as IMainCommanderOptions).config)));
+      const builder = new Builder(config, path.dirname(resolveFilePathOnBase((program.opts() as IMainCommanderOptions).config)));
       printBuilder(builder);
 
       await build(builder, getProgressBar(builder));

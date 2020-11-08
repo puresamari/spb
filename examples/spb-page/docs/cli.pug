@@ -50,7 +50,7 @@ block article_content
       ul
         li
           p
-            code $ spb --config examples/hello-world/config.spb.json -o dist --files test.twig ...
+            code $ spb --config examples/hello-world.config.spb.json -o dist --files test.twig ...
     li
       p
         code watch 
@@ -58,7 +58,7 @@ block article_content
       ul
         li
           p
-            code $ spb watch --config examples/hello-world/config.spb.json
+            code $ spb watch --config examples/hello-world.config.spb.json
     li
       p
         code dev-server 
@@ -66,7 +66,7 @@ block article_content
       ul
         li
           p
-            code $ spb dev-server --config examples/hello-world/config.spb.json
+            code $ spb dev-server --config examples/hello-world.config.spb.json
   h1.mt-4 Dev Server
   p The dev server starts a server and loads all compiled files temporarily instead of building and saving them.
   p When opening a html file the devserver adds a script to it to automatically reload the page when changes occure to the code.

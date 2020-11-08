@@ -7,7 +7,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 import { Builder } from '../../builder';
 import { ExportType } from '../../builder/builders/utils';
 import { IBuilderOptions } from '../../builder/definitions/builder-options';
-import { IMainCommanderOptions, resolveFilePath } from '../utils';
+import { IMainCommanderOptions, resolveFilePath, resolveFilePathOnBase } from '../utils';
 import { CompilationMap, CompilationStatus } from './compilation-map';
 import { WebServer } from './web-server';
 
@@ -32,7 +32,7 @@ export class DevServer {
       socketPort: 5679
     }
   ) {
-    this.builder = new Builder(options, path.dirname(resolveFilePath(commander.config)));
+    this.builder = new Builder(options, path.dirname(resolveFilePathOnBase(commander.config)));
 
     this.files = new CompilationMap(options);
 

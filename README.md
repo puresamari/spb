@@ -157,7 +157,7 @@ html
     ...
 
     each stylesheet in spb.stylesheets
-      link(rel="text/stlesheet", href=stylesheet)
+      link(rel="stlesheet", href=stylesheet)
   
   body
     block content

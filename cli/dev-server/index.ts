@@ -35,10 +35,17 @@ export class DevServer {
       socketPort: 5679,
     }
   ) {
+    const dir = path.dirname(resolveFilePathOnBase(commander.config));
+    const output = path.join(dir, options.root || '');
     this.builder = new Builder(
-      options,
-      path.dirname(resolveFilePathOnBase(commander.config))
+      {
+        ...options,
+        output // For the dev server only root output is required
+      },
+      dir
     );
+
+    // throw this.builder.builderContext.options.output;
 
     this.files = new CompilationMap(options);
 
@@ -122,7 +129,6 @@ export class DevServer {
 
         await contextFiles.forEach(async (context) => {
           [...context.files].forEach((file) => {
-            console.log('watching file', file)
             try {
               this.watchers.push(
                 fs.watch(file, (curr: any, prev: any) => {

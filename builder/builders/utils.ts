@@ -27,9 +27,12 @@ export function getFileName(file: string, context: IBuilderContextSimple): strin
   return file.split('/')[file.split('/').length - 1];
 }
 
+function normalizeExportFileNameFromRelative(file: string): string {
+  return file.replace('.' + getFileType(file), '.' + getExportType(file));
+}
+
 export function getExportFileNameFromRelative(file: string, context: IBuilderContextSimple): string {
-  const normalFile = file.replace('.' + getFileType(file), '.' + getExportType(file));
-  return path.join(context.options.output, normalFile);
+  return path.join(context.options.output, normalizeExportFileNameFromRelative(file));
 }
 
 export function getExportFileName(file: string, context: IBuilderContextSimple): string {
@@ -37,5 +40,6 @@ export function getExportFileName(file: string, context: IBuilderContextSimple):
 }
 
 export function getExportPath(file: string, outDir: string, context: IBuilderContextSimple): string {
-  return path.join(outDir, getExportFileName(file, context));
+  const normalFileName = normalizeExportFileNameFromRelative(path.relative(context.basePath, file));
+  return path.join(outDir, normalFileName);
 }

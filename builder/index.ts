@@ -12,7 +12,10 @@ import { IBuilderContext, IBuilderOptions } from './utils';
 
 export class Builder {
   public readonly basePath: string;
-  constructor(public readonly options: IBuilderOptions, public readonly dir: string) {
+  constructor(
+    public readonly options: IBuilderOptions,
+    public readonly dir: string
+  ) {
     this.basePath = path.join(dir, options.root || '');
     const simpleContext = {
       options,
@@ -35,7 +38,9 @@ export class Builder {
   }
 
   public get Files() { return [...this.compilers.keys()]; }
-  public getExportPathOfFile(file: string) { return this.compilers.get(file)?.getExportFilePath(this.options.output, this.builderContext); }
+  public getExportPathOfFile(file: string) {
+    return this.compilers.get(file)?.getExportFilePath(this.options.output, this.builderContext);
+  }
 
   public get ContextFiles(): Observable<
     {

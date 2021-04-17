@@ -42,22 +42,22 @@ export class CSSCompiler extends AutoDiscoverCompiler {
         // output = await postcss(plugins).process(output, { from: file, to: exportPath }).css
         postcss(plugins).process(output, { from: this.file, to: exportPath })
           .then((result) => {
-            resolve({
+            resolve(this.postCompile({
               output: result.css,
               file: this.file,
               path: exportPath,
               type: 'css' as ExportType,
               affectedFiles: this.discoverExternals(this.file)
-            });
+            }));
           });
       } else {
-        resolve({
+        resolve(this.postCompile({
           output: output,
           file: this.file,
           path: exportPath,
           type: 'css' as ExportType,
           affectedFiles: this.discoverExternals(this.file)
-        });
+        }));
       }
       
     })

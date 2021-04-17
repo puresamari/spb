@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { Command } from 'commander';
@@ -7,10 +8,13 @@ import rimraf from 'rimraf';
 
 import { Builder } from '../builder';
 import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePathOnBase } from './utils';
+import { first } from 'rxjs/operators';
 
 // const chalk = require('chalk');
 
 const log = console.log;
+
+let sub: Subscription | undefined;
 
 export function make(program: Command) {
   const heat = new Command('watch');
@@ -37,19 +41,21 @@ export function make(program: Command) {
       printBuilder(builder);
       const progressBar = getProgressBar(builder);
 
-      const contextFiles = await builder.getContextFiles();
-      
-      log('Watching files');
-      contextFiles.map(v => v.files.map(file => chalk.underline.blue(file)).join('\n  ')).forEach(v => log('  ' + v));
-      log('');
-
-      contextFiles.forEach(context => {
-        [ ...context.files ].forEach((file) => {
-          fs.watchFile(file, () => {
-            _build(context.source);
-          });
-        });
+      sub?.unsubscribe();
+      sub = builder.ContextFiles.pipe(
+        first() // TODO: Should dynamically remove the watchers when context files change
+      ).subscribe(cFiles => {
+        cFiles.forEach(({ source, files }) => {
+          chalk.underline.blue(source);
+          files.forEach(file => {
+            chalk.underline.blue('  - ' + file);
+            fs.watchFile(file, () => {
+              _build(source);
+            });
+          })
+        })
       });
+      log('');
 
       _build();
     });

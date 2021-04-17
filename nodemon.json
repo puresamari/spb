@@ -1,9 +1,7 @@
 {
     "watch": [
         "cli",
-        "examples/spb-page/index.twig",
-        "examples/spb-page/main.ts",
-        "examples/spb-page/styles.css",
+        "examples/hello-world/*",
         "builder"
     ],
     "ext": "ts",

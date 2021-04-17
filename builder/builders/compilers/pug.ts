@@ -15,12 +15,12 @@ export default class PUGCompiler extends AutoDiscoverCompiler {
     context: IBuilderContext
   ) {
     const output = pug.compileFile(this.file)({ spb: NormalizeContextForBuildContext(context) });
-    return {
+    return this.postCompile({
       output: pretty(output),
       file: this.file,
       path: exportPath,
       type: 'html' as ExportType,
       affectedFiles: this.discoverExternals(this.file)
-    };
+    });
   }
 }

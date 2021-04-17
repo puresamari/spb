@@ -1,5 +1,8 @@
+import { debounce, uniq } from 'lodash';
 import mkdirp from 'mkdirp';
 import path from 'path';
+import { combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, map, tap, filter, debounceTime } from 'rxjs/operators';
 
 import { getCompiler } from './builders';
 import { Compiler } from './builders/compilers/compiler';
@@ -15,7 +18,6 @@ export class Builder {
       options,
       basePath: this.basePath
     };
-    console.log(simpleContext);
 
     const exportedFiles = options.files.map((v) => getExportFileName(v, simpleContext));
     this.builderContext = {
@@ -35,22 +37,29 @@ export class Builder {
   public get Files() { return [...this.compilers.keys()]; }
   public getExportPathOfFile(file: string) { return this.compilers.get(file)?.getExportFilePath(this.options.output, this.builderContext); }
 
-  public async getContextFiles() {
-    let contextFiles: {
-      source: string,
-      files: string[]
-    }[] = [];
-    const files = this.Files;
-    for (let i = 0; i < files.length; i++) {
-      contextFiles.push({
-        source: files[i],
-        files: await this.compilers.get(files[i])?.getContextFiles(
-          this.options.output,
-          this.builderContext
-        ) || []
-      });
-    }
-    return contextFiles;
+  public get ContextFiles(): Observable<
+    {
+      source: string;
+      files: string[];
+    }[]
+  > {
+    // Collect all context files and map them for usability
+    return combineLatest(
+      this.Files.map((source) => ({
+        source,
+        compiler: this.compilers.get(source)!,
+      }))
+        .filter(({ compiler }) => !!compiler)
+        .map(({ source, compiler }) =>
+          compiler.ContextFiles.pipe(map((files) => ({ source, files })))
+        )
+    ).pipe(
+      map(uniq),
+      distinctUntilChanged((before, after) => {
+        return JSON.stringify(before) === JSON.stringify(after);
+      }),
+      debounceTime(100)
+    );
   }
 
   public readonly builderContext: IBuilderContext;

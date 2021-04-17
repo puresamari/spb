@@ -21,12 +21,12 @@ export default class CopyCompiler extends Compiler {
     exportPath: string,
     context: IBuilderContext
   ) {
-    return {
+    return this.postCompile({
       output: this.cmp(),
       file: this.file,
       path: exportPath,
       type: this.Type,
       affectedFiles: []
-    };
+    });
   }
 }

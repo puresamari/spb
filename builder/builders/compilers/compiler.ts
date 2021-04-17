@@ -1,14 +1,26 @@
 import fs from 'fs';
+import { uniq } from 'lodash';
 import path from 'path';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { getExportPath } from '../utils';
 
 import { IBuilderContext } from './../../definitions';
 import { BuilderResult, CompilerResult } from './definitions';
 
 export abstract class Compiler {
-  constructor(public readonly file: string) { }
+  private readonly contextFileBehaviour: BehaviorSubject<string[]>;
 
+  constructor(public readonly file: string) {
+    this.contextFileBehaviour = new BehaviorSubject<string[]>([file]);
+  }
+
+  // IMPORTANT: Execute postCompile after compilation within the compile method!
   public abstract compile(exportPath: string, context: IBuilderContext): Promise<CompilerResult>;
+  public postCompile(result: CompilerResult, contextFiles?: string[]): CompilerResult {
+    this.contextFileBehaviour.next(uniq(contextFiles || [ this.file, ...result.affectedFiles ]));
+    return result;
+  }
     
   public getExportFilePath(exportPath: string, context: IBuilderContext) {
     return getExportPath(this.file, exportPath, context);
@@ -24,11 +36,11 @@ export abstract class Compiler {
     return { ...data } as BuilderResult;
   }
 
-  public async getContextFiles(exportPath: string, context: IBuilderContext): Promise<string[]> {
-    return [
-      this.file,
-      ...(await this.build(exportPath, context)).affectedFiles
-    ];
+  public get ContextFiles(): Observable<string[]> {
+    return this.contextFileBehaviour.asObservable().pipe(
+      distinctUntilChanged((before, after) => JSON.stringify(before) === JSON.stringify(after)),
+      filter(v => v.length !== 0)
+    );
   }
 
 }

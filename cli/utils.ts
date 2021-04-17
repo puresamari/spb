@@ -62,7 +62,6 @@ export function collectFiles(files: string[], config: IBuilderOptions) {
       ...glob.sync(pattern)
     ]
   });
-  console.log(retFiles)
   return retFiles.map(v => resolveFilePath(v));
 }
 
@@ -130,7 +129,7 @@ export async function build(builder: Builder, progressBar: Bar, file?: string) {
     ...builder.builderContext.scripts,
     ...builder.builderContext.html,
     ...builder.builderContext.other
-  ]).map(v => `${builder.options.output}/${v.replace(builder.basePath + '/', '')}`);
+  ])//.map(v => `${builder.options.output}/${path.relative(builder.options.output, v)}`);
 
   console.log(builder.options.output)
   console.log(chalk`

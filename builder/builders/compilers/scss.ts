@@ -24,7 +24,7 @@ export class SCSSCompiler extends AutoDiscoverCompiler {
         stringify: stringify as any,
       },
     })
-    .then((result) => ({
+    .then((result) => this.postCompile({
       output: result.css,
       file: this.file,
       path: exportPath,

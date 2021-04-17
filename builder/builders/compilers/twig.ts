@@ -28,12 +28,12 @@ export class TWIGCompiler extends AutoDiscoverCompiler {
       path: path.dirname(this.file) + "/",
     } as any);
 
-    return {
+    return this.postCompile({
       output: pretty(template.render({ spb: NormalizeContextForBuildContext(context) })),
       file: this.file,
       path: exportPath,
       type: 'html' as ExportType,
       affectedFiles: this.discoverExternals(this.file) || []
-    };
+    });
   }
 }

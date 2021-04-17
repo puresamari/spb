@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Memory leak with files being constantly recompiled when watching or running a dev-server.
 - Cleaned up debug output of console on dev-server.
 - Fixed output paths of watch and build commands.
+- Fixed Twig compiler issue where layout files are not recompiled in dev server by removing its caching function.
 
 ### Changed
 - Context file detection for watch and dev-server are now self-maintaining within the builders.

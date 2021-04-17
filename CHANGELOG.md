@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## WIP
+## 0.7.5 - 18. April 2021
 ### Fixed
 - Memory leak with files being constantly recompiled when watching or running a dev-server.
 - Cleaned up debug output of console on dev-server.

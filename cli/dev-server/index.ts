@@ -1,19 +1,13 @@
-import chalk from "chalk";
-import fs from "fs";
-import path from "path";
-import { from, Subscription, timer } from "rxjs";
-import { filter, mergeMap, tap } from "rxjs/operators";
+import { Builder, IBuilderOptions } from '@puresamari/spb-core';
+import { ExportType } from '@puresamari/spb-core/lib/builders/utils';
+import chalk from 'chalk';
+import fs from 'fs';
+import path from 'path';
+import { Subscription } from 'rxjs';
 
-import { Builder } from "../../builder";
-import { ExportType } from "../../builder/builders/utils";
-import { IBuilderOptions } from "../../builder/definitions/builder-options";
-import {
-  IMainCommanderOptions,
-  resolveFilePath,
-  resolveFilePathOnBase,
-} from "../utils";
-import { CompilationMap, CompilationStatus } from "./compilation-map";
-import { WebServer } from "./web-server";
+import { IMainCommanderOptions, resolveFilePathOnBase } from '../utils';
+import { CompilationMap, CompilationStatus } from './compilation-map';
+import { WebServer } from './web-server';
 
 const log = console.log;
 

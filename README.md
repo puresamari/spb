@@ -96,7 +96,7 @@ Here are all configurable options for this file:
 If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the `compilers` part of the config file. Like in this example:
 ```json
 {
-  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "$schema": "node_modules/@puresamari/spb-core/lib/config.schema.json",
   
   ...
   

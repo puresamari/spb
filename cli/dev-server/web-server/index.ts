@@ -1,4 +1,6 @@
-import { ExportType } from 'builder/builders/utils';
+import { IBuilderOptions } from '@puresamari/spb-core';
+import { CompilerResult } from '@puresamari/spb-core/lib/builders/compilers/definitions';
+import { ExportType } from '@puresamari/spb-core/lib/builders/utils';
 import chalk from 'chalk';
 import fs from 'fs';
 import http, { OutgoingHttpHeaders } from 'http';
@@ -8,8 +10,6 @@ import { from, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import WebSocket from 'ws';
 
-import { CompilerResult } from '../../../builder/builders/compilers/definitions';
-import { IBuilderOptions } from '../../../builder/definitions/builder-options';
 import { IDynamicCompilerResult } from './../compilation-map';
 import { FilesMap } from './files-map';
 

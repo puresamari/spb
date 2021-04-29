@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export NVM_DIR="$HOME/.nvm"
+
 echo "Running tests for cli"
 echo
 echo

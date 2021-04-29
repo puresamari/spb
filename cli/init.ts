@@ -1,13 +1,10 @@
-import { IBuilderOptions } from './../builder/definitions/builder-options';
+import { IBuilderOptions } from '@puresamari/spb-core';
 import { Command } from 'commander';
-import readline from 'readline';
-import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import rimraf from 'rimraf';
+import readline from 'readline';
 
-import { Builder } from '../builder';
-import { basePath, build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder } from './utils';
+import { basePath } from './utils';
 
 const log = console.log;
 

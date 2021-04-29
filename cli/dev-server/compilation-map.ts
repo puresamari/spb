@@ -1,8 +1,8 @@
+import { IBuilderOptions } from '@puresamari/spb-core';
+import { CompilerResult } from '@puresamari/spb-core/lib/builders/compilers/definitions';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CompilerResult } from './../../builder/builders/compilers/definitions';
-import { IBuilderOptions } from './../../builder/definitions/builder-options';
 
 
 export enum CompilationStatus {

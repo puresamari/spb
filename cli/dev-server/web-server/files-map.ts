@@ -1,6 +1,6 @@
+import { CompilerResult } from '@puresamari/spb-core/lib/builders/compilers/definitions';
 import path from 'path';
 
-import { CompilerResult } from './../../../builder/builders/compilers/definitions';
 import { IDynamicCompilerResult } from './../compilation-map';
 
 export class FilesMap extends Map<string, CompilerResult> {

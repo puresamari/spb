@@ -6,7 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
 
-import { Builder } from '../builder';
+import { Builder } from '@puresamari/spb-core';
 import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePathOnBase } from './utils';
 import { first } from 'rxjs/operators';
 

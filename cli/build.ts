@@ -1,12 +1,10 @@
-import { Command } from 'commander';
+import { Builder } from '@puresamari/spb-core';
 import { execSync } from 'child_process';
-import fs from 'fs';
+import { Command } from 'commander';
 import path from 'path';
 import rimraf from 'rimraf';
 
-import { Builder } from '../builder';
-import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePath, resolveFilePathOnBase } from './utils';
-import { IBuilderOptions } from 'builder/utils';
+import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePathOnBase } from './utils';
 
 const log = console.log;
 

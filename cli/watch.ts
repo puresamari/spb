@@ -1,14 +1,14 @@
-import { Subscription } from 'rxjs';
+import { Builder, generateConfig, IMainProcessOptions, resolveFilePathOnBase } from '@puresamari/spb-core';
 import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { Command } from 'commander';
 import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
-
-import { Builder } from '@puresamari/spb-core';
-import { build, generateConfig, getProgressBar, IMainCommanderOptions, printBuilder, resolveFilePathOnBase } from './utils';
+import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
+
+import { build, getProgressBar, printBuilder } from './utils';
 
 // const chalk = require('chalk');
 
@@ -21,8 +21,8 @@ export function make(program: Command) {
 
   heat
     .action(async () => {
-      const config = generateConfig(program.opts() as IMainCommanderOptions);
-      const builder = new Builder(config, path.dirname(resolveFilePathOnBase((program.opts() as IMainCommanderOptions).config)));
+      const config = generateConfig(program.opts() as IMainProcessOptions);
+      const builder = new Builder(config, path.dirname(resolveFilePathOnBase((program.opts() as IMainProcessOptions).config)));
 
       if (config.clearOutputFolder !== false) {
         rimraf.sync(path.join(config.output, '*'));

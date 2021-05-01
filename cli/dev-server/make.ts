@@ -1,15 +1,15 @@
+import { generateConfig, IMainProcessOptions } from '@puresamari/spb-core';
 import { Command } from 'commander';
 
-import { DevServer } from './index';
-import { generateConfig, IMainCommanderOptions } from '../utils';
+import { DevServer } from '.';
 
 export function make(program: Command) {
   const heat = new Command('dev-server');
 
   heat
     .action(async () => {
-      const config = generateConfig(program.opts() as IMainCommanderOptions);
-      const devServer = new DevServer(program.opts() as IMainCommanderOptions, config);
+      const config = generateConfig(program.opts() as IMainProcessOptions);
+      const devServer = new DevServer(program.opts() as IMainProcessOptions, config);
     });
   return heat;
 }

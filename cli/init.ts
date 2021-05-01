@@ -1,10 +1,8 @@
-import { IBuilderOptions } from '@puresamari/spb-core';
+import { basePath, IBuilderOptions } from '@puresamari/spb-core';
 import { Command } from 'commander';
 import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
-
-import { basePath } from './utils';
 
 const log = console.log;
 

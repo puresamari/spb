@@ -1,11 +1,10 @@
-import { Builder, IBuilderOptions } from '@puresamari/spb-core';
+import { Builder, IBuilderOptions, IMainProcessOptions, resolveFilePathOnBase } from '@puresamari/spb-core';
 import { ExportType } from '@puresamari/spb-core/lib/builders/utils';
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 import { Subscription } from 'rxjs';
 
-import { IMainCommanderOptions, resolveFilePathOnBase } from '../utils';
 import { CompilationMap, CompilationStatus } from './compilation-map';
 import { WebServer } from './web-server';
 
@@ -22,7 +21,7 @@ export class DevServer {
   private readonly files: CompilationMap;
 
   constructor(
-    commander: IMainCommanderOptions,
+    commander: IMainProcessOptions,
     public readonly options: IBuilderOptions,
     public readonly devServerOptions = {
       port: 5678,

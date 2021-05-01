@@ -1,11 +1,8 @@
-import { Builder, IBuilderOptions } from '@puresamari/spb-core';
+import { Builder } from '@puresamari/spb-core';
 import { CompielableType } from '@puresamari/spb-core/lib/builders/compilers';
 import { ExportType } from '@puresamari/spb-core/lib/builders/utils';
 import chalk from 'chalk';
 import { Bar, Presets } from 'cli-progress';
-import fs from 'fs';
-import glob from 'glob';
-import * as path from 'path';
 
 // TODO: Wow thats an ugly solution for getting the version number
 export const version: string = (() => {
@@ -20,69 +17,6 @@ export const version: string = (() => {
   }
 })();
 
-export const basePath = process.cwd();
-export interface IMainCommanderOptions {
-  out?: string;
-  files?: string | string[];
-  config: string;
-}
-
-export function resolveFilePathOnBase(file: string) {
-  return path.resolve(basePath, file);
-}
-
-export function resolveFilePath(file: string) {
-  return path.resolve(basePath, file);
-}
-
-function getConfig(configPath: string): IBuilderOptions {
-  const dir = path.dirname(configPath);
-  try {
-    const configs = JSON.parse(
-      fs.readFileSync(resolveFilePathOnBase(configPath), "utf-8")
-    ) as IBuilderOptions;
-    // const configs = require(resolveFilePath(configPath)) as IBuilderOptions;
-    return {
-      ...configs,
-      output: path.resolve(dir, configs.output),
-      files: collectFiles(
-        configs.files.map((v) => path.join(dir, configs.root || "", v)),
-        configs
-      ),
-    };
-  } catch (e) {
-    console.error("Error while getting config", configPath);
-    console.error(e);
-    process.exit(100);
-  }
-}
-
-export function collectFiles(files: string[], config: IBuilderOptions) {
-  let retFiles: string[] = [];
-  files.forEach((pattern) => {
-    retFiles = [...retFiles, ...glob.sync(pattern)];
-  });
-  return retFiles.map((v) => resolveFilePath(v));
-}
-
-export function generateConfig(
-  options: IMainCommanderOptions
-): IBuilderOptions {
-  const config: IBuilderOptions = options.config
-    ? getConfig(options.config) || { output: "", files: [] }
-    : { output: "", files: [] };
-  if (options.out) {
-    config.output = resolveFilePath(options.out);
-  }
-  if (options.files) {
-    if (typeof options.files === "string") {
-      config.files = collectFiles([options.files], config);
-    } else if (options.files.length > 0) {
-      config.files = collectFiles(options.files, config);
-    }
-  }
-  return config;
-}
 
 export function chalkFileType(type: CompielableType | ExportType) {
   switch (type) {

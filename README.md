@@ -7,6 +7,14 @@
 ## Supported files
 At the moment, `spb` supports the compilation of `.ts`, `.css`, `.scss`, `.js`, `.twig` and `.pug` files. All other file types defined will just be copied when `watching` or `building` and served when using the `dev-server`. Images will automatically converted to the correct mime type as well.
 
+## Structure
+SPB is split into 4 different projects:
+
+- [![npm version](https://badge.fury.io/js/%40puresamari%2Fspb-core.svg)](https://badge.fury.io/js/%40puresamari%2Fspb-core) | [core](https://github.com/puresamari/spb-core)  containing all bundling functionallity.
+- [![npm version](https://badge.fury.io/js/%40puresamari%2Fspb-dev-server.svg)](https://badge.fury.io/js/%40puresamari%2Fspb-dev-server) | [dev-server](https://github.com/puresamari/spb-dev-server)  a webserver with hot reload functionallity for an easier development process.
+- [![npm version](https://badge.fury.io/js/%40puresamari%2Fspb.svg)](https://badge.fury.io/js/%40puresamari%2Fspb) | [CLI](https://github.com/puresamari/spb) the command line interface for SPB.
+- APP (Coming soon)
+
 ## Examples
 - This projects gh-page is built with `spb`, you can see the code and configuration in examples/spb-page and see the result [here](https://puresamari.github.io/spb/)
 

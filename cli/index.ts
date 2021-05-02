@@ -5,7 +5,7 @@ import { program } from 'commander';
 import { make as makeBuild } from './build';
 import { make as makeWatch } from './watch';
 import { make as makeInit } from './init';
-import { make as makeDevServer } from './dev-server/make';
+import { make as makeDevServer } from './dev-server';
 import { version } from './utils';
 
 const chalk = require('chalk');

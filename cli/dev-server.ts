@@ -1,7 +1,7 @@
 import { generateConfig, IMainProcessOptions } from '@puresamari/spb-core';
+import { DevServer } from '@puresamari/spb-dev-server';
 import { Command } from 'commander';
 
-import { DevServer } from '.';
 
 export function make(program: Command) {
   const heat = new Command('dev-server');

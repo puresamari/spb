@@ -1,5 +1,5 @@
 {
-  "$schema": "../lib/config.schema.json",
+  "$schema": "../node_modules/@puresamari/spb-core/lib/config.schema.json",
   "root": "hello-world/",
   "files": [
     "./index.pug",

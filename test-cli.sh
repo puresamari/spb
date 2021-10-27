@@ -7,6 +7,10 @@ echo "Running tests for cli"
 echo
 echo
 
+echo "Uninstalling spb globally..."
+echo
+npm uninstall -g @puresamari/spb
+
 echo "Installing spb globally..."
 echo
 npm i -g

@@ -69,6 +69,12 @@ The dev server starts a server and loads all compiled files temporarily instead 
 
 When opening a html file the devserver adds a script to it to automatically reload the page when changes occure to the code.
 
+Options:
+- `-s, --secure` Secure dev server
+- `-h, --host <host>` Host (default: "localhost")
+- `-p, --port <port>` Port (default: 5678)
+- `--socket-port <socket-port>` Port for Socket (default: 5679)
+
 ## Config file
 
 You can use a configuration file with the flag `-c` or `--config`.

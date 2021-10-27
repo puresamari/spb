@@ -87,7 +87,7 @@ You can also use this projects JSON schema to ensure integrity but it is not nec
 For example when the configuration file (for example named `config.spb.json`) is in the root directory and `spb` is installed locally:
 ```json
 {
-  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "$schema": "./node_modules/@puresamari/spb-core/lib/config.schema.json",
   "files": [
     "./src/example.pug",
     "./views/*.pug",
@@ -110,7 +110,7 @@ Here are all configurable options for this file:
 If it is necessary to add options to the builders / compilers (for example postcss plugins), you can add it to the `compilers` part of the config file. Like in this example:
 ```json
 {
-  "$schema": "node_modules/@puresamari/spb-core/lib/config.schema.json",
+  "$schema": "./node_modules/@puresamari/spb-core/lib/config.schema.json",
   
   ...
   
@@ -130,7 +130,7 @@ If it is necessary to add options to the builders / compilers (for example postc
 It is possible to run a script after a build was completed. **NOTE** this script will not be executed when running a `dev-server`.
 ```json
 {
-  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "$schema": "./node_modules/@puresamari/spb-core/lib/config.schema.json",
   
   ...
   
@@ -142,7 +142,7 @@ It is possible to run a script after a build was completed. **NOTE** this script
 By default, all [files](#config-file) are relative to the config file itself (when running on cli without file, they are relative to your current directory). You can manually set a root path (relative to the config file itself), which all files will be relative to:
 ```json
 {
-  "$schema": "node_modules/@puresamari/spb/lib/config.schema.json",
+  "$schema": "./node_modules/@puresamari/spb-core/lib/config.schema.json",
   
   ...
   
@@ -171,7 +171,7 @@ html
     ...
 
     each stylesheet in spb.stylesheets
-      link(rel="stlesheet", href=stylesheet)
+      link(rel="stylesheet", href=stylesheet)
   
   body
     block content

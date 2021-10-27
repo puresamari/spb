@@ -47,7 +47,7 @@ export function make(program: Command) {
       }
 
       const configFileContents = {
-        '$schema': 'node_modules/@puresamari/spb/lib/config.schema.json',
+        '$schema': './node_modules/@puresamari/spb-core/lib/config.schema.json',
         ...config
       };
 

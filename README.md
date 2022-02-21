@@ -1,7 +1,7 @@
 # Simple Page Builder
 
 [![npm version](https://badge.fury.io/js/%40puresamari%2Fspb.svg)](https://badge.fury.io/js/%40puresamari%2Fspb)
-[![Package quality](https://packagequality.com/shield/2Fspb.svg)](https://packagequality.com/#?package=2Fspb)
+[![Package quality](https://packagequality.com/shield/@puresamari/spb.svg)](https://packagequality.com/#?package=@puresamari/spb)
 
 `SPB` is a really simple build tool, designed to just take input fields and automatically generate files without the hassle of creating a bloated config file.
 
